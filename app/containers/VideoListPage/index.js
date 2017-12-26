@@ -77,6 +77,8 @@ export class VideoListPage extends React.Component {
     this.props.onCancelFetchVideoState();
   }
 
+  publickGetState = () => this.state;
+
   render() {
     const {
       videoList,
