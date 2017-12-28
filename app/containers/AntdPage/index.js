@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { Slider, Icon, Button, Select, TreeSelect, Row, Col } from 'antd';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 import MaterialSlider from 'material-ui/Slider';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -61,6 +63,7 @@ const treeData = [{
 export default class AntdPage extends PureComponent {
   state = {
     open: false,
+    value: 0,
   };
 
   onChangeS = (value) => {
@@ -83,6 +86,8 @@ export default class AntdPage extends PureComponent {
   handleChange = (value) => {
     console.log(`selected ${value}`);
   }
+
+  handleChange = (event, index, value) => this.setState({ value });
 
   render() {
     const tProps = {
@@ -143,6 +148,16 @@ export default class AntdPage extends PureComponent {
           <Col xs={20} sm={16} md={12} lg={8} xl={4}>Col</Col>
           <Col xs={2} sm={4} md={24} lg={8} xl={10}>Col</Col>
         </Row>
+        <DropDownMenu
+          value={this.state.value}
+          onChange={this.handleChange}
+        >
+          <MenuItem value={0} primaryText="Never" />
+          <MenuItem value={2} primaryText="Every Night" />
+          <MenuItem value={3} primaryText="Weeknights" />
+          <MenuItem value={4} primaryText="WeekendsWeekendsWeekendsWeekends" />
+          <MenuItem value={5} primaryText="Weekly" />
+        </DropDownMenu>
       </div>
     );
   }
