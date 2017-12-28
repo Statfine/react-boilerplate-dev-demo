@@ -9,6 +9,9 @@ import MaterialSlider from 'material-ui/Slider';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
+// import 'antd/lib/pagination/style/index.css';
+// import 'antd/lib/icon/style/css';
+
 import styled from 'styled-components';
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
