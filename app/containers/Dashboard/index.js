@@ -13,6 +13,7 @@ import BBCVideoContextPage from '../BBCVideoContext';
 import DndPage from '../DndPage';
 import CssPage from '../CssPage';
 import RefPage from '../RefPage';
+import AliPlayerPage from '../AliPlayerPage';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -84,6 +85,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('bbc')} selected={location.pathname.startsWith('/dashboard/bbc')}>BBCVideoContext</P>
             <P onClick={() => this.onJump('css')} selected={location.pathname.startsWith('/dashboard/css')}>CssPage</P>
             <P onClick={() => this.onJump('ref')} selected={location.pathname.startsWith('/dashboard/red')}>RefPage</P>
+            <P onClick={() => this.onJump('ali')} selected={location.pathname.startsWith('/dashboard/ali')}>阿里播放器</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
           <RightNav>
@@ -99,6 +101,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/dnd`} component={DndPage} />
               <Route path={`${this.props.match.path}/css`} component={CssPage} />
               <Route path={`${this.props.match.path}/ref`} component={RefPage} />
+              <Route path={`${this.props.match.path}/ali`} component={AliPlayerPage} />
             </Switch>
           </RightNav>
         </AppWrapper>
