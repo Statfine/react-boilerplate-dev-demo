@@ -60,7 +60,7 @@ export default class VideLivePage extends PureComponent {
     this.player.load();
     this.player.play();
 
-    this.playLive = new prismplayer({ // eslint-disable-line
+    this.playLive = new Aliplayer({ // eslint-disable-line
       id: 'video', // 容器id
       autoplay: true,      // 自动播放
       source: 'http://acm.gg/jade.m3u8',         // 视频url 支持互联网可直接访问的视频地址

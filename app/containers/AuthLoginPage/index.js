@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
+import { Input } from 'antd';
 import styled from 'styled-components';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -32,27 +32,20 @@ class AuthLoginPage extends PureComponent {
     const { name, password } = this.state;
     const { onUserLogin, requesting } = this.props;
 
-    // if (false) return 'list';
-    // if (true) return [
-    //   <li key="A">First item</li>,
-    //   <li key="B">Second item</li>,
-    //   <li key="C">Third item</li>,
-    // ];
-
     return (
       <Container>
         <AccessibilityIcon />
-        <TextField
-          id="login_name"
+        <Input
+          placeholder="Basic usage"
           value={name}
           type="text"
-          onChange={(e, newValue) => this.setState({ name: newValue })}
+          onChange={(event) => this.setState({ name: event.target.value })}
         />
-        <TextField
-          id="login_possword"
+        <Input
+          placeholder="Basic usage"
           value={password}
           type="password"
-          onChange={(e, newValue) => this.setState({ password: newValue })}
+          onChange={(event) => this.setState({ password: event.target.value })}
         />
         <RaisedButton label="login登录" primary disabled={requesting} onClick={() => onUserLogin({ name, password })} />
       </Container>
