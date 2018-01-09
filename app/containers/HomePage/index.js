@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
+import 'particles.js';
 
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -33,6 +34,8 @@ import { makeSelectUsername } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 
+import { json } from './particlesJson';
+
 const Container = styled.div`
   max-width: calc(768px + 16px * 2);
   margin: 0 auto;
@@ -52,7 +55,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
    * when initial state username is not null, submit the form to load repos
    */
   componentDidMount() {
-    // TODO
+    particlesJS('particles-js', json); // eslint-disable-line
   }
 
   render() {
@@ -69,6 +72,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           <title>Home Page</title>
           <meta name="description" content="A React.js Boilerplate application homepage" />
         </Helmet>
+        <div id="particles-js" style={{ wdith: '100%', height: '500px' }}></div>
         <Title>
           <FormattedMessage {...messages.hello} />
         </Title>

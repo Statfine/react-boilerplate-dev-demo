@@ -28,6 +28,10 @@ class AuthLoginPage extends PureComponent {
     password: '',
   }
 
+  componentDidMount() {
+    this.urlInput.focus();
+  }
+
   render() {
     const { name, password } = this.state;
     const { onUserLogin, requesting } = this.props;
@@ -36,6 +40,7 @@ class AuthLoginPage extends PureComponent {
       <Container>
         <AccessibilityIcon />
         <Input
+          ref={(ref) => { this.urlInput = ref; }}
           placeholder="Basic usage"
           value={name}
           type="text"
