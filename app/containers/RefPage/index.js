@@ -1,14 +1,20 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
+import styled from 'styled-components';
 
 import RefCom from './RefCom';
 import VideoListPage from '../VideoListPage';
+
+const ListPage = styled(VideoListPage)`
+
+`;
 
 export default class RefPage extends PureComponent {
   state = {};
   handleClickListCom = () => {
     const a = this.listCom;
-    alert(a);
+    const b = this.listComStyled;
+    console.log(a, b);
   }
   render() {
     return (
@@ -20,6 +26,7 @@ export default class RefPage extends PureComponent {
         <Button onClick={this.handleClickListCom}>点击获取ListCOm</Button>
         <RefCom ref={(ref) => { this.refCom = ref; }} />
         <VideoListPage ref={(ref) => { this.listCom = ref; }} />
+        <ListPage innerRef={(ref) => { this.listComStyled = ref; }} />
       </div>
     );
   }
