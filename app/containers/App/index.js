@@ -7,6 +7,8 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
@@ -21,26 +23,42 @@ import Authentication from './Authentication';
 
 const AppWrapper = styled.div`
   display: flex;
+  height: 100vh;
   min-height: 100%;
   flex-direction: column;
 `;
 
-export default function App() {
-  return (
-    <AppWrapper>
-      <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="React.js Boilerplate"
-      >
-        <meta name="description" content="A React.js Boilerplate application" />
-      </Helmet>
-      <Switch>
-        <Route exact path="/" component={Authentication(HomePage)} />
-        <Route path="/dashboard" component={Authentication(Dashboard)} />
-        <Route path="/login" component={AuthLoginPage} />
-        <Route path="/features" component={Authentication(FeaturePage)} />
-        <Route path="" component={NotFoundPage} />
-      </Switch>
-    </AppWrapper>
-  );
+class App extends React.Component {
+  getChildContext() {
+    return { history: this.props.history }; // history  依赖withRouter
+  }
+
+  render() {
+    return (
+      <AppWrapper>
+        <Helmet
+          titleTemplate="%s - React.js Boilerplate"
+          defaultTitle="React.js Boilerplate"
+        >
+          <meta name="description" content="A React.js Boilerplate application" />
+        </Helmet>
+        <Switch>
+          <Route exact path="/" component={Authentication(HomePage)} />
+          <Route path="/dashboard" component={Authentication(Dashboard)} />
+          <Route path="/login" component={AuthLoginPage} />
+          <Route path="/features" component={Authentication(FeaturePage)} />
+          <Route path="" component={NotFoundPage} />
+        </Switch>
+      </AppWrapper>
+    );
+  }
 }
+
+App.childContextTypes = {
+  history: PropTypes.object,
+};
+App.propTypes = {
+  history: PropTypes.object,
+};
+
+export default withRouter(App);

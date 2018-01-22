@@ -21,7 +21,6 @@ import H2 from 'components/H2';
 import ReposList from 'components/ReposList';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import HeaderLink from 'components/Header/HeaderLink';
 import AtPrefix from './AtPrefix';
 import CenteredSection from './CenteredSection';
 import Form from './Form';
@@ -48,6 +47,15 @@ const Container = styled.div`
 const Title = styled.p`
 text-align: center;
 font-size: 60px;
+cursor: pointer;
+position: absolute;
+width: 100%;
+left: 50%;
+top: 50%;
+transform: translate(-50%, -50%);
+&:hover {
+  color: #f7671d;
+}
 `;
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -69,14 +77,13 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     return (
       <article>
         <Helmet>
-          <title>Home Page</title>
+          <title>Statfine</title>
           <meta name="description" content="A React.js Boilerplate application homepage" />
         </Helmet>
-        <div id="particles-js" style={{ wdith: '100%', height: '500px' }}></div>
-        <Title>
+        <div id="particles-js" style={{ wdith: '100%', height: '100vh' }}></div>
+        <Title onClick={() => this.context.history.push('/dashboard')}>
           <FormattedMessage {...messages.hello} />
         </Title>
-        <HeaderLink to="/dashboard"><FormattedMessage {...messages.dashboard} /></HeaderLink>
         <div style={{ display: 'none' }}>
           <Header />
           <Container>
@@ -111,11 +118,14 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
             </Section>
           </Container>
         </div>
-        <Footer />
+        <div style={{ display: 'none' }}><Footer /></div>
       </article>
     );
   }
 }
+HomePage.contextTypes = {
+  history: PropTypes.object,
+};
 
 HomePage.propTypes = {
   loading: PropTypes.bool,
