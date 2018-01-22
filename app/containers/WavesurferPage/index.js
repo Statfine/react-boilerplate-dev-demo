@@ -35,7 +35,7 @@ class WaveSurferPage extends PureComponent {
   render() {
     return (
       <Content>
-        <p>解决：Failed to construct 'AudioContext': The number of hardware contexts provided (6) is greater than or equal to the maximum bound (6)</p>
+        <p>解决：Failed to construct AudioContext: The number of hardware contexts provided (6) is greater than or equal to the maximum bound (6)</p>
         <Audio playUrl={'https://vfine.oss-cn-beijing.aliyuncs.com/songs/7-50-908943bb4cd5fabee886b11b6f1e7098.mp3'} />
       </Content>
     );
