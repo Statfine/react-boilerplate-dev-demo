@@ -19,6 +19,7 @@ class Player extends PureComponent {
     });
   };
   render() {
+    console.log('id:', this.props.playId);
     return (
       <div>
         <div id={this.props.playId} />
