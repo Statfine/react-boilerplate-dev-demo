@@ -15,6 +15,7 @@ import CssPage from '../CssPage';
 import RefPage from '../RefPage';
 import AliPlayerPage from '../AliPlayerPage';
 import EChartPage from '../EChartPage/Loadable';
+import WavePage from '../WavesurferPage';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -88,6 +89,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('ref')} selected={location.pathname.startsWith('/dashboard/red')}>RefPage</P>
             <P onClick={() => this.onJump('ali')} selected={location.pathname.startsWith('/dashboard/ali')}>阿里播放器</P>
             <P onClick={() => this.onJump('echart')} selected={location.pathname.startsWith('/dashboard/echart')}>Echart</P>
+            <P onClick={() => this.onJump('wavesurefer')} selected={location.pathname.startsWith('/dashboard/wavesurefer')}>波形</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
           <RightNav>
@@ -105,6 +107,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/ref`} component={RefPage} />
               <Route path={`${this.props.match.path}/ali`} component={AliPlayerPage} />
               <Route path={`${this.props.match.path}/echart`} component={EChartPage} />
+              <Route path={`${this.props.match.path}/wavesurefer`} component={WavePage} />
             </Switch>
           </RightNav>
         </AppWrapper>

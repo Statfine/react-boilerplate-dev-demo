@@ -152,6 +152,7 @@
       "no-console": 1,
       "no-shadow": 0,
       "no-multi-str": 0,
+      "no-nested-ternary": 0,
       "no-use-before-define": 0,
       "prefer-template": 2,
       "react/forbid-prop-types": 0,
@@ -271,6 +272,7 @@
     "videojs-contrib-hls": "^5.10.1",
     "videojs-flash": "^2.0.1",
     "warning": "3.0.0",
+    "wavesurfer.js": "^2.0.2",
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
