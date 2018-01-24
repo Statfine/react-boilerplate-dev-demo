@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Slider, Icon, Button, Select, TreeSelect, Row, Col } from 'antd';
+import { Slider, Icon, Button, Select, TreeSelect, Row, Col, Modal } from 'antd';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -17,7 +17,7 @@ const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
 // import './slelect.css';
 
-const AntdBtn = styled(Button)`
+const AntdBtn = styled(Button) `
   width: 200px;
   height: 100px;
 `;
@@ -67,6 +67,7 @@ export default class AntdPage extends PureComponent {
   state = {
     open: false,
     value: 0,
+    visible: false,
   };
 
   onChangeS = (value) => {
@@ -91,6 +92,18 @@ export default class AntdPage extends PureComponent {
   }
 
   handleChange = (event, index, value) => this.setState({ value });
+
+  showModal = () => {
+    this.setState({
+      visible: true,
+    });
+  }
+  handleOk = () => {
+    this.setState({ visible: false });
+  }
+  handleCancel = () => {
+    this.setState({ visible: false });
+  }
 
   render() {
     const tProps = {
@@ -161,6 +174,35 @@ export default class AntdPage extends PureComponent {
           <MenuItem value={4} primaryText="WeekendsWeekendsWeekendsWeekends" />
           <MenuItem value={5} primaryText="Weekly" />
         </DropDownMenu>
+        <Button type="primary" onClick={this.showModal}>
+          Open
+        </Button>
+        <Modal
+          visible={this.state.visible}
+          title="Title"
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" onClick={this.handleCancel}>Return</Button>,
+            <Button key="submit" type="primary" onClick={this.handleOk}>
+              Submit
+            </Button>,
+          ]}
+        >
+          <div style={{ height: 300 }}>
+            <Select
+              multiple
+              style={{ width: '100%' }}
+              placeholder="Please select"
+              defaultValue={['a10', 'c12']}
+              onChange={this.onChange}
+            >
+              {children}
+            </Select>
+            <div style={{ height: 600 }}>1</div>
+          </div>
+
+        </Modal>
       </div>
     );
   }
