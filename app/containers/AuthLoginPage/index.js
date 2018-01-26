@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Input } from 'antd';
+import { Input, message } from 'antd';
 import styled from 'styled-components';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -32,9 +32,23 @@ class AuthLoginPage extends PureComponent {
     this.urlInput.focus();
   }
 
+  handleLogin = () => {
+    const { name, password } = this.state;
+    const { onUserLogin } = this.props;
+    if (name.trim().length === 0) {
+      message.error('用户名不得为空');
+      return;
+    }
+    if (password.trim().length === 0) {
+      message.error('密码不得为空');
+      return;
+    }
+    onUserLogin({ name, password });
+  }
+
   render() {
     const { name, password } = this.state;
-    const { onUserLogin, requesting } = this.props;
+    const { requesting } = this.props;
 
     return (
       <Container>
@@ -52,7 +66,7 @@ class AuthLoginPage extends PureComponent {
           type="password"
           onChange={(event) => this.setState({ password: event.target.value })}
         />
-        <RaisedButton label="login登录" primary disabled={requesting} onClick={() => onUserLogin({ name, password })} />
+        <RaisedButton label="login登录" primary disabled={requesting} onClick={this.handleLogin} />
       </Container>
     );
   }
