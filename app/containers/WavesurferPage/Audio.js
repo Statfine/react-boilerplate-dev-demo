@@ -76,7 +76,15 @@ class Audio extends PureComponent {
   componentWillUnmount() {
     window.removeEventListener('resize', this.resizeFn);
     window.removeEventListener('visibilitychange', this.handleShow);
-    this.destroyWaveSurfer();
+    // this.destroyWaveSurfer();
+    this.wavesurferA.un('audioprocess', this.handleAudioProgress);
+    this.wavesurferA.un('ready', this.handleAudioReady);
+    this.wavesurferB.un('audioprocess', this.handleAudioProgress);
+    this.wavesurferB.un('ready', this.handleAudioReady);
+    this.wavesurferA.empty();
+    this.wavesurferA.destroy();
+    this.wavesurferB.empty();
+    this.wavesurferB.destroy();
   }
 
   initWavesurfer = () => {

@@ -3,19 +3,19 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
-import ListOnePage from '../ListOnePage';
-import ListTwoPage from '../ListTwoPage';
+import ListOnePage from '../ListOnePage/Loadable';
+import ListTwoPage from '../ListTwoPage/Loadable';
 import VideoListPage from '../VideoListPage/Loadable';
-import VideoPage from '../VideoPage';
-import CutPage from '../CutPage';
-import AntdPage from '../AntdPage';
-import BBCVideoContextPage from '../BBCVideoContext';
-import DndPage from '../DndPage';
-import CssPage from '../CssPage';
-import RefPage from '../RefPage';
-import AliPlayerPage from '../AliPlayerPage';
+import VideoPage from '../VideoPage/Loadable';
+import CutPage from '../CutPage/Loadable';
+import AntdPage from '../AntdPage/Loadable';
+import BBCVideoContextPage from '../BBCVideoContext/Loadable';
+import DndPage from '../DndPage/Loadable';
+import CssPage from '../CssPage/Loadable';
+import RefPage from '../RefPage/Loadable';
+import AliPlayerPage from '../AliPlayerPage/Loadable';
 import EChartPage from '../EChartPage/Loadable';
-import WavePage from '../WavesurferPage';
+import WavePage from '../WavesurferPage/Loadable';
 
 const AppWrapper = styled.div`
   display: flex;
