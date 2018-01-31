@@ -16,14 +16,13 @@ import { Switch, Route } from 'react-router-dom';
 import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import Dashboard from 'containers/Dashboard';
+import Dashboard from 'containers/Dashboard/Loadable';
 import AuthLoginPage from 'containers/AuthLoginPage/Loadable';
 
 import Authentication from './Authentication';
 
 const AppWrapper = styled.div`
   display: flex;
-  height: 100vh;
   min-height: 100%;
   flex-direction: column;
 `;
