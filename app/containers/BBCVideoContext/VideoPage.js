@@ -36,7 +36,7 @@ export default class BbcVideo extends PureComponent {
   *  startAt 再绝对时间的开始时间    stopAt再绝对时间的结束时间
   */
   init = () => {
-    const node = this.ctx.video('http://video.clip.easub.com/vod-out/hd/3236ccd2-9723-46b9-a431-8576a478fb9f.mp4', 0, 4, { volume: 0.8, loop: false });
+    const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     node.startAt(0);
     node.stopAt(10);

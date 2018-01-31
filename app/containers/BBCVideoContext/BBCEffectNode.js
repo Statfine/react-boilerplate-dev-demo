@@ -65,7 +65,7 @@ export default class BBCEffectNode extends PureComponent {
   timeIn;
 
   init = () => {
-    const videoNode = this.ctx.video('https://cloud-clip-out2.oss-cn-shanghai.aliyuncs.com/vod-out/hd/326e9a54-ebfb-4424-8da4-934b2ddb78c6.mp4', 0, 4, { volume: 0.8, loop: false });
+    const videoNode = this.ctx.video('http://123.206.18.31/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
     videoNode.startAt(0);
     videoNode.stopAt(60);
     videoNode.registerCallback('load', () => { console.log('====>video1 is loading'); });

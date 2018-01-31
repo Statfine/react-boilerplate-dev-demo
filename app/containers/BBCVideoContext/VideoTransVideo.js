@@ -38,7 +38,7 @@ export default class VideoTransVideo extends PureComponent {
   * transition   转场 开始时间 结束时间 开始强度 结束强度 类型
   */
   init = () => {
-    const node = this.ctx.video('https://cloud-clip-out2.oss-cn-shanghai.aliyuncs.com/vod-out/hd/326e9a54-ebfb-4424-8da4-934b2ddb78c6.mp4', 0, 4, { volume: 0.8, loop: false });
+    const node = this.ctx.video('http://123.206.18.31/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     node.startAt(0);
     node.stopAt(10);
@@ -48,7 +48,7 @@ export default class VideoTransVideo extends PureComponent {
     node.registerCallback('durationchange', () => { console.log('====>video1 is durationchange'); });
     node.registerCallback('ended', () => { console.log('====>video1 has eneded'); });
 
-    const videoNode2 = this.ctx.video('http://video.clip.easub.com/vod-out/hd/3236ccd2-9723-46b9-a431-8576a478fb9f.mp4', 0, 4, { volume: 0.8, loop: false });
+    const videoNode2 = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false });
     videoNode2.start(6);
     videoNode2.stop(16);
     videoNode2.registerCallback('load', () => { console.log('====>video2 is loading'); });
