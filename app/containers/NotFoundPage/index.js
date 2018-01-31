@@ -5,17 +5,21 @@
  */
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
 
-import H1 from 'components/H1';
-import messages from './messages';
+const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 export default function NotFound() {
   return (
-    <article>
-      <H1>
-        <FormattedMessage {...messages.header} />
-      </H1>
-    </article>
+    <Container>
+      <img src="http://123.206.18.31/static/image/404.jpg" />
+    </Container>
   );
 }
