@@ -6,6 +6,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 import DragArea from './DragAre';
 import DragOwnArea from './DragownArea';
+import Sortable from './Sortable';
 
 const ChooseBtn = styled(Button)`
   background: ${({ choosed }) => choosed === '1' ? '#4885ed' : '#1DA57A'};
@@ -38,6 +39,7 @@ class DndPage extends PureComponent {
           <ChooseBtn size="large" type="primary" choosed={index === 2 ? '1' : '0'} onClick={() => this.setState({ index: 2 })}>拖动到制定区域</ChooseBtn>
         </div>
         {this.renderVideoContext()}
+        <Sortable />
       </div>
     );
   }
