@@ -18,6 +18,7 @@ import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
 import AuthLoginPage from 'containers/AuthLoginPage/Loadable';
+import WeiChatPage from '../WeiChatPage';
 
 import Authentication from './Authentication';
 
@@ -46,6 +47,7 @@ class App extends React.Component {
           <Route path="/dashboard" component={Authentication(Dashboard)} />
           <Route path="/login" component={AuthLoginPage} />
           <Route path="/features" component={Authentication(FeaturePage)} />
+          <Route path="/weichat" component={WeiChatPage} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </AppWrapper>
