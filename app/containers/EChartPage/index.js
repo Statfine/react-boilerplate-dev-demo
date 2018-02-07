@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import ReactEcharts from 'echarts-for-react';
+import { BasePage } from 'containers/BasePage';
 import './china';
 
 import { 柱状图, 折线图, 雷达图, 地图, 圆饼图, 漏斗图, 关系图, 玫瑰图 } from './data';
 
-export default class EChartPage extends PureComponent {
+class EChartPage extends PureComponent {
   state = {};
   render() {
     return (
@@ -53,3 +54,5 @@ export default class EChartPage extends PureComponent {
     );
   }
 }
+
+export default BasePage(EChartPage);

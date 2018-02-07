@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { BasePage } from 'containers/BasePage';
 
 const Div = styled.div`
   width: 100px;
@@ -23,7 +24,7 @@ overflow: hidden;
 height: 0;
 `;
 
-export default class CssPage extends PureComponent {
+class CssPage extends PureComponent {
   state = {
     anim: false,
     animTwo: false,
@@ -81,3 +82,5 @@ export default class CssPage extends PureComponent {
     );
   }
 }
+
+export default BasePage(CssPage);

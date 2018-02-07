@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
+import { BasePage } from 'containers/BasePage';
 import DivInput from 'components/DivInput';
 import FoldCom from 'components/FoldCom';
 import OwnInput from './InputText';
@@ -24,7 +25,7 @@ const DATA = {
   three: [{ title: 'three1', choose: false }, { title: 'three2', choose: false }, { title: 'three3', choose: true }],
 };
 
-export default class DashboardOne extends PureComponent {
+class DashboardOne extends PureComponent {
 
   state = {
     name: '',
@@ -115,3 +116,5 @@ export default class DashboardOne extends PureComponent {
     );
   }
 }
+
+export default BasePage(DashboardOne);

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Slider, Icon, Button, Select, TreeSelect, Row, Col, Modal } from 'antd';
+import { BasePage } from 'containers/BasePage';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -63,7 +64,7 @@ const treeData = [{
   }],
 }];
 
-export default class AntdPage extends PureComponent {
+class AntdPage extends PureComponent {
   state = {
     open: false,
     value: 0,
@@ -207,3 +208,5 @@ export default class AntdPage extends PureComponent {
     );
   }
 }
+
+export default BasePage(AntdPage);

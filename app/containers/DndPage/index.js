@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
+import { BasePage } from 'containers/BasePage';
 import styled from 'styled-components';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -47,4 +48,4 @@ class DndPage extends PureComponent {
 
 // 页面中多个拖拽组件， 不能分别DragDropContext， 只能在最上层添加
 const withReactDnd = DragDropContext(HTML5Backend);
-export default withReactDnd(DndPage);
+export default withReactDnd(BasePage(DndPage));

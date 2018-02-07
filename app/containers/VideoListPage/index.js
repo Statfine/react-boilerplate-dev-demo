@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import CircularGress from 'components/CircularGress';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
+import { BasePage } from 'containers/BasePage';
 import { deleteVideoActions } from './api';
 import FilterBar from './FilterBar';
 import VideoList from './VideoList';
@@ -169,4 +170,4 @@ export default compose(
   // withAuthReducer,
   // withAuthSaga,
   withConnect,
-)(VideoListPage);
+)(BasePage(VideoListPage));

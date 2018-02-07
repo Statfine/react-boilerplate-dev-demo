@@ -7,6 +7,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
+import { BasePage } from 'containers/BasePage';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -168,4 +169,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(HomePage);
+)(BasePage(HomePage));

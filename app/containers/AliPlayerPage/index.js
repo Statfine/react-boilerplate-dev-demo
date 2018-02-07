@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
+import { BasePage } from 'containers/BasePage';
 import Player from './player';
 
-export default class AliPlayerPage extends PureComponent {
+class AliPlayerPage extends PureComponent {
   state = {};
   render() {
     return (
@@ -12,3 +13,5 @@ export default class AliPlayerPage extends PureComponent {
     );
   }
 }
+
+export default BasePage(AliPlayerPage);

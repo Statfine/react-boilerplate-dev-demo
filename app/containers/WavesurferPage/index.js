@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import { BasePage } from 'containers/BasePage';
 
 import Audio from './Audio';
 
@@ -42,4 +43,4 @@ class WaveSurferPage extends PureComponent {
   }
 }
 
-export default WaveSurferPage;
+export default BasePage(WaveSurferPage);

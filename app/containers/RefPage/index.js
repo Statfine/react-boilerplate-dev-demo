@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
+import { BasePage } from 'containers/BasePage';
 import styled from 'styled-components';
 
 import RefCom from './RefCom';
@@ -9,7 +10,7 @@ const ListPage = styled(VideoListPage)`
 
 `;
 
-export default class RefPage extends PureComponent {
+class RefPage extends PureComponent {
   state = {};
   handleClickListCom = () => {
     const a = this.listCom;
@@ -31,3 +32,5 @@ export default class RefPage extends PureComponent {
     );
   }
 }
+
+export default BasePage(RefPage);

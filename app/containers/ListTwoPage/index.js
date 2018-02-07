@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
+import { BasePage } from 'containers/BasePage';
 import Filter from './filter';
 import List from './list';
 
-export default class DashboardOne extends PureComponent {
+class DashboardOne extends PureComponent {
 
   componentWillMount() {
     // TODO
@@ -18,3 +19,5 @@ export default class DashboardOne extends PureComponent {
     );
   }
 }
+
+export default BasePage(DashboardOne);

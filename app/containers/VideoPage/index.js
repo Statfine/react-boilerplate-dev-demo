@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
+import { BasePage } from 'containers/BasePage';
 // import 'jsmpeg';
 
-export default class VideLivePage extends PureComponent {
+class VideLivePage extends PureComponent {
 
   componentDidMount() {
     let hasFlash = false;
@@ -99,3 +100,5 @@ export default class VideLivePage extends PureComponent {
     );
   }
 }
+
+export default BasePage(VideLivePage);

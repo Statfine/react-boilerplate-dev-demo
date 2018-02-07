@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { merge } from 'lodash';
+import { BasePage } from 'containers/BasePage';
 import ReactTransitionGroup from 'react-transition-group/TransitionGroup';
 import styled, { keyframes } from 'styled-components';
 import 'react-tippy/dist/tippy.css';
@@ -23,7 +24,7 @@ const CutComtent = styled.div`
     show ? `${showA} 1s linear forwards` : `${hiddenA} 0.5s linear forwards`};
 `;
 
-export default class CutPage extends PureComponent {
+class CutPage extends PureComponent {
   state = {
     playBackInfo: {
       length: 3600,
@@ -86,3 +87,5 @@ export default class CutPage extends PureComponent {
     );
   }
 }
+
+export default BasePage(CutPage);

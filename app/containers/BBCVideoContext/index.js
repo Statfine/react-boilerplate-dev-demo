@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import styled from 'styled-components';
+import { BasePage } from 'containers/BasePage';
 import BbcVideo from './VideoPage';
 import BbcImage from './ImagePage';
 import VideoAndVideo from './VideoAndVideo';
@@ -14,7 +15,7 @@ const Btn = styled(Button)`
   background: ${({ choosed }) => choosed ? '#4885ed' : '#1DA57A'};
 `;
 
-export default class BbcPage extends PureComponent {
+class BbcPage extends PureComponent {
   state = {
     index: 1,
   };
@@ -58,3 +59,5 @@ export default class BbcPage extends PureComponent {
     );
   }
 }
+
+export default BasePage(BbcPage);
