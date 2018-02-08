@@ -118,6 +118,9 @@ module.exports = (options) => ({
       },
     ],
   },
+  node: {
+    fs: 'empty',
+  },
   plugins: options.plugins.concat([
     new webpack.ContextReplacementPlugin(/\.\/locale$/, 'empty-module', false, /js$/),
     new webpack.ProvidePlugin({
