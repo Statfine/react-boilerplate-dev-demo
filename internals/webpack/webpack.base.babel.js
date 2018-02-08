@@ -6,6 +6,9 @@ const path = require('path');
 const webpack = require('webpack');
 const fs = require('fs');
 
+// const XhrEvalChunkPlugin = require('xhr-eval-chunk-webpack-plugin').default;
+const XhrEvalChunkPlugin = require('../../app/utils/xhrEvalChunk');
+
 // 方法一
 // const lessToJs = require('less-vars-to-js');
 // const themeVariables = lessToJs(fs.readFileSync(path.join(__dirname, './../../app/theme/antd_theme.less'), 'utf8'));
@@ -137,6 +140,7 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
+    new XhrEvalChunkPlugin(),
   ]),
   resolve: {
     alias: { moment$: 'moment/moment.js' },

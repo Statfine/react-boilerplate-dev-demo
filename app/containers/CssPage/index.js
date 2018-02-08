@@ -24,6 +24,35 @@ overflow: hidden;
 height: 0;
 `;
 
+// const HeaderJump = styled.div`
+//   margin-left: 30px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   color: ${({ color }) => color === undefined ? 'rgba(0, 0, 0, 0.7)' : color};
+//   cursor: pointer;
+//   & > .defaultSvg {
+//     display: block;
+//     margin-top: -2px;
+//     svg {
+//       color: #888!important;
+//     }
+//   }
+//   & > .hoverSvg {
+//     display: none;
+//     margin-top: -2px;
+//   }
+//   &:hover > .defaultSvg {
+//     display: none;
+//   }
+//   &:hover > .hoverSvg {
+//     display: block;
+//   }
+//   &:hover p {
+//     color: #ff8140;
+//   }
+// `;
+
 class CssPage extends PureComponent {
   state = {
     anim: false,
