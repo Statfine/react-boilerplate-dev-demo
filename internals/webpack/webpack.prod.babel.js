@@ -34,6 +34,14 @@ module.exports = require('./webpack.base.babel')({
       minChunks: 2,
       async: true,
     }),
+    // remove console.log
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+        drop_debugger: true,
+        drop_console: true
+      }
+    }),
 
     // Minify and optimize the index.html
     new HtmlWebpackPlugin({
