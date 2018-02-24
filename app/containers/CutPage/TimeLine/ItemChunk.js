@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { message } from 'antd';
 import _ from 'lodash';
 
-import { Item, ItemCover, ResizerLeft, ResizerRight } from './styled';
+import { ItemVideo, ItemCover, ResizerLeft, ResizerRight } from './styled';
 
 const MIN_WIDTH = 20;
 
@@ -127,11 +127,11 @@ export default class ItemChunk extends PureComponent {
     const itemStyle = this.handleGetStyle();
     const info = videoList[index];
     return (
-      <Item width={itemStyle.width - moveLeftWidth} choosed={choosed} dragDown={dragDown || noTrans} transformX={itemStyle.transformX + moveLeftWidth} onClick={() => handleChoosed(index)}>
+      <ItemVideo width={itemStyle.width - moveLeftWidth} choosed={choosed} dragDown={dragDown || noTrans} transformX={itemStyle.transformX + moveLeftWidth} onClick={() => handleChoosed(index)}>
         <ItemCover cover={info.cover} />
         { choosed && <ResizerLeft onClick={(e) => e.stopPropagation()} onMouseDown={(e) => this.handleOnMouseDown(e, 'left')} /> }
         { choosed && <ResizerRight onClick={(e) => e.stopPropagation()} onMouseDown={(e) => this.handleOnMouseDown(e, 'right')} /> }
-      </Item>
+      </ItemVideo>
     );
   }
 }

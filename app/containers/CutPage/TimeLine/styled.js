@@ -18,7 +18,7 @@ export const TimelineContainer = styled.div`
 `;
 
 // transition: transform .5s ease,border .3s ease,width .5s ease,-webkit-transform .5s ease;
-export const Item = styled.div`
+export const ItemVideo = styled.div`
   height: 60px;
   position: absolute;
   transition: ${({ dragDown }) => dragDown ? '' : 'transform .5s ease,border .3s ease,width .5s ease,-webkit-transform .5s ease'};
