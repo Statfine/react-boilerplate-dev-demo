@@ -7,6 +7,7 @@ import 'react-tippy/dist/tippy.css';
 import { Tooltip } from 'react-tippy';
 import TimeInterval from './TimeInterval';
 import SonComponents from './SonComLife';
+import TimeLine from './TimeLine';
 
 const showA = keyframes`
   0% {margin-top: -50px; display: block; opacity:0}
@@ -83,6 +84,7 @@ class CutPage extends PureComponent {
             showSon && <SonComponents />
           }
         </ReactTransitionGroup>
+        <TimeLine />
       </div>
     );
   }

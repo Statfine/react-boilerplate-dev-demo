@@ -39,8 +39,8 @@ module.exports = require('./webpack.base.babel')({
       compress: {
         warnings: false,
         drop_debugger: true,
-        drop_console: true
-      }
+        drop_console: true,
+      },
     }),
 
     // Minify and optimize the index.html
