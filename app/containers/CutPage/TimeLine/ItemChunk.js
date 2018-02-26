@@ -41,7 +41,7 @@ export default class ItemChunk extends PureComponent {
   };
 
   handleMouseMove = (ev) => {
-    const { baseWidth } = this.props;
+    const { baseWidth, fatherObj } = this.props;
     const info = this.source;
     const infoWidth = (info.endTime - info.startTime) * baseWidth;
 
@@ -70,7 +70,9 @@ export default class ItemChunk extends PureComponent {
     if (this.type === 'right') {
       const moveTime = moveWidth / baseWidth;
       if (moveWidth > 0) { //  正数  右移动，宽度增加，视频的结束时间增加
-        if (moveWidth + infoWidth > (info.length - info.startTime) * baseWidth) { // 此时可拖动到的最长时间为 视频总时长减去开始时间
+        if (info.endTime + moveTime > info.startTime + ((fatherObj.width - this.handleGetStyle().transformX) / baseWidth)) {
+          this.handleCbChangeRight(info.startTime + ((fatherObj.width - this.handleGetStyle().transformX) / baseWidth));
+        } else if (moveWidth + infoWidth > (info.length - info.startTime) * baseWidth) { // 此时可拖动到的最长时间为 视频总时长减去开始时间
           message.destroy();
           message.warning('已经到达视频结束位置');
           this.handleCbChangeRight(info.length);
@@ -127,7 +129,16 @@ export default class ItemChunk extends PureComponent {
     const itemStyle = this.handleGetStyle();
     const info = videoList[index];
     return (
-      <ItemVideo width={itemStyle.width - moveLeftWidth} choosed={choosed} dragDown={dragDown || noTrans} transformX={itemStyle.transformX + moveLeftWidth} onClick={() => handleChoosed(index)}>
+      <ItemVideo
+        width={itemStyle.width - moveLeftWidth}
+        choosed={choosed}
+        dragDown={dragDown || noTrans}
+        transformX={itemStyle.transformX + moveLeftWidth}
+        onClick={() => {
+          // e.stopPropagation();
+          handleChoosed(index);
+        }}
+      >
         <ItemCover cover={info.cover} />
         { choosed && <ResizerLeft onClick={(e) => e.stopPropagation()} onMouseDown={(e) => this.handleOnMouseDown(e, 'left')} /> }
         { choosed && <ResizerRight onClick={(e) => e.stopPropagation()} onMouseDown={(e) => this.handleOnMouseDown(e, 'right')} /> }
@@ -141,6 +152,7 @@ export default class ItemChunk extends PureComponent {
  * choosedIndex 选中序列
  * videoList 所有视频对象
  * baseWidth 1秒的宽度
+ * fatherObj 父元素style
  * noTrans 是否有transition效果
  * handleChoosed 选择事件
  * handleChangeTime 事件修改事件
@@ -151,6 +163,7 @@ ItemChunk.propTypes = {
   choosedIndex: PropTypes.number,
   videoList: PropTypes.array,
   baseWidth: PropTypes.number,
+  fatherObj: PropTypes.object,
   noTrans: PropTypes.bool,
   handleChoosed: PropTypes.func,
   handleChangeTime: PropTypes.func,
