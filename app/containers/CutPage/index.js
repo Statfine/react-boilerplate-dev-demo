@@ -8,6 +8,7 @@ import { Tooltip } from 'react-tippy';
 import TimeInterval from './TimeInterval';
 import SonComponents from './SonComLife';
 import TimeLine from './TimeLine';
+import TimeLineDrag from './TimeLineDrag';
 
 const showA = keyframes`
   0% {margin-top: -50px; display: block; opacity:0}
@@ -85,6 +86,7 @@ class CutPage extends PureComponent {
           }
         </ReactTransitionGroup>
         <TimeLine />
+        {/* <TimeLineDrag /> */}
       </div>
     );
   }
