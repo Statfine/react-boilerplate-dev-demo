@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { Icon } from 'antd';
 
 export const Container = styled.div`
   width: 100%;
@@ -15,12 +16,12 @@ export const TimeRow = styled.div`
   position: relative;
   height: 120px;
   padding-top: 33px;
+  overflow: hidden;
 `;
 
 export const TimelineContainer = styled.div`
   position: relative;
   height: 60px;
-  overflow: hidden;
 `;
 
 export const SecondsLine = styled.div`
@@ -84,6 +85,32 @@ export const SecondPointer = styled.div`
   }
 `;
 
+const jumpA = keyframes`
+  0% {top: -40px}
+  20% {top: -25px}
+  40% {top: -35px}
+  60% {top: -25px}
+  80% {top: -30px}
+  100% {top: -25px}
+`;
+export const IconAnt = styled(Icon)`
+  position: absolute;
+  top: -40px;
+  color: #00dfb0;
+  animation: ${jumpA} 1.2s infinite ease-in-out both;
+`;
+
+export const VideoTime = styled.div`
+  position: absolute;
+  height: 20px;
+  line-height: 20px;
+  background: #000;
+  border-radius: 10px;
+  padding: 0 5px;
+  color: #00dfb0;
+  top: -26px;
+`;
+
 // transition: transform .5s ease,border .3s ease,width .5s ease,-webkit-transform .5s ease;
 export const ItemVideo = styled.div`
   height: 60px;
@@ -91,7 +118,7 @@ export const ItemVideo = styled.div`
   transition: ${({ dragDown }) => dragDown ? '' : 'transform .5s ease,border .3s ease,width .5s ease,-webkit-transform .5s ease'};
   border: 3px solid #000;
   width: ${({ width }) => `${width}px`};
-  border-color: ${({ choosed }) => choosed ? '#FF8140' : '#D8D8D8'};
+  border-color: ${({ choosed, dragHover }) => dragHover ? '#00dfb0' : choosed ? '#FF8140' : '#D8D8D8'};
   border-radius: ${({ choosed }) => choosed ? '4px' : '4px'};
   transform: ${({ transformX }) => `translateX(${transformX}px)`};
 `;

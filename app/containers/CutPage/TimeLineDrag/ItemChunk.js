@@ -3,9 +3,21 @@ import PropTypes from 'prop-types';
 import { message } from 'antd';
 import _ from 'lodash';
 
-import { ItemVideo, ItemCover, ResizerLeft, ResizerRight } from './styled';
+import { ItemVideo, ItemCover, ResizerLeft, ResizerRight, IconAnt, VideoTime } from './styled';
 
 const MIN_WIDTH = 20;
+
+function formatHourMinSec(t) {
+  const h = parseInt(t / 3600);
+  const m = parseInt((t - (h * 3600)) / 60);
+  const s = parseInt(t - ((h * 3600) + (m * 60)));
+  return `${zeroFill(h)}:${zeroFill(m)}:${zeroFill(s)}`;
+}
+
+function zeroFill(s) {
+  if (s < 10 && s >= 0) return `0${s}`;
+  return s;
+}
 
 export default class ItemChunk extends PureComponent {
   state = {
@@ -14,6 +26,7 @@ export default class ItemChunk extends PureComponent {
   }
 
   handleGetStyle = () => {
+    console.log('handleGetStyle');
     const { index, videoList, baseWidth } = this.props;
     let transformX = 0;
     const width = (videoList[index].endTime - videoList[index].startTime) * baseWidth;
@@ -61,7 +74,8 @@ export default class ItemChunk extends PureComponent {
       }
       if (moveWidth < 0) { // 负数  左移动，宽度增加，视频的开始时间增加
         if (infoWidth - moveWidth > (info.endTime) * baseWidth) { // 此时可拖动到的最长时间为视频设置结束时间 而不是视频总时长
-          this.setState({ moveLeftWidth: -(((info.endTime) * baseWidth) - infoWidth) });
+          // this.setState({ moveLeftWidth: -(((info.endTime) * baseWidth) - infoWidth) });
+          this.setState({ moveLeftWidth: -(info.startTime * baseWidth) });
           message.destroy();
           message.warning('已经到达视频开始位置');
         } else this.setState({ moveLeftWidth: moveWidth });
@@ -79,10 +93,11 @@ export default class ItemChunk extends PureComponent {
         } else this.handleCbChangeRight(info.endTime + moveTime);
       }
       if (moveWidth < 0) { //  正数  左移动，宽度减小，视频的结束时间减小
+        console.log(moveWidth, infoWidth);
         if (-moveWidth > infoWidth - MIN_WIDTH) {
           message.destroy();
           message.warning(`素材不能小于${MIN_WIDTH / baseWidth}S`);
-          this.handleCbChangeRight(info.startTime + 1);
+          this.handleCbChangeRight(info.startTime + (MIN_WIDTH / baseWidth));
         } else this.handleCbChangeRight(info.endTime + moveTime);
       }
     }
@@ -114,7 +129,8 @@ export default class ItemChunk extends PureComponent {
     const { moveLeftWidth } = this.state;
     const moveTime = moveLeftWidth / baseWidth;
     const info = videoList[index];
-    handleChangeTime(index, _.merge({}, info, { startTime: info.startTime + moveTime }));
+    const st = info.startTime + moveTime;
+    handleChangeTime(index, _.merge({}, info, { startTime: st > 0 ? st : 0 }));
   }
 
   handleCbChangeRight = (endTime) => {
@@ -124,7 +140,7 @@ export default class ItemChunk extends PureComponent {
 
   render() {
     const { moveLeftWidth, dragDown } = this.state;
-    const { index, choosedIndex, videoList, handleChoosed, noTrans } = this.props;
+    const { index, choosedIndex, videoList, handleChoosed, noTrans, dragHoverIndex, dragHoverIndexPosition, baseWidth } = this.props;
     const choosed = index === choosedIndex;
     const itemStyle = this.handleGetStyle();
     const info = videoList[index];
@@ -135,13 +151,42 @@ export default class ItemChunk extends PureComponent {
         dragDown={dragDown || noTrans}
         transformX={itemStyle.transformX + moveLeftWidth}
         onClick={() => {
-          // e.stopPropagation();
+          // e.stopPropagation(); // 父元素点击事件（时间轴变动）
           handleChoosed(index);
         }}
+        dragHover={dragHoverIndex === index}
       >
+        { choosedIndex === index && <VideoTime style={{ left: '-6px' }}>{formatHourMinSec(info.startTime + (moveLeftWidth / baseWidth))}</VideoTime> }
+        { choosedIndex === index && <VideoTime style={{ right: '-6px' }}>{formatHourMinSec(info.endTime)}</VideoTime> }
+        { (dragHoverIndex === index && dragHoverIndexPosition === 'left') && <IconAnt type="environment" style={{ left: '-6px' }} /> }
+        { (dragHoverIndex === index && dragHoverIndexPosition === 'right') && <IconAnt type="environment" style={{ right: '-6px' }} /> }
         <ItemCover cover={info.cover} />
-        { choosed && <ResizerLeft onClick={(e) => e.stopPropagation()} onMouseDown={(e) => this.handleOnMouseDown(e, 'left')} /> }
-        { choosed && <ResizerRight onClick={(e) => e.stopPropagation()} onMouseDown={(e) => this.handleOnMouseDown(e, 'right')} /> }
+        { choosed &&
+          <ResizerLeft
+            onClick={(e) => {
+              // 点击事件冒泡
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onMouseDown={(e) => {
+              // 拖动事件冒泡
+              e.stopPropagation();
+              e.preventDefault();
+              this.handleOnMouseDown(e, 'left');
+            }}
+          /> }
+        { choosed &&
+          <ResizerRight
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              this.handleOnMouseDown(e, 'right');
+            }}
+          /> }
       </ItemVideo>
     );
   }
@@ -157,6 +202,8 @@ export default class ItemChunk extends PureComponent {
  * handleChoosed 选择事件
  * handleChangeTime 事件修改事件
  * hanldeTrans 是否有transition效果事件
+ * dragHoverIndex 拖动时候  悬浮的下标
+ * dragHoverIndex 拖动时候  悬浮的下标 前替换还是后替换 'left, right'
 */
 ItemChunk.propTypes = {
   index: PropTypes.number,
@@ -168,4 +215,6 @@ ItemChunk.propTypes = {
   handleChoosed: PropTypes.func,
   handleChangeTime: PropTypes.func,
   hanldeTrans: PropTypes.func,
+  dragHoverIndex: PropTypes.number,
+  dragHoverIndexPosition: PropTypes.string,
 };

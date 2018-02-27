@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
@@ -76,6 +77,10 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
   render() {
     return (
       <div>
+        <Helmet
+          titleTemplate="SJ web"
+        >
+        </Helmet>
         <AppWrapper>
           <LeftNav>
             <P onClick={() => this.onJump('one')} selected={location.pathname.startsWith('/dashboard/one')}>OneList</P>

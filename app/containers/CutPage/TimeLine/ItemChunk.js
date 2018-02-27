@@ -82,7 +82,7 @@ export default class ItemChunk extends PureComponent {
         if (-moveWidth > infoWidth - MIN_WIDTH) {
           message.destroy();
           message.warning(`素材不能小于${MIN_WIDTH / baseWidth}S`);
-          this.handleCbChangeRight(info.startTime + 1);
+          this.handleCbChangeRight(info.startTime + (MIN_WIDTH / baseWidth));
         } else this.handleCbChangeRight(info.endTime + moveTime);
       }
     }

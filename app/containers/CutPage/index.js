@@ -5,10 +5,11 @@ import ReactTransitionGroup from 'react-transition-group/TransitionGroup';
 import styled, { keyframes } from 'styled-components';
 import 'react-tippy/dist/tippy.css';
 import { Tooltip } from 'react-tippy';
+import { Icon } from 'antd';
 import TimeInterval from './TimeInterval';
 import SonComponents from './SonComLife';
-import TimeLine from './TimeLine';
-// import TimeLineDrag from './TimeLineDrag';
+// import TimeLine from './TimeLine';
+import TimeLineDrag from './TimeLineDrag';
 
 const showA = keyframes`
   0% {margin-top: -50px; display: block; opacity:0}
@@ -20,10 +21,26 @@ const hiddenA = keyframes`
   100% {margin-top: -50px; opacity:0}
 `;
 
+const jumpA = keyframes`
+  0% {top: 0px}
+  20% {top: 6px}
+  40% {top: 2px}
+  60% {top: 6px}
+  80% {top: 4px}
+  100% {top: 6px}
+`;
+
 const CutComtent = styled.div`
   padding: 60px;
   animation: ${({ show }) =>
     show ? `${showA} 1s linear forwards` : `${hiddenA} 0.5s linear forwards`};
+`;
+
+const IconAnt = styled(Icon)`
+  position: absolute;
+  top: 0;
+  color: #00dfb0;
+  animation: ${jumpA} 2s infinite ease-in-out both;
 `;
 
 class CutPage extends PureComponent {
@@ -69,6 +86,7 @@ class CutPage extends PureComponent {
             cutDisabled={false}
           />
         </CutComtent>
+        <IconAnt type="environment" />
         <div onClick={this.handleToggle}>{hidden ? '打开' : '关闭'}</div>
         <div style={{ display: 'flex' }}>
           <Tooltip
@@ -85,8 +103,8 @@ class CutPage extends PureComponent {
             showSon && <SonComponents />
           }
         </ReactTransitionGroup>
-        <TimeLine />
-        {/* <TimeLineDrag /> */}
+        {/* <TimeLine /> */}
+        <TimeLineDrag />
       </div>
     );
   }

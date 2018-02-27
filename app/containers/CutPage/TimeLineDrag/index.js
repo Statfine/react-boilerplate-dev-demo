@@ -28,9 +28,9 @@ function zeroFill(s) {
 class TimeLineDrag extends PureComponent {
   state = {
     videoList: [
-      { id: 'abc', length: 180, startTime: 0, endTime: 180, cover: 'http://123.206.18.31/static/video/v1.png' },
-      { id: 'qsd', length: 260, startTime: 0, endTime: 260, cover: 'http://123.206.18.31/static/video/v2.png' },
-      { id: 'qweqw', length: 300, startTime: 0, endTime: 40, cover: 'http://123.206.18.31/static/video/v1.png' },
+      { id: 'abc', length: 180, startTime: 0, endTime: 180, cover: 'http://123.206.18.31/static/video/v3.png' },
+      { id: 'qsd', length: 260, startTime: 0, endTime: 260, cover: 'http://123.206.18.31/static/video/v1.png' },
+      { id: 'qweqw', length: 300, startTime: 0, endTime: 40, cover: 'http://123.206.18.31/static/video/v2.png' },
     ],
     choosedIndex: -1,
     noTrans: false,
@@ -41,6 +41,8 @@ class TimeLineDrag extends PureComponent {
       transX: 0,
     },
     currentTime: 0,
+    dragHoverIndex: -1,
+    dragHoverIndexPosition: '',
   };
   componentDidMount() {
     this.onWindowResize();
@@ -85,7 +87,7 @@ class TimeLineDrag extends PureComponent {
   moveCard = (dragIndex, hoverIndex) => {
     const { videoList } = this.state;
     const dragCard = videoList[dragIndex];
-    console.log(dragIndex, hoverIndex);
+    console.log('change', dragIndex, hoverIndex);
     this.setState(
       update(this.state, {
         videoList: {
@@ -105,7 +107,7 @@ class TimeLineDrag extends PureComponent {
     return list;
   }
   render() {
-    const { videoList, choosedIndex, noTrans, baseWidth, fatherObj, scaleCurrentTime, currentTime } = this.state;
+    const { videoList, choosedIndex, noTrans, baseWidth, fatherObj, scaleCurrentTime, currentTime, dragHoverIndex, dragHoverIndexPosition } = this.state;
     return (
       <Container>
         <TimeContainer innerRef={(c) => { this.container = c; }}>
@@ -134,13 +136,16 @@ class TimeLineDrag extends PureComponent {
                     videoList={videoList}
                     handleChoosed={(index) => {
                       this.setState({ choosedIndex: index });
-                      console.log('choose', index);
+                      // console.log('choose', index);
                     }}
                     handleChangeTime={this.handleChangeTime}
                     noTrans={noTrans}
                     hanldeTrans={(noTrans) => this.setState({ noTrans })}
-                    id={index}
+                    id={item.id}
                     moveCard={this.moveCard}
+                    dragHoverIndex={dragHoverIndex}
+                    dragHoverIndexPosition={dragHoverIndexPosition}
+                    handleDragHoverIndex={(dragHoverIndex, dragHoverIndexPosition) => this.setState({ dragHoverIndex, dragHoverIndexPosition })}
                   />
                 ))
               }
