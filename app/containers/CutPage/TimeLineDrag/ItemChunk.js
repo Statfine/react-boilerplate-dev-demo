@@ -26,7 +26,6 @@ export default class ItemChunk extends PureComponent {
   }
 
   handleGetStyle = () => {
-    console.log('handleGetStyle');
     const { index, videoList, baseWidth } = this.props;
     let transformX = 0;
     const width = (videoList[index].endTime - videoList[index].startTime) * baseWidth;

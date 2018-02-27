@@ -59,6 +59,12 @@ class TimeLineDrag extends PureComponent {
     console.log(domRect, domRect.width / 540);
     this.setState({ baseWidth: domRect.width / 540, fatherObj: domRect });
   }
+  // 选中
+  handleChoosedIndex = (choosedIndex) => this.setState({ choosedIndex });
+  //  不给trans效果（右边拖动）
+  hanldeTrans = (noTrans) => this.setState({ noTrans });
+  //  拖拽时炫富层的底层
+  handleDragHoverIndex = (dragHoverIndex, dragHoverIndexPosition) => this.setState({ dragHoverIndex, dragHoverIndexPosition })
   //  时间修改
   handleChangeTime = (index, info) => {
     const videoList = this.state.videoList.concat();
@@ -134,18 +140,15 @@ class TimeLineDrag extends PureComponent {
                     baseWidth={baseWidth}
                     fatherObj={fatherObj}
                     videoList={videoList}
-                    handleChoosed={(index) => {
-                      this.setState({ choosedIndex: index });
-                      // console.log('choose', index);
-                    }}
+                    handleChoosed={this.handleChoosedIndex}
                     handleChangeTime={this.handleChangeTime}
                     noTrans={noTrans}
-                    hanldeTrans={(noTrans) => this.setState({ noTrans })}
+                    hanldeTrans={this.hanldeTrans}
                     id={item.id}
                     moveCard={this.moveCard}
                     dragHoverIndex={dragHoverIndex}
                     dragHoverIndexPosition={dragHoverIndexPosition}
-                    handleDragHoverIndex={(dragHoverIndex, dragHoverIndexPosition) => this.setState({ dragHoverIndex, dragHoverIndexPosition })}
+                    handleDragHoverIndex={this.handleDragHoverIndex}
                   />
                 ))
               }

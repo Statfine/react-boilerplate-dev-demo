@@ -10,10 +10,13 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import AccessibilityIcon from 'material-ui/svg-icons/action/accessibility';
 
+import TimeLineDrag from '../CutPage/TimeLineDrag';
+
 import { userLogin } from './actions';
 import { selectRequesting } from './selectors';
 import reducer from './reducer';
 import saga from './sagas';
+
 
 const Container = styled.div`
   display: flex;
@@ -53,20 +56,23 @@ class AuthLoginPage extends PureComponent {
     return (
       <Container>
         <AccessibilityIcon />
-        <Input
-          ref={(ref) => { this.urlInput = ref; }}
-          placeholder="Basic usage"
-          value={name}
-          type="text"
-          onChange={(event) => this.setState({ name: event.target.value })}
-        />
-        <Input
-          placeholder="Basic usage"
-          value={password}
-          type="password"
-          onChange={(event) => this.setState({ password: event.target.value })}
-        />
-        <RaisedButton label="login登录" primary disabled={requesting} onClick={this.handleLogin} />
+        <div style={{ display: 'none' }}>
+          <Input
+            ref={(ref) => { this.urlInput = ref; }}
+            placeholder="Basic usage"
+            value={name}
+            type="text"
+            onChange={(event) => this.setState({ name: event.target.value })}
+          />
+          <Input
+            placeholder="Basic usage"
+            value={password}
+            type="password"
+            onChange={(event) => this.setState({ password: event.target.value })}
+          />
+          <RaisedButton label="login登录" primary disabled={requesting} onClick={this.handleLogin} />
+        </div>
+        <TimeLineDrag />
       </Container>
     );
   }
