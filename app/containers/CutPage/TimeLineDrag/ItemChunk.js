@@ -80,6 +80,7 @@ export default class ItemChunk extends PureComponent {
         } else this.setState({ moveLeftWidth: moveWidth });
       }
     }
+    // 右边时间改动为即时的，捕获用到moveLeftWidth
     if (this.type === 'right') {
       const moveTime = moveWidth / baseWidth;
       if (moveWidth > 0) { //  正数  右移动，宽度增加，视频的结束时间增加

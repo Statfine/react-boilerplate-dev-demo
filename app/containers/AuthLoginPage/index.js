@@ -56,7 +56,7 @@ class AuthLoginPage extends PureComponent {
     return (
       <Container>
         <AccessibilityIcon />
-        <div style={{ display: 'none' }}>
+        <div style={{ display: 'block' }}>
           <Input
             ref={(ref) => { this.urlInput = ref; }}
             placeholder="Basic usage"
