@@ -63,7 +63,7 @@ class TimeLineDrag extends PureComponent {
   handleChoosedIndex = (choosedIndex) => this.setState({ choosedIndex });
   //  不给trans效果（右边拖动）
   hanldeTrans = (noTrans) => this.setState({ noTrans });
-  //  拖拽时炫富层的底层
+  //  拖拽时悬浮层的覆盖层
   handleDragHoverIndex = (dragHoverIndex, dragHoverIndexPosition) => this.setState({ dragHoverIndex, dragHoverIndexPosition })
   //  时间修改
   handleChangeTime = (index, info) => {
@@ -161,8 +161,5 @@ class TimeLineDrag extends PureComponent {
   }
 }
 
-// export default TimeLineDrag;
-
-// 页面中多个拖拽组件， 不能分别DragDropContext， 只能在最上层添加
 const withReactDnd = DragDropContext(HTML5Backend);
 export default withReactDnd(TimeLineDrag);

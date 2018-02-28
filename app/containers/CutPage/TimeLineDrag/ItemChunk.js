@@ -202,8 +202,8 @@ export default class ItemChunk extends PureComponent {
  * handleChoosed 选择事件
  * handleChangeTime 事件修改事件
  * hanldeTrans 是否有transition效果事件
- * dragHoverIndex 拖动时候  悬浮的下标
- * dragHoverIndex 拖动时候  悬浮的下标 前替换还是后替换 'left, right'
+ * dragHoverIndex 拖动时候  悬浮的覆盖层下标
+ * dragHoverIndex 拖动时候  悬浮的覆盖层下标 前替换还是后替换 'left, right'
 */
 ItemChunk.propTypes = {
   index: PropTypes.number,
