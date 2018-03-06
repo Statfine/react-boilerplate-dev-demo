@@ -39,7 +39,7 @@ export default class BbcVideo extends PureComponent {
     const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     node.startAt(0);
-    node.stopAt(10);
+    node.stopAt(15);
     console.log(`Duration: ${this.ctx.duration}`);
 
     node.registerCallback('load', () => { console.log('====>video is loading'); });
@@ -54,10 +54,11 @@ export default class BbcVideo extends PureComponent {
 
   handlePlay = () => {
     this.ctx.play();
-    this.timeIn = setInterval(this.drawVideo, 200);
+    this.timeIn = setInterval(this.drawVideo, 60);
   }
 
   drawVideo = () => {
+    console.log(this.ctx.currentTime, this.ctx.currentTime.toFixed(2));
     this.setState({ currentTime: this.ctx.currentTime.toFixed(2) });
   }
 

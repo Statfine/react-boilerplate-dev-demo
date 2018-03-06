@@ -9,6 +9,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin'); // you'll need to run webpack twice with this plugin: the first build will take the normal amount of time. The second build will be signficantly faster.
 const logger = require('../../server/logger');
 const pkg = require(path.resolve(process.cwd(), 'package.json'));
 const dllPlugin = pkg.dllPlugin;
@@ -24,6 +25,7 @@ const plugins = [
     exclude: /a\.js|node_modules/, // exclude node_modules
     failOnError: false, // show a warning when there is a circular dependency
   }),
+  new HardSourceWebpackPlugin(),
 ];
 
 if (dllPlugin) {
