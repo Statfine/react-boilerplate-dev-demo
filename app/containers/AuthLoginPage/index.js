@@ -10,6 +10,8 @@ import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 import AccessibilityIcon from 'material-ui/svg-icons/action/accessibility';
 
+import Foot from 'components/Footer';
+
 import TimeLineDrag from '../CutPage/TimeLineDrag';
 
 import { userLogin } from './actions';
@@ -73,6 +75,7 @@ class AuthLoginPage extends PureComponent {
           <RaisedButton label="login登录" primary disabled={requesting} onClick={this.handleLogin} />
         </div>
         <TimeLineDrag />
+        <Foot />
       </Container>
     );
   }

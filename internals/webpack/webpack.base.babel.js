@@ -6,9 +6,6 @@ const path = require('path');
 const webpack = require('webpack');
 const fs = require('fs');
 
-// const XhrEvalChunkPlugin = require('xhr-eval-chunk-webpack-plugin').default;
-const XhrEvalChunkPlugin = require('../../app/utils/xhrEvalChunk');
-
 // 方法一
 // const lessToJs = require('less-vars-to-js');
 // const themeVariables = lessToJs(fs.readFileSync(path.join(__dirname, './../../app/theme/antd_theme.less'), 'utf8'));
@@ -31,15 +28,17 @@ const paletteLess = fs.readFileSync(path.join(__dirname, './../../app/theme/antd
 process.noDeprecation = true;
 
 module.exports = (options) => ({
+  mode: options.mode,
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
     path: path.resolve(process.cwd(), 'build'),
     publicPath: '/',
   }, options.output), // Merge with env dependent settings
+  optimization: options.optimization,
   module: {
     rules: [
       {
-        test: /\.js$/, // Transform all .js files required somewhere with Babel
+        test: /\.js?$/, // Transform all .js/.jsx files required somewhere with Babel
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -67,13 +66,24 @@ module.exports = (options) => ({
       {
         test: /\.(jpg|png|gif)$/,
         use: [
-          'file-loader',
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
           {
             loader: 'image-webpack-loader',
             options: {
-              progressive: true,
-              optimizationLevel: 7,
-              interlaced: false,
+              mozjpeg: {
+                progressive: true,
+              },
+              gifsicle: {
+                interlaced: false,
+              },
+              optipng: {
+                optimizationLevel: 7,
+              },
               pngquant: {
                 quality: '65-90',
                 speed: 4,
@@ -82,14 +92,10 @@ module.exports = (options) => ({
           },
         ],
       },
-      {
-        test: /\.html$/,
-        use: 'html-loader',
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader',
-      },
+      // {
+      //   test: /\.json$/,
+      //   use: 'json-loader',
+      // },
       {
         test: /\.less$/,
         use: [
@@ -106,6 +112,10 @@ module.exports = (options) => ({
               modifyVars: JSON.parse(paletteLess),
             },
           }],
+      },
+      {
+        test: /\.html$/,
+        use: 'html-loader',
       },
       {
         test: /\.(mp4|webm)$/,
@@ -142,8 +152,6 @@ module.exports = (options) => ({
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
-    new webpack.NamedModulesPlugin(),
-    new XhrEvalChunkPlugin(),
   ]),
   resolve: {
     alias: { moment$: 'moment/moment.js' },
