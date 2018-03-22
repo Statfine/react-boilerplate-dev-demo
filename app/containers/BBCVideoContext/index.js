@@ -45,6 +45,7 @@ class BbcPage extends PureComponent {
   render() {
     return (
       <div>
+        <a href="http://123.206.18.31/static/video/v1.mp4" download="w3logo">download</a>
         <div>
           <Btn size="large" type="primary" choosed={this.state.index === 1} onClick={() => this.setState({ index: 1 })}>单个视频</Btn>
           <Btn size="large" type="primary" choosed={this.state.index === 2} onClick={() => this.setState({ index: 2 })}>单个图片</Btn>
