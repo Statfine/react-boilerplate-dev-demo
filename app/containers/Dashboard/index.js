@@ -18,6 +18,7 @@ import AliPlayerPage from '../AliPlayerPage/Loadable';
 import EChartPage from '../EChartPage/Loadable';
 import WavePage from '../WavesurferPage/Loadable';
 import ComPage from '../ComPage';
+import CanvasPage from '../CanvasPage/Loadable';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -98,6 +99,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('wavesurefer')} selected={location.pathname.startsWith('/dashboard/wavesurefer')}>波形</P>
             <P onClick={() => this.onJump('dnd')} selected={location.pathname.startsWith('/dashboard/dnd')}>拖动</P>
             <P onClick={() => this.onJump('comPage')} selected={location.pathname.startsWith('/dashboard/comPage')}>comPage</P>
+            <P onClick={() => this.onJump('canvas')} selected={location.pathname.startsWith('/dashboard/canvas')}>Canvas</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
           <RightNav>
@@ -117,6 +119,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/echart`} component={EChartPage} />
               <Route path={`${this.props.match.path}/wavesurefer`} component={WavePage} />
               <Route path={`${this.props.match.path}/comPage`} component={ComPage} />
+              <Route path={`${this.props.match.path}/canvas`} component={CanvasPage} />
             </Switch>
           </RightNav>
         </AppWrapper>
