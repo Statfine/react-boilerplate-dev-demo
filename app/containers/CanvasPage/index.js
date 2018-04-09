@@ -33,6 +33,7 @@ export default class CnavasPage extends PureComponent {
        */
       ctx.fillStyle = '#fff';
       ctx.textAlign = 'left';
+      // ctx.textBaseline = 'bottom'; // 当前文本基线的属性  默认bottom 所以原点X轴再底部 （决定文字垂直方向的对齐方式）
       ctx.fillText('CodePlayer+中文测试1', 0, 30);
       if (true) {
         ctx.shadowOffsetX = 0 * SCALE;
@@ -47,7 +48,9 @@ export default class CnavasPage extends PureComponent {
     const ctx1 = canvas1.getContext('2d');
     canvas1.width = 1280;
     canvas1.height = 720;
-    ctx1.drawImage(canvas, 100, 200);
+    ctx1.fillStyle = '#ff8140';
+    ctx1.fillRect(0, 0, 1280, 720);
+    ctx1.drawImage(canvas, 100, 150);
 
     const base64 = canvas1.toDataURL('image/png', 1);
     this.setState({ base64Img: base64 });
