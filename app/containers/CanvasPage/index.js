@@ -6,15 +6,15 @@ const Div = styled.div`
   display: flex;
 `;
 
-const DivInput = styled.div`
-  border: 1px solid #4885ed;
-  cursor: text;
-  width: 200px;
-  max-width: 200px;
-  height: 100px;
-  margin-left: 300px;
-  word-wrap: break-word;
-`;
+// const DivInput = styled.div`
+//   border: 1px solid #4885ed;
+//   cursor: text;
+//   width: 200px;
+//   max-width: 200px;
+//   height: 100px;
+//   margin-left: 300px;
+//   word-wrap: break-word;
+// `;
 
 const SCALE = 1.4;
 
