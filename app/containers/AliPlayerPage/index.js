@@ -7,7 +7,7 @@ class AliPlayerPage extends PureComponent {
   render() {
     return (
       <div>
-        <Player playId="palyOne" url="http://vod.gslb.cmvideo.cn/depository/asset/zhengshi/3011/173/928/3011173928/media/3011173928_5001598454_55.mp4.m3u8?msisdn=300001_300001&mdspid=&timestamp=20180412163744&Channel_ID=10290001088&ParentNodeID=-99&client_ip=10.151.129.83&ProgramID=800278835&assertID=3011173928&chargePhone=&SecurityKey=20180412163744&encrypt=cce50bdd445dec7570bc7994924162a0" />
+        <Player playId="palyOne" url="http://vod.hcs.cmvideo.cn/depository_yf/asset/zhengshi/5102/006/318/5102006318/media/5102006318_5002748331_54.mp4.m3u8?msisdn=300001_300001&mdspid=&timestamp=20180413164418&Channel_ID=10290001088&ParentNodeID=-99&client_ip=10.151.129.82&ProgramID=801000170&assertID=5102006318&chargePhone=&SecurityKey=20180413164418&encrypt=39dc0307f0cef5a33df106d838e53624" />
         <Player playId="palyTwo" url="http://alcdn.hls.xiaoka.tv/20171226/298/b36/KhW9oREcf_BTjYpZ/index.m3u8" />
       </div>
     );

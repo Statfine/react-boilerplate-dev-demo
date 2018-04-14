@@ -64,7 +64,9 @@ class VideLivePage extends PureComponent {
     this.playLive = new Aliplayer({ // eslint-disable-line
       id: 'video', // 容器id
       autoplay: true,      // 自动播放
-      source: 'http://acm.gg/jade.m3u8',         // 视频url 支持互联网可直接访问的视频地址
+      useH5Prism: true,
+      useFlashPrism: true,
+      source: 'http://vod.hcs.cmvideo.cn:8088/depository_yf/asset/zhengshi/5102/006/076/5102006076/media/5102006076_5002746292_55.mp4.m3u8?msisdn=300001_300001&mdspid=&timestamp=20180413104955&Channel_ID=10290001088&ParentNodeID=-99&client_ip=10.151.129.82&ProgramID=800994762&assertID=5102006076&chargePhone=&SecurityKey=20180413104955&encrypt=9becb3b41c4ab100bfdb2d3ea9697007',         // 视频url 支持互联网可直接访问的视频地址
       width: '560px',       // 播放器宽度
       height: '316px',      // 播放器高度
     });
