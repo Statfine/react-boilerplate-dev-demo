@@ -26,6 +26,7 @@ const initialState = fromJS({
   },
 });
 
+// eturn state.update('shareList', (list) => list.filter((item) => action.paylaod.indexOf(item.get('id')) === -1));
 function videoListPageReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_VIDEO:
