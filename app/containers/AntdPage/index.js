@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Slider, Icon, Button, Select, TreeSelect, Row, Col, Modal } from 'antd';
+import { Slider, Icon, Button, Select, TreeSelect, Row, Col, Modal, Steps } from 'antd';
 import { BasePage } from 'containers/BasePage';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -35,6 +35,7 @@ const muiTheme = getMuiTheme({
 });
 
 const Option = Select.Option;
+const Step = Steps.Step;
 const children = [];
 for (let i = 10; i < 36; i += 1) {
   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
@@ -69,6 +70,7 @@ class AntdPage extends PureComponent {
     open: false,
     value: 0,
     visible: false,
+    step: 0,
   };
 
   onChangeS = (value) => {
@@ -106,6 +108,22 @@ class AntdPage extends PureComponent {
     this.setState({ visible: false });
   }
 
+  handlePromise = () => {
+    const a = new Promise((resolve, reject) => {
+      try {
+        setTimeout(() => resolve(true), 2000);
+      } catch (error) {
+        reject(error.message);
+      }
+    });
+    a.then((re) => {
+      console.log(re);
+      return a;
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
   render() {
     const tProps = {
       treeData,
@@ -119,10 +137,11 @@ class AntdPage extends PureComponent {
         width: 300,
       },
     };
+    const { step } = this.state;
 
     return (
       <div style={{ width: 600, margin: '0 auto' }}>
-        <p>antd修改主题  See： webpack</p>
+        <div onClick={this.handlePromise}>antd修改主题  See： webpack</div>
         <Slider range defaultValue={[20, 50]} />
         <Icon type="step-backward" />
         <AntdBtn type="primary" icon="download" size="large">Download</AntdBtn>
@@ -178,6 +197,11 @@ class AntdPage extends PureComponent {
         <Button type="primary" onClick={this.showModal}>
           Open
         </Button>
+        <Steps progressDot current={step}>
+          <Step onClick={() => this.setState({ step: 0 }, () => alert(0))} style={{ cursor: 'pointer' }} title="Finished" description="This is a description." />
+          <Step onClick={() => this.setState({ step: 1 }, () => alert(1))} style={{ cursor: 'pointer' }} title="In Progress" description="This is a description." />
+          <Step onClick={() => this.setState({ step: 2 }, () => alert(2))} style={{ cursor: 'pointer' }} title="Waiting" description="This is a description." />
+        </Steps>
         <Modal
           visible={this.state.visible}
           title="Title"
