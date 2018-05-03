@@ -2,25 +2,25 @@ import { injectGlobal } from 'styled-components';
 
 /* eslint no-unused-expressions: 0 */
 injectGlobal`
-  html,
-  body {
+  html,body {
     height: 100%;
     width: 100%;
+    padding: 0;  
+    margin: 0; 
     font-size: 14px;
   }
 
   body {
+    height: 100%;
+    width: 100%;
     font-family: 'Roboto, Helvetica Neue', Helvetica, Arial, sans-serif;
   }
-
-  body.fontLoaded {
-    font-family: 'Roboto', 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  }
+  
 
   #app {
     background-color: #EBEFF2;
-    min-height: 100%;
-    min-width: 100%;
+    height: 100%;
+    width: 100%;
   }
   body,
   dl,

@@ -15,6 +15,13 @@ const Div = styled.div`
 //   margin-left: 300px;
 //   word-wrap: break-word;
 // `;
+const BacDiv = styled.div`
+  width: 100%;
+  height: 600px;
+  border: 1px solid #4885ed;
+  background-image: ${({ src }) => `url(${src})`};
+  background-repeat: repeat;
+`;
 
 const SCALE = 1.4;
 
@@ -23,6 +30,7 @@ export default class CnavasPage extends PureComponent {
     base64Img: '',
     fontSize: 30,
     canvasHeight: 100,
+    pavedSrc: '',
   };
   drawText = () => {
     const { fontSize, canvasHeight } = this.state;
@@ -69,8 +77,38 @@ export default class CnavasPage extends PureComponent {
     const base64 = canvas1.toDataURL('image/png', 1);
     this.setState({ base64Img: base64 });
   }
+  pavedText = () => {
+    const inlineCanvas = document.createElement('canvas');
+    const inlineCtx = inlineCanvas.getContext('2d');
+
+    inlineCanvas.width = 200;
+    inlineCanvas.height = 200;
+
+    inlineCtx.font = '24px katong';
+    inlineCtx.fillStyle = '#ff8140';
+    inlineCtx.fillRect(0, 0, 200, 200);
+
+    inlineCtx.fillStyle = '#fff';
+    inlineCtx.textAlign = 'center';
+    inlineCtx.textBaseline = 'top';
+    inlineCtx.fillText('邵佳', (inlineCanvas.width / 2), ((200 - (24 * SCALE)) / 2));
+
+    inlineCtx.translate(inlineCanvas.width / 2, inlineCanvas.height / 2);
+    inlineCtx.rotate(0.5);
+    inlineCtx.drawImage(
+      inlineCanvas,
+      -(inlineCanvas.width / 2),
+      -(inlineCanvas.height / 2)
+    );
+    inlineCtx.translate(0, 0);
+    inlineCtx.restore();
+
+    const base64 = inlineCanvas.toDataURL('image/png', 1);
+    console.log(base64);
+    this.setState({ pavedSrc: base64 });
+  }
   render() {
-    const { base64Img } = this.state;
+    const { base64Img, pavedSrc } = this.state;
     return (
       <div>
         {/* <div style={{ border: '1px solid red', width: 400, height: 200, overflow: 'hidden' }}>
@@ -82,8 +120,13 @@ export default class CnavasPage extends PureComponent {
         <Div>
           <Button type="primary" onClick={this.drawText}>简单文字</Button>
         </Div>
+        <Div>
+          <Button type="primary" onClick={this.pavedText}>平铺文字</Button>
+        </Div>
         <canvas id="myCanvas" width="400px" height="300px" style={{ border: '1px solid red', display: 'block' }} />
         <img src={base64Img} alt="" />
+        <img src={pavedSrc} alt="" />
+        <BacDiv src={pavedSrc}></BacDiv>
       </div>
     );
   }
