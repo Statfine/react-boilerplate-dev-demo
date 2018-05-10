@@ -52,6 +52,9 @@ export default class CnavasPage extends PureComponent {
        *  left 的时候原点再文字的左下角
        *  center  的时候原点再下居中
        * 因为文字有默认高度上的间距所以计算居中会麻烦
+       *  ctx.shadowOffsetX = 2;     //X轴阴影距离，负值表示往上，正值表示往下
+       *  ctx.shadowOffsetY = 2;     //Y轴阴影距离，负值表示往左，正值表示往右
+       *  ctx.shadowBlur = 2;
        */
       ctx.fillStyle = '#fff';
       ctx.textAlign = 'left';
