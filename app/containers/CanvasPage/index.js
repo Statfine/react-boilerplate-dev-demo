@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { Button } from 'antd';
+import ImageTest from './ImageTest';
 
 const Div = styled.div`
   display: flex;
@@ -89,21 +90,25 @@ export default class CnavasPage extends PureComponent {
 
     inlineCtx.font = '24px katong';
     inlineCtx.fillStyle = '#ff8140';
+    // inlineCtx.fillStyle = 'transparent';
     inlineCtx.fillRect(0, 0, 200, 200);
 
     inlineCtx.fillStyle = '#fff';
+    // inlineCtx.fillStyle = '#ff8140';
     inlineCtx.textAlign = 'center';
     inlineCtx.textBaseline = 'top';
     inlineCtx.fillText('邵佳', (inlineCanvas.width / 2), ((200 - (24 * SCALE)) / 2));
 
+    inlineCtx.save();
     inlineCtx.translate(inlineCanvas.width / 2, inlineCanvas.height / 2);
     inlineCtx.rotate(0.5);
+    // inlineCtx.fillText('邵佳', 0, 0); // 此处单独旋转
     inlineCtx.drawImage(
       inlineCanvas,
       -(inlineCanvas.width / 2),
       -(inlineCanvas.height / 2)
     );
-    inlineCtx.translate(0, 0);
+    // inlineCtx.translate(0, 0);
     inlineCtx.restore();
 
     const base64 = inlineCanvas.toDataURL('image/png', 1);
@@ -114,22 +119,25 @@ export default class CnavasPage extends PureComponent {
     const { base64Img, pavedSrc } = this.state;
     return (
       <div>
-        {/* <div style={{ border: '1px solid red', width: 400, height: 200, overflow: 'hidden' }}>
-          <div style={{ border: '1px solid yellow', width: 400, height: 200 }}>
-            <DivInput contentEditable="true"></DivInput>
-            <textarea contentEditable="true" style={{ border: '1px solid #4885ed', cursor: 'text', width: 200, height: 100, marginLeft: '300px', wordWrap: 'break-word' }}></textarea>
-          </div>
-        </div> */}
-        <Div>
-          <Button type="primary" onClick={this.drawText}>简单文字</Button>
-        </Div>
-        <Div>
-          <Button type="primary" onClick={this.pavedText}>平铺文字</Button>
-        </Div>
-        <canvas id="myCanvas" width="400px" height="300px" style={{ border: '1px solid red', display: 'block' }} />
-        <img src={base64Img} alt="" />
-        <img src={pavedSrc} alt="" />
-        <BacDiv src={pavedSrc}></BacDiv>
+        <div style={{ display: 'block' }}>
+          {/* <div style={{ border: '1px solid red', width: 400, height: 200, overflow: 'hidden' }}>
+            <div style={{ border: '1px solid yellow', width: 400, height: 200 }}>
+              <DivInput contentEditable="true"></DivInput>
+              <textarea contentEditable="true" style={{ border: '1px solid #4885ed', cursor: 'text', width: 200, height: 100, marginLeft: '300px', wordWrap: 'break-word' }}></textarea>
+            </div>
+          </div> */}
+          <Div>
+            <Button type="primary" onClick={this.drawText}>简单文字</Button>
+          </Div>
+          <Div>
+            <Button type="primary" onClick={this.pavedText}>平铺文字</Button>
+          </Div>
+          <canvas id="myCanvas" width="400px" height="300px" style={{ border: '1px solid red', display: 'block' }} />
+          <img src={base64Img} alt="" />
+          <img src={pavedSrc} alt="" />
+          <BacDiv src={pavedSrc}></BacDiv>
+        </div>
+        <ImageTest />
       </div>
     );
   }
