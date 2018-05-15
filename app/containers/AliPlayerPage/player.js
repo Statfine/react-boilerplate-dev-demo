@@ -38,7 +38,7 @@ class Player extends PureComponent {
     console.log('id:', this.props.playId);
     return (
       <div>
-        <div id={this.props.playId} />
+        <div className="prism-player" id={this.props.playId} />
       </div>
     );
   }
