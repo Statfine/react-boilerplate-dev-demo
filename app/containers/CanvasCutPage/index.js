@@ -99,12 +99,13 @@ export default class MosaicPage extends PureComponent {
     this.setState({ srtThree: cover });
   }
 
+  // 'http://123.206.18.31/static/video/v1.png'
   render() {
     const { srt, srtTwo, srtThree, srtFour, item } = this.state;
     return (
       <div>
         <DIV>
-          <img style={{ width: 852, height: 480 }} id="div1" src={T} alt="" />
+          <img crossOrigin="Anonymous" style={{ width: 852, height: 480 }} id="div1" src={T} alt="" />
         </DIV>
         <div onClick={() => this.canvasImgDiv()}>等比获取截图</div>
         <img src={srt} alt="" />
