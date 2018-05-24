@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Button } from 'antd';
 import ImageJpg from './testimage.jpg';
 import QRPng from './qrcode.png';
 
@@ -130,8 +131,8 @@ export default class ImageCanvas extends PureComponent {
   render() {
     return (
       <div>
-        <div onClick={this.handleSrc}>get</div>
-        <img ref={(ref) => { this.img = ref; }} id="tulip" src={ImageJpg} alt="The Tulip" />
+        <div><Button type="primary" onClick={this.handleSrc}>设置</Button></div>
+        <img ref={(ref) => { this.img = ref; }} id="tulip" crossOrigin="Anonymous" src={ImageJpg} alt="The Tulip" />
         <img src={this.state.src} alt="The Tulip" />
       </div>
     );

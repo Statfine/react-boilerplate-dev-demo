@@ -119,7 +119,7 @@ export default class CnavasPage extends PureComponent {
     const { base64Img, pavedSrc } = this.state;
     return (
       <div>
-        <div style={{ display: 'block' }}>
+        <div style={{ display: 'none' }}>
           {/* <div style={{ border: '1px solid red', width: 400, height: 200, overflow: 'hidden' }}>
             <div style={{ border: '1px solid yellow', width: 400, height: 200 }}>
               <DivInput contentEditable="true"></DivInput>

@@ -19,6 +19,7 @@ import EChartPage from '../EChartPage/Loadable';
 import WavePage from '../WavesurferPage/Loadable';
 import ComPage from '../ComPage';
 import CanvasPage from '../CanvasPage/Loadable';
+import CanvasCutPage from '../CanvasCutPage/Loadable';
 import SubtitlePage from '../SubtitlePage';
 
 const AppWrapper = styled.div`
@@ -101,6 +102,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('dnd')} selected={location.pathname.startsWith('/dashboard/dnd')}>拖动</P>
             <P onClick={() => this.onJump('comPage')} selected={location.pathname.startsWith('/dashboard/comPage')}>comPage</P>
             <P onClick={() => this.onJump('canvas')} selected={location.pathname.startsWith('/dashboard/canvas')}>Canvas</P>
+            <P onClick={() => this.onJump('canvasCut')} selected={location.pathname.startsWith('/dashboard/canvasCut')}>CanvasCut</P>
             <P onClick={() => this.onJump('subtitle')} selected={location.pathname.startsWith('/dashboard/subtitle')}>走字</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
@@ -122,6 +124,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/wavesurefer`} component={WavePage} />
               <Route path={`${this.props.match.path}/comPage`} component={ComPage} />
               <Route path={`${this.props.match.path}/canvas`} component={CanvasPage} />
+              <Route path={`${this.props.match.path}/canvasCut`} component={CanvasCutPage} />
               <Route path={`${this.props.match.path}/subtitle`} component={SubtitlePage} />
             </Switch>
           </RightNav>

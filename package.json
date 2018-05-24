@@ -166,7 +166,9 @@
       "no-undef": 0,
       "no-multi-str": 0,
       "no-nested-ternary": 0,
+      "no-restricted-properties": 0,
       "no-use-before-define": 0,
+      "no-return-assign": 0,
       "prefer-template": 2,
       "react/forbid-prop-types": 0,
       "react/jsx-first-prop-new-line": [
