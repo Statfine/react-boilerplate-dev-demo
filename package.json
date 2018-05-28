@@ -259,6 +259,7 @@
     "chalk": "2.3.0",
     "compression": "1.7.1",
     "cross-env": "5.1.1",
+    "dom-to-image": "^2.6.0",
     "echarts": "^4.0.1",
     "echarts-for-react": "^2.0.4",
     "empty-module": "0.0.2",

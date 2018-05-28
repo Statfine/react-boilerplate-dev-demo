@@ -73,6 +73,7 @@ class AntdPage extends PureComponent {
     step: 0,
   };
 
+  // this.emailInput.input.focus();
   onChangeS = (value) => {
     console.log('onChange ', value, arguments);
     this.setState({ value });

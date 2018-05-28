@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { BasePage } from 'containers/BasePage';
+import AutoText from './AutoText';
+import ClipPath from './ClipPath';
 
 const Div = styled.div`
   width: 100px;
@@ -107,6 +109,13 @@ class CssPage extends PureComponent {
             <div style={{ height: 200, background: '#4885ed' }}></div>
           </List>
         </Tog>
+        <p style={{ fontSize: '28px', color: 'red' }}>文本大小自适应容器</p>
+        <AutoText text="123213" />
+        <AutoText text="hello word hello word hello word hello word hello word hello word hello word hello word hello word" />
+        <AutoText text="123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213" />
+        <AutoText text="Hello , I am Mofei. Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei" />
+        <p style={{ fontSize: '28px', color: 'red' }}> clip-pathn裁剪属性</p>
+        <ClipPath />
       </div>
     );
   }
