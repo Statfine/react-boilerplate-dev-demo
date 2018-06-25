@@ -110,7 +110,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
           </LeftNav>
           <RightNav>
             <Switch>
-              <Route exact path={this.props.match.url} render={() => (<h3>Please select a topic.</h3>)} />
+              <Route exact path={this.props.match.url} render={() => (<div><h3>Demo Dashboard</h3><P onClick={() => this.props.history.push('dashboardError')}>Error Dashboard</P></div>)} />
               <Route path={`${this.props.match.path}/antd`} component={AntdPage} />
               <Route path={`${this.props.match.path}/one`} component={ListOnePage} />
               <Route path={`${this.props.match.path}/two`} component={ListTwoPage} />

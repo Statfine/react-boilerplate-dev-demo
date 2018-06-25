@@ -17,6 +17,7 @@ import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
+import DashboardError from 'containers/DashboardError/Loadable';
 import AuthLoginPage from 'containers/AuthLoginPage/Loadable';
 import WeiChatPage from '../WeiChatPage';
 
@@ -39,7 +40,7 @@ class App extends React.Component {
     return { history: this.props.history }; // history  依赖withRouter
   }
   componentWillMount() {
-    this.pavedText();
+    // this.pavedText();
   }
 
   pavedText = () => {
@@ -86,6 +87,7 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/" component={Authentication(HomePage)} />
           <Route path="/dashboard" component={Authentication(Dashboard)} />
+          <Route path="/dashboardError" component={Authentication(DashboardError)} />
           <Route path="/login" component={AuthLoginPage} />
           <Route path="/features" component={Authentication(FeaturePage)} />
           <Route path="/weichat" component={WeiChatPage} />
