@@ -1,0 +1,29 @@
+.demo-editor {
+  height: 275px !important;
+  border: 1px solid #F1F1F1 !important;
+  border-radius: 2px !important;
+  background: #fff;
+}
+
+.demo-content {
+  border: 1px solid #F1F1F1;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  border-radius: 2px;
+  resize: none;
+  height: 200px;
+}
+
+.public-DraftStyleDefault-block {
+  margin: 0;
+}
+
+.rdw-image-imagewrapper img {
+  max-width: 450px!important;
+}
+
+.rdw-image-center {
+  display: flex;
+  justify-content: left;
+}
