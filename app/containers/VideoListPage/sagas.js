@@ -3,18 +3,32 @@ import { delay } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 // Individual exports for testing
 import { CHANGE_PAGINATION, CHANGE_FILTER_PARAMS, RETRY_VIDEOS, FETCH_VIDEO_STATE, CANCEL_FETCH_VIDEO_STATE_ROOL, FETCH_VIDEO } from './constants';
-import { retryVideosSuccessActions, retryVideosFailureActions,
+import {
+  retryVideosSuccessActions, retryVideosFailureActions,
   fetchVideoStateSuccess, fetchVideoStateFailure, fetchVideoState, cancelFetchVideoState,
   fetchVideoSuc, fetchVideoFail, fetchVideo,
 } from './actions';
 import { selectPagination, selectFilterParams, selectList } from './selectors';
-import { fetchUserVideos, fetchUserVideosActions,
-  DELETE_VIDEO, deleteVideo, deleteVideoActions, retryVideos, fetchVideoStateApi } from './api';
+import {
+  fetchUserVideos, fetchUserVideosActions,
+  DELETE_VIDEO, deleteVideo, deleteVideoActions, retryVideos, fetchVideoStateApi, fetchJson, fetchJsonTwo,
+} from './api';
 
 let cancelRool = {};
 
 export function* fetchUserVideosWatcher() {
-  yield takeLatest(FETCH_VIDEO, fetchUserVideosSaga);
+  yield takeLatest(FETCH_VIDEO, fetchJSON);
+}
+
+export function* fetchJSON() {
+  try {
+    const json = yield call(fetchJson, 'http://123.206.18.31/static/mock.json');
+    console.log(json);
+    const jsonTwo = yield call(fetchJsonTwo, 'http://cloud-clip-out.oss-cn-hangzhou.aliyuncs.com/tracking/edc4353f-055b-4ee0-9938-8780e9270daa/5a21b61c-9537-4a25-b6d7-790ef6e723d7.json');
+    console.log(jsonTwo);
+  } catch (error) {
+    //
+  }
 }
 
 export function* deleteVideoWatcher() {
@@ -150,16 +164,5 @@ function* retryVideosWatcher() {
   yield fork(changePaginationWatcher);
   yield fork(deleteVideoWatcher);
 }
-
-// All sagas to be loaded
-// export default [
-//   fetchUserVideosWatcher,
-//   fetchVideoStateWatcher,
-//   cancelCancelRoolWather,
-//   changeFilterParamsWatcher,
-//   changePaginationWatcher,
-//   deleteVideoWatcher,
-//   retryVideosWatcher,
-// ];
 
 export default retryVideosWatcher;
