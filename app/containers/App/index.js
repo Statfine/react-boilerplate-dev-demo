@@ -13,12 +13,13 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
-import HomePage from 'containers/HomePage/Loadable';
+// import HomePage from 'containers/HomePage/Loadable';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
 import DashboardError from 'containers/DashboardError/Loadable';
 import AuthLoginPage from 'containers/AuthLoginPage/Loadable';
+import VideoMosaicPage from 'containers/VideoMosaicPage/Loadable';
 import WeiChatPage from '../WeiChatPage';
 
 import Authentication from './Authentication';
@@ -85,12 +86,14 @@ class App extends React.Component {
           <meta name="description" content="A React.js Boilerplate application" />
         </Helmet>
         <Switch>
-          <Route exact path="/" component={Authentication(HomePage)} />
+          {/* <Route exact path="/" component={Authentication(HomePage)} /> */}
+          <Route exact path="/" component={VideoMosaicPage} />
           <Route path="/dashboard" component={Authentication(Dashboard)} />
           <Route path="/dashboardError" component={Authentication(DashboardError)} />
           <Route path="/login" component={AuthLoginPage} />
           <Route path="/features" component={Authentication(FeaturePage)} />
           <Route path="/weichat" component={WeiChatPage} />
+          <Route path="/video" component={VideoMosaicPage} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </AppWrapper>
