@@ -48,16 +48,16 @@ export const ImgContent = styled.div`
 `;
 
 export const VideoContent = styled.div`
-  width: 640px;
-  height: 360px;
+  width: 424px;
+  height: 326px;
   margin: 0 20px;
   display: block;
   position: relative;
 `;
 
 export const Video = styled.video`
-  width: 640px;
-  height: 360px;
+  width: 424px;
+  height: 326px;
 `;
 
 export const Select = styled.div`

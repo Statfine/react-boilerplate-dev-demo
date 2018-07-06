@@ -72,8 +72,9 @@ export class VideoMosaicPage extends React.PureComponent {
     const { slelectOriList } = this.props;
     if (flag) {
       const list = [];
+      const scale = 1;
       slelectOriList[index].map((item) => {
-        list.push({ id: guid(), imgIndex: index, st: item[0], et: item[1], x: item[2] / 2, y: item[3] / 2, w: item[4] / 2, h: item[5] / 2 });
+        list.push({ id: guid(), imgIndex: index, st: item[0], et: item[1], x: item[2] / scale, y: item[3] / scale, w: item[4] / scale, h: item[5] / scale });
         return list;
       });
       const choosedImgIndexMosaicList = this.state.choosedImgIndexMosaicList.concat(list);

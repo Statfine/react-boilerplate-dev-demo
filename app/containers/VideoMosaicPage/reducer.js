@@ -9,13 +9,13 @@ import * as con from './constants';
 
 const initialState = fromJS({
   videoInfo: {
-    projectId: '6c28bc7d-83e6-4e2b-bb45-ca6fd473287c',
-    detailId: '14254',
-    src: 'https://cloud-clip-out.oss-cn-hangzhou.aliyuncs.com/vod-out/hd/d52270d2-be15-48ca-a9e2-497437486b67.mp4',
+    projectId: '59d1f664-72a3-4cb4-ab99-0c65026b3c52',
+    detailId: '14519',
+    src: 'https://cloud-clip-out.oss-cn-hangzhou.aliyuncs.com/vod-out/hd/d8a9128d-e2e7-454b-a112-a466f4c2ba89.mp4?_s=1530690690',
   },
   mediaInfo: {
-    width: 1280,
-    height: 720,
+    width: 464,
+    height: 326,
     duration: 17.8,
     size: 11604246,
   },
