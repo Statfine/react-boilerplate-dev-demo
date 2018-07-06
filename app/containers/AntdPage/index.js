@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Slider, Icon, Button, Select, TreeSelect, Row, Col, Modal, Steps } from 'antd';
+import { Slider, Icon, Button, Select, TreeSelect, Row, Col, Modal, Steps, Input } from 'antd';
 import { BasePage } from 'containers/BasePage';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -64,6 +64,7 @@ const treeData = [{
     key: '0-1-2',
   }],
 }];
+const Search = Input.Search;
 
 class AntdPage extends PureComponent {
   state = {
@@ -229,6 +230,11 @@ class AntdPage extends PureComponent {
           </div>
 
         </Modal>
+        <Search
+          placeholder="input search text"
+          onSearch={(value) => console.log(value)}
+          style={{ width: 200 }}
+        />
       </div>
     );
   }
