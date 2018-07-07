@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
-import VideoContext from 'videocontext';
+// import VideoContext from 'videocontext';
+// import VideoContext from 'plugins/VideoContext/videocontext.commonjs2';
+import VideoContext from 'plugins/VideoContext0.52.1/videocontext';
 
 /*
   * 基础
@@ -36,8 +38,8 @@ export default class BbcVideo extends PureComponent {
   *  startAt 再绝对时间的开始时间    stopAt再绝对时间的结束时间
   */
   init = () => {
-    const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false });
-    // 再绝对时间是的 0秒开始  10秒结束
+    // 绝对时间是 0秒开始  10秒结束
+    const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false, playbackRate: 1 });
     node.startAt(0);
     node.stopAt(15);
     console.log(`Duration: ${this.ctx.duration}`);
