@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BasePage } from 'containers/BasePage';
 import AutoText from './AutoText';
 import ClipPath from './ClipPath';
+import RagsCom from './TagsCom';
 
 const Div = styled.div`
   width: 100px;
@@ -12,7 +13,7 @@ const Div = styled.div`
   background: #4885ed;
 `;
 
-const DivTwo = styled(Div)`
+const DivTwo = styled(Div) `
   width: 200px;
   width: 200px;
 `;
@@ -83,39 +84,47 @@ class CssPage extends PureComponent {
     }
   }
 
+  renderTest = () => (
+    <div>
+      <Div>cssPage</Div>
+      <DivTwo>cssPage</DivTwo>
+      <button onClick={this.handeToggle}>Toggle</button>
+      <div id="demo" style={{ background: 'red', maxHeight: 0, margin: 0, overflow: 'hidden' }}>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+        <div>1</div>
+      </div>
+      <Tog>
+        <button onClick={this.handeToggleTwo}>Toggle</button>
+        <List id="demoTwo">
+          <div style={{ height: 200, background: '#4885ed' }}></div>
+        </List>
+      </Tog>
+      <p style={{ fontSize: '28px', color: 'red' }}>文本大小自适应容器</p>
+      <AutoText text="123213" />
+      <AutoText text="hello word hello word hello word hello word hello word hello word hello word hello word hello word" />
+      <AutoText text="123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213" />
+      <AutoText text="Hello , I am Mofei. Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei" />
+      <p style={{ fontSize: '28px', color: 'red' }}> clip-pathn裁剪属性</p>
+      <ClipPath />
+    </div>
+  )
+
+  renderTags = () => <div><RagsCom /></div>;
+
   render() {
     return (
       <div>
-        <Div>cssPage</Div>
-        <DivTwo>cssPage</DivTwo>
-        <button onClick={this.handeToggle}>Toggle</button>
-        <div id="demo" style={{ background: 'red', maxHeight: 0, margin: 0, overflow: 'hidden' }}>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-          <div>1</div>
-        </div>
-        <Tog>
-          <button onClick={this.handeToggleTwo}>Toggle</button>
-          <List id="demoTwo">
-            <div style={{ height: 200, background: '#4885ed' }}></div>
-          </List>
-        </Tog>
-        <p style={{ fontSize: '28px', color: 'red' }}>文本大小自适应容器</p>
-        <AutoText text="123213" />
-        <AutoText text="hello word hello word hello word hello word hello word hello word hello word hello word hello word" />
-        <AutoText text="123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213123213" />
-        <AutoText text="Hello , I am Mofei. Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei Hello , I am Mofei" />
-        <p style={{ fontSize: '28px', color: 'red' }}> clip-pathn裁剪属性</p>
-        <ClipPath />
+        {this.renderTags()}
       </div>
     );
   }
