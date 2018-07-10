@@ -37,7 +37,9 @@ export default class BbcVideo extends PureComponent {
   */
   init = () => {
     // 绝对时间是 0秒开始  10秒结束
-    const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false, playbackRate: 1 });
+    const playRate = 1; // 0.5 2
+    this.ctx.playbackRate = playRate;
+    const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false, playbackRate: playRate });
     node.startAt(0);
     node.stopAt(15);
     console.log(`Duration: ${this.ctx.duration}`);

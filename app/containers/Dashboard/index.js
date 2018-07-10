@@ -23,6 +23,7 @@ import CanvasCutPage from '../CanvasCutPage/Loadable';
 import CanvasHtmlPage from '../CanvasHtmlPage/Loadable';
 import SubtitlePage from '../SubtitlePage';
 import RichEditorPage from '../RichEditorPage/Loadable';
+import VideoCanvas from '../VideoCanvasPage';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -108,6 +109,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('canvasHtml')} selected={location.pathname.startsWith('/dashboard/canvasHtml')}>Html2Canvas</P>
             <P onClick={() => this.onJump('subtitle')} selected={location.pathname.startsWith('/dashboard/subtitle')}>走字</P>
             <P onClick={() => this.onJump('rich')} selected={location.pathname.startsWith('/dashboard/richEditor')}>富文本</P>
+            <P onClick={() => this.onJump('videoCnavas')} selected={location.pathname.startsWith('/dashboard/videoCnavas')}>canvas画video</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
           <RightNav>
@@ -132,6 +134,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/canvasHtml`} component={CanvasHtmlPage} />
               <Route path={`${this.props.match.path}/subtitle`} component={SubtitlePage} />
               <Route path={`${this.props.match.path}/rich`} component={RichEditorPage} />
+              <Route path={`${this.props.match.path}/videoCnavas`} component={VideoCanvas} />
             </Switch>
           </RightNav>
         </AppWrapper>
