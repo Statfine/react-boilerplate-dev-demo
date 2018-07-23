@@ -235,6 +235,8 @@ class AntdPage extends PureComponent {
           onSearch={(value) => console.log(value)}
           style={{ width: 200 }}
         />
+        <Input placeholder="Basic usage" ref={(ref) => { this.antdInput = ref; }} />
+        <Button type="primary" onClick={() => this.antdInput.input.focus()}>输入框聚焦</Button>
       </div>
     );
   }
