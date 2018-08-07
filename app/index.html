@@ -24,8 +24,15 @@
     <script type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.5.0/aliplayer-min.js"></script> -->
     <link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.6.0/skins/default/aliplayer-min.css" />
     <script type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.6.0/aliplayer-min.js"></script>
+    <script src="https://cdn.ravenjs.com/3.24.0/raven.min.js" crossorigin="anonymous"></script>
     <link rel="icon" href="/favicon.ico" />
     <title>Sj Web</title>
+    <script>
+      Raven.config('https://35605efb42a644b5bd9fd2fa54d70b26@sentry.io/1257399', {
+        release: '0-0-0',
+        environment: 'development-test',
+      }).install()
+     </script>
   </head>
   <body>
     <!-- Display a message if JS has been disabled on the browser. -->

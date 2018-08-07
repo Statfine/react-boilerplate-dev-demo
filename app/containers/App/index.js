@@ -42,6 +42,13 @@ class App extends React.Component {
   }
   componentWillMount() {
     // this.pavedText();
+    window.addEventListener('error', (message, url, line, column, error) => {
+      console.log('window onError', message, url, line, column, error);
+    });
+  }
+
+  componentDidCatch(error, info) {
+    console.log('componentDidCatch', error, info);
   }
 
   pavedText = () => {

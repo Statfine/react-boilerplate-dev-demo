@@ -80,6 +80,10 @@ class AntdPage extends PureComponent {
     this.setState({ value });
   }
 
+  componentDidCatch(error, info) {
+    console.log('componentDidCatch', error, info);
+  }
+
   handleOpen = () => {
     this.setState({ open: true });
   };
@@ -100,7 +104,7 @@ class AntdPage extends PureComponent {
 
   showModal = () => {
     this.setState({
-      visible: true,
+      visible: flag,
     });
   }
   handleOk = () => {
@@ -148,6 +152,7 @@ class AntdPage extends PureComponent {
         <Icon type="step-backward" />
         <AntdBtn type="primary" icon="download" size="large">Download</AntdBtn>
         <RaisedButton label="Dialog" onClick={this.handleOpen} />
+        {/* <ShowHaha>1</ShowHaha> */}
         <Dialog
           modal
           open={this.state.open}
