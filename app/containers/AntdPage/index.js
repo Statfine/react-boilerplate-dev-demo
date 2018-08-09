@@ -23,6 +23,27 @@ const AntdBtn = styled(Button) `
   height: 100px;
 `;
 
+const Ul = styled.ul`
+  width:130px;
+  height:120px;
+  padding:10px 3px;
+  background:#fff;
+  border:#ACA899 1px solid;
+  display: ${({ position }) => `${position.display}`};;
+  position:absolute;
+  left: ${({ position }) => `${position.left}px`};
+  top: ${({ position }) => `${position.top}px`};;
+  > li {
+    width:130px;
+    height:28px;
+    line-height:28px;
+    font-size:14px;
+    border-bottom:#ACA899 1px dashed;
+    text-align:center;
+    list-style:none;
+  }
+`;
+
 const muiTheme = getMuiTheme({
   slider: {
     primary1Color: '#ffffff',
@@ -72,7 +93,23 @@ class AntdPage extends PureComponent {
     value: 0,
     visible: false,
     step: 0,
+    uiStyle: {
+      left: 0,
+      top: 0,
+      display: 'none',
+    },
   };
+
+  componentDidMount() {
+    window.addEventListener('click', this.handleWindowClick);
+    window.addEventListener('contextmenu', this.onContextMenu);
+  }
+
+  onContextMenu = (ev) => {
+    console.log(ev.target.nodeName);
+    if (ev.target.nodeName === 'VIDEO' || ev.target.nodeName === 'IMG') return ev.preventDefault();
+    return true;
+  }
 
   // this.emailInput.input.focus();
   onChangeS = (value) => {
@@ -82,6 +119,11 @@ class AntdPage extends PureComponent {
 
   componentDidCatch(error, info) {
     console.log('componentDidCatch', error, info);
+  }
+
+  handleWindowClick = () => {
+    const uiStyle = { left: 0, top: 0, display: 'none' };
+    this.setState({ uiStyle });
   }
 
   handleOpen = () => {
@@ -130,6 +172,15 @@ class AntdPage extends PureComponent {
     });
   }
 
+  handleMenu = (e) => {
+    const ev = e || window.event;
+    const l = ev.clientX;
+    const t = ev.clientY + document.documentElement.scrollTop;
+    const uiStyle = { left: l, top: t, display: 'block' };
+    this.setState({ uiStyle });
+    e.preventDefault();
+  }
+
   render() {
     const tProps = {
       treeData,
@@ -143,7 +194,7 @@ class AntdPage extends PureComponent {
         width: 300,
       },
     };
-    const { step } = this.state;
+    const { step, uiStyle } = this.state;
 
     return (
       <div style={{ width: 600, margin: '0 auto' }}>
@@ -242,6 +293,15 @@ class AntdPage extends PureComponent {
         />
         <Input placeholder="Basic usage" ref={(ref) => { this.antdInput = ref; }} />
         <Button type="primary" onClick={() => this.antdInput.input.focus()}>输入框聚焦</Button>
+        <div onContextMenu={this.handleMenu} style={{ width: '100%', height: '300px', background: 'red' }}>
+          hah
+        </div>
+        <Ul position={uiStyle}>
+          <li>自定义右键菜单</li>
+          <li>自定义右键菜单</li>
+          <li>自定义右键菜单</li>
+          <li>自定义右键菜单</li>
+        </Ul>
       </div>
     );
   }
