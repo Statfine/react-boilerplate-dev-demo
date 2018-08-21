@@ -14,6 +14,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 // import 'antd/lib/icon/style/css';
 
 import styled from 'styled-components';
+
+import Example from './Example';
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
 // import './slelect.css';
@@ -98,6 +100,7 @@ class AntdPage extends PureComponent {
       top: 0,
       display: 'none',
     },
+    flag: false,
   };
 
   componentDidMount() {
@@ -302,6 +305,8 @@ class AntdPage extends PureComponent {
           <li>自定义右键菜单</li>
           <li>自定义右键菜单</li>
         </Ul>
+        <div onClick={() => this.setState({ flag: !this.state.flag })}>Falg</div>
+        <Example flag={this.state.flag} />
       </div>
     );
   }
