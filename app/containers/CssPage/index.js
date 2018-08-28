@@ -27,6 +27,17 @@ overflow: hidden;
 height: 0;
 `;
 
+const OverFlowDiv = styled.div`
+  width: 200px;
+  height: 300px;
+  border: 1px solid #e3e3e3;
+`;
+
+const Iner = styled.div`
+  height: 100px;
+  border-bottom: 1px solid #4885ed;
+`;
+
 // const HeaderJump = styled.div`
 //   margin-left: 30px;
 //   display: flex;
@@ -84,6 +95,10 @@ class CssPage extends PureComponent {
     }
   }
 
+  handleOnWhell = (e) => {
+    console.log(e.deltaX);
+  }
+
   renderTest = () => (
     <div>
       <Div>cssPage</Div>
@@ -121,10 +136,20 @@ class CssPage extends PureComponent {
 
   renderTags = () => <div><RagsCom /></div>;
 
+  renderOverFloss = () => <OverFlowDiv id="content" onWheel={this.handleOnWhell}>
+    <Iner>1</Iner>
+    <Iner>2</Iner>
+    <Iner>3</Iner>
+    <Iner>4</Iner>
+    <Iner>5</Iner>
+    <Iner>6</Iner>
+  </OverFlowDiv>
+
   render() {
     return (
       <div>
         {this.renderTags()}
+        {this.renderOverFloss()}
       </div>
     );
   }

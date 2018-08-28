@@ -32,6 +32,13 @@ export default class MosaicPage extends PureComponent {
     //
   }
 
+  componentDidMount() {
+    document.body.style.userSelect = 'none';
+    document.body.style.webkitUserSelect = 'none';
+    document.body.style.msUserSelect = 'none';
+    document.body.style.mozUserSelect = 'none';
+  }
+
   canvasImgDiv = () => {
     const canvas = document.createElement('canvas');
     const image = document.getElementById('div1');
