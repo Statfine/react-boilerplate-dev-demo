@@ -25,6 +25,7 @@ import SubtitlePage from '../SubtitlePage';
 import RichEditorPage from '../RichEditorPage/Loadable';
 import VideoCanvas from '../VideoCanvasPage';
 import ClipboardPage from '../ClipboardPage';
+import DndNinePage from '../DndNinePage/Loadable';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -104,6 +105,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('echart')} selected={location.pathname.startsWith('/dashboard/echart')}>Echart</P>
             <P onClick={() => this.onJump('wavesurefer')} selected={location.pathname.startsWith('/dashboard/wavesurefer')}>波形</P>
             <P onClick={() => this.onJump('dnd')} selected={location.pathname.startsWith('/dashboard/dnd')}>拖动</P>
+            <P onClick={() => this.onJump('dragnine')} selected={location.pathname.startsWith('/dashboard/dragnine')}>九格宫</P>
             <P onClick={() => this.onJump('comPage')} selected={location.pathname.startsWith('/dashboard/comPage')}>comPage</P>
             <P onClick={() => this.onJump('canvas')} selected={location.pathname.startsWith('/dashboard/canvas')}>Canvas</P>
             <P onClick={() => this.onJump('canvasCut')} selected={location.pathname.startsWith('/dashboard/canvasCut')}>CanvasCut</P>
@@ -125,6 +127,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/cut`} component={CutPage} />
               <Route path={`${this.props.match.path}/bbc`} component={BBCVideoContextPage} />
               <Route path={`${this.props.match.path}/dnd`} component={DndPage} />
+              <Route path={`${this.props.match.path}/dragnine`} component={DndNinePage} />
               <Route path={`${this.props.match.path}/css`} component={CssPage} />
               <Route path={`${this.props.match.path}/ref`} component={RefPage} />
               <Route path={`${this.props.match.path}/ali`} component={AliPlayerPage} />
