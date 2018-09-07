@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import styled from 'styled-components';
 import { BasePage } from 'containers/BasePage';
+import { Helmet } from 'react-helmet';
 import BbcVideo from './VideoPage';
 import BbcImage from './ImagePage';
 import VideoAndVideo from './VideoAndVideo';
@@ -45,6 +46,7 @@ class BbcPage extends PureComponent {
   render() {
     return (
       <div>
+        <Helmet title="Videocontext页面" />
         <a href="http://123.206.18.31/static/video/v1.mp4" download="w3logo">download</a>
         <div>
           <Btn size="large" type="primary" choosed={this.state.index === 1} onClick={() => this.setState({ index: 1 })}>单个视频</Btn>

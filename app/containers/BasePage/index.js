@@ -13,9 +13,18 @@ export const BasePage = (ComposedComponent) => class extends PureComponent {
     NProgress.start();
   }
 
+  componentDidUpdate() {
+    console.log('componentDidUpdate:', document.title);
+  }
+
   componentDidMount() {
     NProgress.done();
     this.saStartTime = new Date();
+
+    console.log('componentDidMount:', document.title);
+    // _paq.push(['setCustomUrl', window.location.href]);
+    // _paq.push(['setDocumentTitle', document.title]);
+    // _paq.push(['trackPageView']);
   }
 
   componentWillUnmount() {

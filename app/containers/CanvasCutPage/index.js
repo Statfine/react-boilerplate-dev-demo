@@ -4,6 +4,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import Transformable from 'components/Transformable';
+import { Helmet } from 'react-helmet';
 import T from './test1.jpg';
 
 const DIV = styled.div`
@@ -111,6 +112,7 @@ export default class MosaicPage extends PureComponent {
     const { srt, srtTwo, srtThree, srtFour, item } = this.state;
     return (
       <div>
+        <Helmet title="Canvas 裁剪" />
         <DIV>
           <img crossOrigin="Anonymous" style={{ width: 852, height: 480 }} id="div1" src={T} alt="" />
         </DIV>

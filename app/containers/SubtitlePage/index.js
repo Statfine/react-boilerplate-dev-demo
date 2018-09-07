@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { Container, VideoContent, SubtitleContent, ImgAd } from './styled';
 import SubtitleItem from './SubtitleItem';
 import Marquee from './Marquee';
@@ -86,6 +87,7 @@ export default class SubtitlePage extends React.PureComponent { // eslint-disabl
     const { src, subtitle, currentTime, marqueeObj, showImg, showImgHref } = this.state;
     return (
       <Container>
+        <Helmet title="走字demo" />
         <VideoContent>
           <video
             ref={(c) => { this.video = c; }}

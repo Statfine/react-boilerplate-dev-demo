@@ -45,6 +45,12 @@ class App extends React.Component {
     window.addEventListener('error', (message, url, line, column, error) => {
       console.log('window onError', message, url, line, column, error);
     });
+    // window.addEventListener('hashchange', () => {
+    //   console.log(document.title);
+    //   _paq.push(['setCustomUrl', `/${window.location.hash.substr(1)}`]);
+    //   _paq.push(['setDocumentTitle', document.title]);
+    //   _paq.push(['trackPageView']);
+    // });
   }
 
   componentDidCatch(error, info) {

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { BasePage } from 'containers/BasePage';
+import { Helmet } from 'react-helmet';
 import AutoText from './AutoText';
 import ClipPath from './ClipPath';
 import RagsCom from './TagsCom';
@@ -148,6 +149,7 @@ class CssPage extends PureComponent {
   render() {
     return (
       <div>
+        <Helmet title="样式demo" />
         {this.renderTags()}
         {this.renderOverFloss()}
       </div>

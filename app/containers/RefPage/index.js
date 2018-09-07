@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import { BasePage } from 'containers/BasePage';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 
 import RefCom from './RefCom';
 import VideoListPage from '../VideoListPage';
@@ -10,6 +11,7 @@ const ListPage = styled(VideoListPage)`
 
 `;
 
+// withRef
 class RefPage extends PureComponent {
   state = {};
   handleClickListCom = () => {
@@ -20,6 +22,7 @@ class RefPage extends PureComponent {
   render() {
     return (
       <div>
+        <Helmet title="Ref demo" />
         <p>RefPage</p>
         <Button onClick={() => this.refCom.publickSetState('父元素设置了标题')}>点击设置RefCom title</Button>
         <Button onClick={() => this.refCom.publickClickBtn()}>点击RefCom的按钮</Button>

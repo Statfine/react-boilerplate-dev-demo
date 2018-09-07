@@ -87,7 +87,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
     return (
       <div>
         <Helmet
-          titleTemplate="SJ web"
+          title="SJ web"
         >
         </Helmet>
         <AppWrapper>

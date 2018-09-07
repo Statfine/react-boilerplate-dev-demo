@@ -19,6 +19,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/createBrowserHistory';
 // import 'typeface-roboto'; // eslint-disable-line
+// import PiwikReactRouter from 'piwik-react-router';
 
 import 'antd/dist/antd.less';
 import 'sanitize.css/sanitize.css';
@@ -49,6 +50,11 @@ import './global-styles';
 // the index.html file and this observer)
 const openSansObserver = new FontFaceObserver('Open Sans', {});
 
+// const piwik = PiwikReactRouter({
+//   url: 'http://matomo.clip.cn',
+//   siteId: 2,
+// });
+
 // When Open Sans is loaded, add a font-family using Open Sans to the body
 openSansObserver.load().then(() => {
   document.body.classList.add('fontLoaded');
@@ -67,6 +73,7 @@ const render = (messages) => {
     <MuiThemeProvider muiTheme={getMuiTheme(theme)}>
       <Provider store={store}>
         <LanguageProvider messages={messages}>
+          {/* <ConnectedRouter history={piwik.connectToHistory(history)}> */}
           <ConnectedRouter history={history}>
             <App />
           </ConnectedRouter>

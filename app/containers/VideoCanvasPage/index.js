@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 
 const Container = styled.div`
 `;
@@ -81,6 +82,7 @@ export default class VideoCanvaspage extends PureComponent {
     const { src, srcTwo } = this.state;
     return (
       <Container>
+        <Helmet title="Canvas 视频" />
         <div>
           <Button onClick={this.handlePlay}>requestAnimationFrame</Button>
           <Button onClick={this.handleCancelDrawVideo}>cancelAnimationFrame</Button>

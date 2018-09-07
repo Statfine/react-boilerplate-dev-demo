@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import TextField from 'material-ui/TextField';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet';
 import { BasePage } from 'containers/BasePage';
 import DivInput from 'components/DivInput';
 import FoldCom from 'components/FoldCom';
@@ -37,6 +38,9 @@ class DashboardOne extends PureComponent {
   componentWillMount() {
     // TODO
   }
+  componentDidMount() {
+    console.log('In componentDidMount:', document.title);
+  }
 
   handlegetChoosed = () => {
     console.log(Object.keys(DATA));
@@ -67,6 +71,9 @@ class DashboardOne extends PureComponent {
 
     return (
       <div>
+        <Helmet>
+          <title>一个列表</title>
+        </Helmet>
         {this.handlegetChoosed()}
         <p>DashboardOne 这是第一个子页面</p>
         <div

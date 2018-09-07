@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Slider, Icon, Button, Select, TreeSelect, Row, Col, Modal, Steps, Input } from 'antd';
 import { BasePage } from 'containers/BasePage';
+import { Helmet } from 'react-helmet';
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
@@ -23,6 +24,17 @@ const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 const AntdBtn = styled(Button) `
   width: 200px;
   height: 100px;
+`;
+
+const Btn = styled.div`
+  width: 100px;
+  height: 36px;
+  line-height: 36px;
+  &:hover{
+    cursor: pointer;
+    background: #fff;
+    color: #FF8140;
+  }
 `;
 
 const Ul = styled.ul`
@@ -201,6 +213,7 @@ class AntdPage extends PureComponent {
 
     return (
       <div style={{ width: 600, margin: '0 auto' }}>
+        <Helmet title="antd样式" />
         <div onClick={this.handlePromise}>antd修改主题  See： webpack</div>
         <Slider range defaultValue={[20, 50]} />
         <Icon type="step-backward" />
@@ -295,7 +308,19 @@ class AntdPage extends PureComponent {
           style={{ width: 200 }}
         />
         <Input placeholder="Basic usage" ref={(ref) => { this.antdInput = ref; }} />
-        <Button type="primary" onClick={() => this.antdInput.input.focus()}>输入框聚焦</Button>
+        <Button
+          type="primary"
+          onClick={() => {
+            this.fileInputEl.click();
+            // this.antdInput.input.focus();
+          }}
+        >输入框聚焦</Button>
+        <Btn
+          onClick={() => {
+            this.fileInputEl.click();
+            // this.antdInput.input.focus();
+          }}
+        >输入框聚焦</Btn>
         <div onContextMenu={this.handleMenu} style={{ width: '100%', height: '300px', background: 'red' }}>
           hah
         </div>
@@ -307,6 +332,16 @@ class AntdPage extends PureComponent {
         </Ul>
         <div onClick={() => this.setState({ flag: !this.state.flag })}>Falg</div>
         <Example flag={this.state.flag} />
+        <input
+          type="file"
+          multiple
+          style={{ display: 'none' }}
+          ref={(el) => (this.fileInputEl = el)}
+          onChange={(e) => {
+            this.handleUploadImages(e);
+            this.fileInputEl.value = '';
+          }}
+        />
       </div>
     );
   }

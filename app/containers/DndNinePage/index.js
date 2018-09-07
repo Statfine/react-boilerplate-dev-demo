@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { BasePage } from 'containers/BasePage';
+import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -128,6 +129,7 @@ class DndNinePage extends PureComponent {
     const { cards } = this.state;
     return (
       <div>
+        <Helmet title="九格宫" />
         <p>九格宫{this.state.show}</p>
         <Container>
           {

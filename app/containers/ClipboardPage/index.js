@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { BasePage } from 'containers/BasePage';
+import { Helmet } from 'react-helmet';
 import ClipboardJS from 'clipboard';
 import { Button, Input } from 'antd';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -45,6 +46,7 @@ class ClipboardPage extends PureComponent {
   render() {
     return (
       <div>
+        <Helmet title="剪切板" />
         <div>ClipboardPage</div>
         <Input placeholder="Basic usage" ref={(ref) => { this.antdInput = ref; }} />
         <Button className="btn" data-clipboard-text="1" ref={(ref) => { this.antdBtn = ref; }}>clipboard</Button>

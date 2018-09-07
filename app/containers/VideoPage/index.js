@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { BasePage } from 'containers/BasePage';
+import { Helmet } from 'react-helmet';
 // import 'jsmpeg';
 
 class VideLivePage extends PureComponent {
@@ -81,6 +82,7 @@ class VideLivePage extends PureComponent {
   render() {
     return (
       <div>
+        <Helmet title="直播页面" />
         <div id="video"></div>
         <video
           id="phonelivevideo"

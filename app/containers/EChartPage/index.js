@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { BasePage } from 'containers/BasePage';
+import { Helmet } from 'react-helmet';
 import './china';
 
 import { 柱状图, 折线图, 雷达图, 地图, 圆饼图, 漏斗图, 关系图, 玫瑰图 } from './data';
@@ -10,6 +11,7 @@ class EChartPage extends PureComponent {
   render() {
     return (
       <div>
+        <Helmet title="Echart demo" />
         <ReactEcharts
           option={柱状图}
           style={{ height: '330px', width: '100%' }}

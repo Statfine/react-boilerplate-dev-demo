@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Button } from 'antd';
+import { Helmet } from 'react-helmet';
 import { BasePage } from 'containers/BasePage';
 import styled from 'styled-components';
 import { DragDropContext } from 'react-dnd';
@@ -34,6 +35,7 @@ class DndPage extends PureComponent {
     const { index } = this.state;
     return (
       <div>
+        <Helmet title="DND拖拽" />
         <p>页面中多个拖拽组件， 不能分别DragDropContext， 只能在最上层添加</p>
         <div>
           <ChooseBtn size="large" type="primary" choosed={index === 1 ? '1' : '0'} onClick={() => this.setState({ index: 1 })}>拖动到区域</ChooseBtn>

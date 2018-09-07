@@ -4,6 +4,7 @@ import { BasePage } from 'containers/BasePage';
 import ReactTransitionGroup from 'react-transition-group/TransitionGroup';
 import styled, { keyframes } from 'styled-components';
 import 'react-tippy/dist/tippy.css';
+import { Helmet } from 'react-helmet';
 import { Tooltip } from 'react-tippy';
 import { Icon } from 'antd';
 import TimeInterval from './TimeInterval';
@@ -72,6 +73,7 @@ class CutPage extends PureComponent {
 
     return (
       <div>
+        <Helmet title="时间轴拖动" />
         <CutComtent show={!hidden}>
           <TimeInterval
             totalLength={parseInt(playBackInfo.length)}

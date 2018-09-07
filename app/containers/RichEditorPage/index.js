@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Helmet } from 'react-helmet';
 
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
@@ -208,6 +209,7 @@ export default class RichEditorPage extends PureComponent {
     const { editorState, text } = this.state;
     return (
       <div>
+        <Helmet title="富文本" />
         <Editor
           editorState={editorState}
           wrapperClassName="demo-wrapper"

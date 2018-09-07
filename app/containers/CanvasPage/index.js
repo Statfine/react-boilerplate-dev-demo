@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import { Button } from 'antd';
+import { Helmet } from 'react-helmet';
 import ImageTest from './ImageTest';
 
 const Div = styled.div`
@@ -119,6 +120,7 @@ export default class CnavasPage extends PureComponent {
     const { base64Img, pavedSrc } = this.state;
     return (
       <div>
+        <Helmet title="Canvas Demo" />
         <div style={{ display: 'none' }}>
           {/* <div style={{ border: '1px solid red', width: 400, height: 200, overflow: 'hidden' }}>
             <div style={{ border: '1px solid yellow', width: 400, height: 200 }}>
