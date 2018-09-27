@@ -26,6 +26,7 @@ import RichEditorPage from '../RichEditorPage/Loadable';
 import VideoCanvas from '../VideoCanvasPage';
 import ClipboardPage from '../ClipboardPage';
 import DndNinePage from '../DndNinePage/Loadable';
+import CarousePage from '../CarouselPage';
 
 const AppWrapper = styled.div`
   display: flex;
@@ -114,6 +115,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('rich')} selected={location.pathname.startsWith('/dashboard/richEditor')}>富文本</P>
             <P onClick={() => this.onJump('clipboard')} selected={location.pathname.startsWith('/dashboard/clipboard')}>粘贴板</P>
             <P onClick={() => this.onJump('videoCnavas')} selected={location.pathname.startsWith('/dashboard/videoCnavas')}>canvas画video</P>
+            <P onClick={() => this.onJump('carouse')} selected={location.pathname.startsWith('/dashboard/carouse')}>轮播图</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
           <RightNav>
@@ -141,6 +143,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/rich`} component={RichEditorPage} />
               <Route path={`${this.props.match.path}/videoCnavas`} component={VideoCanvas} />
               <Route path={`${this.props.match.path}/clipboard`} component={ClipboardPage} />
+              <Route path={`${this.props.match.path}/carouse`} component={CarousePage} />
             </Switch>
           </RightNav>
         </AppWrapper>
