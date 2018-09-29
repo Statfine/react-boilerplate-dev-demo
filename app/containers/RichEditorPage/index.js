@@ -181,7 +181,7 @@ export default class RichEditorPage extends PureComponent {
       editorState,
       text: draftToHtml(convertToRaw(editorState.getCurrentContent())),
     });
-    console.log(draftToHtml(convertToRaw(editorState.getCurrentContent())));
+    console.log(editorState, draftToHtml(convertToRaw(editorState.getCurrentContent())));
   };
   quill;
   handleUploadFile = (file) => {
@@ -235,6 +235,9 @@ export default class RichEditorPage extends PureComponent {
         />
         <div id="editor"></div>
         <div className="demo-editor" dangerouslySetInnerHTML={this.createMarkup(text)}></div>
+        <textarea
+          style={{ width: '200px', height: '100px', wordWrap: 'normal', overflow: 'hidden' }}
+        />
       </div>
     );
   }

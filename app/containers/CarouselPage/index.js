@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Helmet } from 'react-helmet';
 
 import { Container, SlideBox, Slide, Masking } from './styled';
 
@@ -86,6 +87,7 @@ export default class CarousePage extends PureComponent {
     const { dir } = this.state;
     return (
       <Container>
+        <Helmet title="轮播图" />
         <SlideBox>
           {dir.map((item, key) => (
             <Slide key={key} style={StyleSilder[item.name]}>

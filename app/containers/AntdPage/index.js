@@ -16,6 +16,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import styled from 'styled-components';
 
+import { eventStatisticsSearch } from '../../utils/statistics';
+
 import Example from './Example';
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
@@ -143,6 +145,7 @@ class AntdPage extends PureComponent {
 
   handleOpen = () => {
     this.setState({ open: true });
+    eventStatisticsSearch('open');
   };
 
   handleClose = () => {

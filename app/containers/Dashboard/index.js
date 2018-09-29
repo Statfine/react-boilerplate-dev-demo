@@ -28,6 +28,8 @@ import ClipboardPage from '../ClipboardPage';
 import DndNinePage from '../DndNinePage/Loadable';
 import CarousePage from '../CarouselPage';
 
+import { eventsStatistics } from '../../utils/statistics';
+
 const AppWrapper = styled.div`
   display: flex;
   height: 100%;
@@ -81,6 +83,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
   }
 
   onJump = (url) => {
+    eventsStatistics('jump', { url });
     this.props.history.push(`${this.props.match.path}/${url}`);
   }
 
