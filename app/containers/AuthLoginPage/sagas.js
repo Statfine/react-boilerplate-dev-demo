@@ -12,6 +12,9 @@ export function* watchAuthLogin() {
     try {
       const { name, password } = data.payload;
       const res = yield call(auth.login, name, password);
+      // 设置用户id， 获取用户信息设置一次
+      _paq.push(['setUserId', 'abc']);
+      _paq.push(['trackPageView']);
       yield put(userLoginSuc(res));
       yield put(push('/dashboard'));
     } catch (e) {

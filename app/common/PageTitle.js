@@ -1,3 +1,6 @@
+/**
+ * Helmet  异步执行，导致componentDidMount中获取不到最新的title
+ */
 export const PageTitle = {
   '/dashboard/one': '一个列表',
   '/dashboard/two': '两个列表',

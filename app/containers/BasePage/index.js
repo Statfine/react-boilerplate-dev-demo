@@ -51,10 +51,24 @@ export const BasePage = (ComposedComponent) => class extends PureComponent {
 
     const title = PageTitle[window.location.pathname] || '微博云剪';
     console.log('componentDidMount:', title);
+
+    /*
+     * Index, the number from 1 to 5 where this custom variable name is stored
+     * Name, the name of the variable, for example: Gender, VisitorType
+     * Value, for example: "Male", "Female" or "new", "engaged", "customer"
+     * Scope of the custom variable, "visit" means the custom variable applies to the current visit
+    */
+    if (title === '首页') {
+      _paq.push(['setCustomVariable', 3, 'Word', 'statfine', 'page']);
+      _paq.push(['trackPageView']);
+    }
+
     _paq.push(['setCustomUrl', window.location.href]);
     _paq.push(['setDocumentTitle', title]);
-    _paq.push(['addDownloadExtensions', 'mp4']);
+    // _paq.push(['setUserId', '321']);
     _paq.push(['trackPageView']);
+    _paq.push(['trackAllContentImpressions']); // 跟踪页面内的所有内容印象
+    _paq.push(['enableLinkTracking']); // It is recommended to add this line just after the first call to trackPageView or trackEvent.
   }
 
   componentWillUnmount() {

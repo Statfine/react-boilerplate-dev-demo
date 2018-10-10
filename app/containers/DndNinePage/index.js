@@ -168,7 +168,7 @@ class DndNinePage extends PureComponent {
   render() {
     const { cards } = this.state;
     return (
-      <div>
+      <div data-track-content data-content-name="九格宫Name" data-content-piece="九格宫Piece">
         <Helmet title="九格宫" />
         <p>九格宫{this.state.show}</p>
         <Container>

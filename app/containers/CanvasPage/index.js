@@ -50,7 +50,7 @@ export default class CnavasPage extends PureComponent {
        * 开始绘制文字
        * 坐标点(text, x, y)
        * 真正的行高是文字的1.4倍高度
-       * textAlign
+       * textAlign  http://www.w3school.com.cn/tags/canvas_textalign.asp
        *  left 的时候原点再文字的左下角
        *  center  的时候原点再下居中
        * 因为文字有默认高度上的间距所以计算居中会麻烦

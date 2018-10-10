@@ -221,6 +221,11 @@ class AntdPage extends PureComponent {
         <Slider range defaultValue={[20, 50]} />
         <Icon type="step-backward" />
         <AntdBtn type="primary" icon="download" size="large">Download</AntdBtn>
+        <a
+          href={'http://123.206.18.31/static/video/v1.png'}
+          target="_blank"
+          download="logo"
+        >导出excel</a>
         <RaisedButton label="Dialog" onClick={this.handleOpen} />
         {/* <ShowHaha>1</ShowHaha> */}
         <Dialog
