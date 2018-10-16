@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import AutoText from './AutoText';
 import ClipPath from './ClipPath';
 import RagsCom from './TagsCom';
+import WidthCom from './widthCom.js';
 
 const Div = styled.div`
   width: 100px;
@@ -151,7 +152,8 @@ class CssPage extends PureComponent {
       <div>
         <Helmet title="样式demo" />
         {this.renderTags()}
-        {this.renderOverFloss()}
+        {/* {this.renderOverFloss()} */}
+        <WidthCom text={'hahah我是谁'} />
       </div>
     );
   }

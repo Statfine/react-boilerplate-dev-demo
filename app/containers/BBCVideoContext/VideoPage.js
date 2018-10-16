@@ -34,6 +34,10 @@ export default class BbcVideo extends PureComponent {
   * 第二个参数为 从视频的某个时间开始播放
   * 第三个参数为 提前缓冲时长
   *  startAt 再绝对时间的开始时间    stopAt再绝对时间的结束时间
+  * 倍数
+  *  const playRate = 1; // 0.5 2
+  *  this.ctx.playbackRate = playRate;
+  *  const node = this.ctx.video(src, 0, 4, { volume: 0.8, loop: false,   playbackRate: playRate });
   */
   init = () => {
     // 绝对时间是 0秒开始  10秒结束

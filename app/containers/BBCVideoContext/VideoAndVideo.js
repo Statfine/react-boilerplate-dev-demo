@@ -33,10 +33,11 @@ export default class VideoAndVideo extends PureComponent {
   * 第一个参数为 资源
   * 第二个参数为 从视频的某个时间开始播放
   * 第三个参数为 提前缓冲时长
-  *  startAt 再绝对时间的开始时间    stopAt再绝对时间的结束时间
+  *  startAt再绝对时间的开始时间    stopAt再绝对时间的结束时间
   */
   init = () => {
-    const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false });
+    // 从视频第5面开始播，持续10秒（5s~15s）
+    const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 5, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     node.startAt(0);
     node.stopAt(10);
@@ -47,8 +48,8 @@ export default class VideoAndVideo extends PureComponent {
     node.registerCallback('ended', () => { console.log('====>video1 has eneded'); });
 
     const videoNode2 = this.ctx.video('http://123.206.18.31/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
-    videoNode2.start(10);
-    videoNode2.stop(20);
+    videoNode2.start(15);
+    videoNode2.stop(25);
     videoNode2.registerCallback('load', () => { console.log('====>video2 is loading'); });
     videoNode2.registerCallback('loaded', () => { console.log('====>video2 is loaded'); });
     videoNode2.registerCallback('play', () => { console.log('====>video2 is playing'); });
