@@ -6,6 +6,7 @@ import AutoText from './AutoText';
 import ClipPath from './ClipPath';
 import RagsCom from './TagsCom';
 import WidthCom from './widthCom.js';
+import AutoTags from './AutoTagCom';
 
 const Div = styled.div`
   width: 100px;
@@ -147,12 +148,15 @@ class CssPage extends PureComponent {
     <Iner>6</Iner>
   </OverFlowDiv>
 
+  renderAutoTags = () => <div><AutoTags /></div>;
+
   render() {
     return (
       <div>
         <Helmet title="样式demo" />
-        {this.renderTags()}
+        {/* {this.renderTags()} */}
         {/* {this.renderOverFloss()} */}
+        {this.renderAutoTags()}
         <WidthCom text={'hahah我是谁'} />
       </div>
     );

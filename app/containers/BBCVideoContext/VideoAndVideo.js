@@ -28,6 +28,12 @@ export default class VideoAndVideo extends PureComponent {
   ctx;
   timeIn;
 
+  clearCtx = () => {
+    this.ctx.reset();
+    this.ctx.registerCallback('stalled', () => { console.log('====>Playback endedPlayback stalled'); });
+    this.ctx.registerCallback('ended', () => { console.log('====>Playback ended'); clearInterval(this.timeIn); this.ctx.currentTime = 0; this.setState({ currentTime: 0 }); });
+  }
+
   /*
   * 初始化node对象
   * 第一个参数为 资源
@@ -35,7 +41,11 @@ export default class VideoAndVideo extends PureComponent {
   * 第三个参数为 提前缓冲时长
   *  startAt再绝对时间的开始时间    stopAt再绝对时间的结束时间
   */
-  init = () => {
+  init = (reset = false) => {
+    if (reset) {
+      console.log('reset');
+      this.clearCtx();
+    }
     // 从视频第5面开始播，持续10秒（5s~15s）
     const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 5, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
@@ -89,6 +99,7 @@ export default class VideoAndVideo extends PureComponent {
           <Button type="primary" size="large" onClick={this.handlePlay}>播放</Button>
           <Button type="primary" size="large" onClick={this.handlePause}>暂停</Button>
           <Button type="primary" size="large" onClick={this.handleSeek}>seek 5</Button>
+          <Button type="primary" size="large" onClick={() => this.init(true)}>reSet</Button>
         </div>
       </div>
     );

@@ -154,9 +154,10 @@ export default class TimeInterval extends PureComponent {
     this.source = this.props.timeCutData;
     this.setState({ dragDown: true });
     this.clickFlag = true;
-    document.addEventListener('mousemove', (ev) =>
-      this.state.dragDown ? this.handleMouseMove(ev, type) : ''
-    );
+    // 匿名函数会导致事件叠加
+    // document.addEventListener('mousemove', (ev) => this.state.dragDown ? this.handleMouseMove(ev, type) : '');
+    // document.addEventListener('mousemove', (ev) => this.handleMouseMove(ev, type));
+    document.addEventListener('mousemove', this.handleMouseMove);
   };
 
   getOffsetLeft(obj) {
@@ -208,6 +209,7 @@ export default class TimeInterval extends PureComponent {
    * obj: 参考对像（判断鼠标与时间轴距离）
    */
   handleMouseMove = (ev) => {
+    console.log('handleMouseMove');
     ev.stopPropagation();
     const { handleChangeTime } = this.props;
     const { startTime, endTime, startCutTime, endCutTime, length } = this.source;
@@ -256,15 +258,19 @@ export default class TimeInterval extends PureComponent {
     }
 
     document.addEventListener('mouseup', this.handleMouseUp);
+    // document.addEventListener('mouseup', () => this.handleMouseUp());
   }
 
   handleMouseUp = () => {
+    console.log('handleMouseUp');
     if (this.state.dragDown) {
       document.body.style.userSelect = '';
       document.body.style.webkitUserSelect = '';
       document.body.style.msUserSelect = '';
       document.body.style.mozUserSelect = '';
       this.setState({ dragDown: false });
+      document.removeEventListener('mouseup', this.handleMouseUp);
+      document.removeEventListener('mousemove', this.handleMouseMove);
     }
   }
 
