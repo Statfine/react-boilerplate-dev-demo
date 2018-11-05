@@ -1,10 +1,15 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'antd';
 
 export default class RefCom extends PureComponent {
   state = {
     title: 'haha',
   };
+  componentDidMount() {
+    this.props.handleContext(this);
+  }
+
   publickSetState = (title) => {
     this.setState({ title });
   }
@@ -28,3 +33,7 @@ export default class RefCom extends PureComponent {
     );
   }
 }
+
+RefCom.propTypes = {
+  handleContext: PropTypes.func,
+};

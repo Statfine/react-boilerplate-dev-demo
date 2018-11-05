@@ -157,7 +157,11 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const withConnect = connect(mapStateToProps, mapDispatchToProps);
+function mergeProps(stateProps, dispatchProps, ownProps) {
+  return Object.assign({}, ownProps, stateProps, dispatchProps);
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps, mergeProps, { withRef: true });
 
 const withReducer = injectReducer({ key: 'VideoListPage', reducer });
 const withSaga = injectSaga({ key: 'VideoListPage', saga });

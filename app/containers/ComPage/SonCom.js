@@ -3,18 +3,24 @@ import PropTypes from 'prop-types';
 
 export default class Sonpage extends PureComponent {
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   componentDidUpdate() {
     console.log('renderSom componentDidUpdate');
   }
 
   render() {
-    const { index } = this.props;
-    console.log('renderSom');
+    const { index, name, aaa } = this.props;
+    console.log(`${name} - renderSom`);
     return (
-      <div>{index}</div>
+      <div>{index + aaa}</div>
     );
   }
 }
 Sonpage.propTypes = {
   index: PropTypes.number,
+  name: PropTypes.string,
+  aaa: PropTypes.string,
 };
