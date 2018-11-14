@@ -7,9 +7,13 @@ import SonPAge from './SonCom';
  * 组件内的state变动会导致组件重新渲染
  * 子组建如果有匿名函数 父组件渲染的时候 子组件都会重新渲染
  */
+
+const STYLE = { color: 'red' };
+
 export default class FatherPage extends PureComponent {
   state = {
     index: 0,
+    aaaa: 1,
   };
 
   // componentDidMount() {
@@ -37,7 +41,7 @@ export default class FatherPage extends PureComponent {
 
   render() {
     const { index, aaaa } = this.state;
-    console.log('render');
+    console.log('Father render');
     return (
       <div
         onMouseMove={this.handleOnMouseMove}
@@ -48,8 +52,8 @@ export default class FatherPage extends PureComponent {
         <p>子组建如果有匿名函数 父组件渲染的时候 子组件都会重新渲染, 匿名函数导致新对象，所以也会重新渲染</p>
         <p>{index}</p>
         <p>aaaa:{aaaa}</p>
-        <SonPAge index={index} name="one" />
-        <SonPAge index={index} aaa={aaaa} name="two" show={() => console.log('aa')} />
+        <SonPAge index={index} name="one" style={STYLE} />
+        <SonPAge index={index} name="two" show={() => console.log('aa')} />
         <SonPAge index={index} name="three" show={this.handleShow} />
       </div>
     );

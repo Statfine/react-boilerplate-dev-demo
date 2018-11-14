@@ -98,8 +98,8 @@ export default class CnavasPage extends PureComponent {
     // inlineCtx.fillStyle = '#ff8140';
     inlineCtx.textAlign = 'center';
     inlineCtx.textBaseline = 'top';
-    inlineCtx.fillText('邵佳', (inlineCanvas.width / 2), ((200 - (24 * SCALE)) / 2));
 
+    inlineCtx.fillText('邵佳', (inlineCanvas.width / 2), ((200 - (24 * SCALE)) / 2));
     inlineCtx.save();
     inlineCtx.translate(inlineCanvas.width / 2, inlineCanvas.height / 2);
     inlineCtx.rotate(0.5);
@@ -112,6 +112,13 @@ export default class CnavasPage extends PureComponent {
     // inlineCtx.translate(0, 0);
     inlineCtx.restore();
 
+    // // 方法二 transparent
+    // inlineCtx.save();
+    // inlineCtx.translate(inlineCanvas.width / 2, inlineCanvas.height / 2);
+    // inlineCtx.rotate(0.5);
+    // inlineCtx.fillText('邵佳', 0, 0); // 此处单独旋转
+    // inlineCtx.restore();
+
     const base64 = inlineCanvas.toDataURL('image/png', 1);
     console.log(base64);
     this.setState({ pavedSrc: base64 });
@@ -121,7 +128,7 @@ export default class CnavasPage extends PureComponent {
     return (
       <div>
         <Helmet title="Canvas Demo" />
-        <div style={{ display: 'none' }}>
+        <div style={{ display: 'block' }}>
           {/* <div style={{ border: '1px solid red', width: 400, height: 200, overflow: 'hidden' }}>
             <div style={{ border: '1px solid yellow', width: 400, height: 200 }}>
               <DivInput contentEditable="true"></DivInput>
