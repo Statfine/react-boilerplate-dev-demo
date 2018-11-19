@@ -50,7 +50,7 @@ export default class VideoAndVideo extends PureComponent {
     const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 5, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     node.startAt(0);
-    node.stopAt(10);
+    node.stopAt(9.76543);
     node.registerCallback('load', () => { console.log('====>video1 is loading'); });
     node.registerCallback('loaded', () => { console.log('====>video1 is loaded'); });
     node.registerCallback('play', () => { console.log('====>video1 is playing'); });
@@ -59,7 +59,7 @@ export default class VideoAndVideo extends PureComponent {
 
     const videoNode2 = this.ctx.video('http://123.206.18.31/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
     videoNode2.start(15);
-    videoNode2.stop(25);
+    videoNode2.stop(24.1232131);
     videoNode2.registerCallback('load', () => { console.log('====>video2 is loading'); });
     videoNode2.registerCallback('loaded', () => { console.log('====>video2 is loaded'); });
     videoNode2.registerCallback('play', () => { console.log('====>video2 is playing'); });
@@ -69,6 +69,7 @@ export default class VideoAndVideo extends PureComponent {
     node.connect(this.ctx.destination);
     videoNode2.connect(this.ctx.destination);
     this.setState({ duration: this.ctx.duration });
+    console.log(this.ctx.duration);
   }
 
   handlePlay = () => {
