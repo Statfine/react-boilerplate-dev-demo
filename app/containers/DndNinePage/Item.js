@@ -27,11 +27,6 @@ const cardSource = {
   canDrag(props) {
     return props.item.type !== 'upload';
   },
-<<<<<<< HEAD
-  // commit one
-  // conmmit two
-=======
->>>>>>> parent of 1479d7b... add test commit one
   beginDrag(props) { // 用于hover第二个参数的getItem方法取值
     return {
       id: props.id,
