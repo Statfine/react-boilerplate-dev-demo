@@ -27,6 +27,7 @@ const cardSource = {
   canDrag(props) {
     return props.item.type !== 'upload';
   },
+  // commit one
   beginDrag(props) { // 用于hover第二个参数的getItem方法取值
     return {
       id: props.id,
