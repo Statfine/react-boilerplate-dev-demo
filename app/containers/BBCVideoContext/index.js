@@ -12,13 +12,17 @@ import VideoTransMoreVideo from './VideoTransMoreVideo';
 import BBCEffectNode from './BBCEffectNode';
 import BBCCompositingNode from './BBCCompositingNode';
 
+import T1 from './Transition/T1';
+import T2 from './Transition/T2';
+import T3 from './Transition/T3';
+
 const Btn = styled(Button)`
   background: ${({ choosed }) => choosed ? '#4885ed' : '#1DA57A'};
 `;
 
 class BbcPage extends PureComponent {
   state = {
-    index: 1,
+    index: 10,
   };
 
   renderVideoContext = () => {
@@ -38,6 +42,12 @@ class BbcPage extends PureComponent {
         return (<BBCEffectNode />);
       case 7:
         return (<BBCCompositingNode />);
+      case 8:
+        return (<T1 />);
+      case 9:
+        return (<T2 />);
+      case 10:
+        return (<T3 />);
       default:
         return null;
     }
@@ -56,6 +66,9 @@ class BbcPage extends PureComponent {
           <Btn size="large" type="primary" choosed={this.state.index === 5} onClick={() => this.setState({ index: 5 })}>三个视频连续特效连接</Btn>
           <Btn size="large" type="primary" choosed={this.state.index === 6} onClick={() => this.setState({ index: 6 })}>BBCEffectNode</Btn>
           <Btn size="large" type="primary" choosed={this.state.index === 7} onClick={() => this.setState({ index: 7 })}>BBCCompositingNode</Btn>
+          <Btn size="large" type="primary" choosed={this.state.index === 8} onClick={() => this.setState({ index: 8 })}>单视频前后特效</Btn>
+          <Btn size="large" type="primary" choosed={this.state.index === 9} onClick={() => this.setState({ index: 9 })}>两视频前特效+中间特效+结束特效</Btn>
+          <Btn size="large" type="primary" choosed={this.state.index === 10} onClick={() => this.setState({ index: 10 })}>三视频</Btn>
         </div>
         {this.renderVideoContext()}
       </div>
