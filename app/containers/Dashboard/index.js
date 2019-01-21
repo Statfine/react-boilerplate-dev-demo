@@ -11,6 +11,7 @@ import VideoPage from '../VideoPage/Loadable';
 import CutPage from '../CutPage/Loadable';
 import AntdPage from '../AntdPage/Loadable';
 import BBCVideoContextPage from '../BBCVideoContext/Loadable';
+import BBC2 from '../BBC2/Loadable';
 import DndPage from '../DndPage/Loadable';
 import CssPage from '../CssPage/Loadable';
 import RefPage from '../RefPage/Loadable';
@@ -27,6 +28,7 @@ import VideoCanvas from '../VideoCanvasPage';
 import ClipboardPage from '../ClipboardPage';
 import DndNinePage from '../DndNinePage/Loadable';
 import CarousePage from '../CarouselPage';
+import LocalFile from '../LocalFile';
 
 import { eventsStatistics } from '../../utils/statistics';
 
@@ -103,6 +105,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('videolist')} selected={location.pathname.startsWith('/dashboard/videolist')}>VideoList</P>
             <P onClick={() => this.onJump('cut')} selected={location.pathname.startsWith('/dashboard/cut')}>CutComponent</P>
             <P onClick={() => this.onJump('bbc')} selected={location.pathname.startsWith('/dashboard/bbc')}>BBCVideoContext</P>
+            <P onClick={() => this.onJump('BBC2')} selected={location.pathname.startsWith('/dashboard/BBC2')}>BBC2</P>
             <P onClick={() => this.onJump('css')} selected={location.pathname.startsWith('/dashboard/css')}>CssPage</P>
             <P onClick={() => this.onJump('ref')} selected={location.pathname.startsWith('/dashboard/red')}>RefPage</P>
             <P onClick={() => this.onJump('ali')} selected={location.pathname.startsWith('/dashboard/ali')}>阿里播放器</P>
@@ -119,6 +122,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('clipboard')} selected={location.pathname.startsWith('/dashboard/clipboard')}>粘贴板</P>
             <P onClick={() => this.onJump('videoCnavas')} selected={location.pathname.startsWith('/dashboard/videoCnavas')}>canvas画video</P>
             <P onClick={() => this.onJump('carouse')} selected={location.pathname.startsWith('/dashboard/carouse')}>轮播图</P>
+            <P onClick={() => this.onJump('localFile')} selected={location.pathname.startsWith('/dashboard/localFile')}>本地文件</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
           <RightNav>
@@ -131,6 +135,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/videolist`} component={VideoListPage} />
               <Route path={`${this.props.match.path}/cut`} component={CutPage} />
               <Route path={`${this.props.match.path}/bbc`} component={BBCVideoContextPage} />
+              <Route path={`${this.props.match.path}/BBC2`} component={BBC2} />
               <Route path={`${this.props.match.path}/dnd`} component={DndPage} />
               <Route path={`${this.props.match.path}/dragnine`} component={DndNinePage} />
               <Route path={`${this.props.match.path}/css`} component={CssPage} />
@@ -147,6 +152,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/videoCnavas`} component={VideoCanvas} />
               <Route path={`${this.props.match.path}/clipboard`} component={ClipboardPage} />
               <Route path={`${this.props.match.path}/carouse`} component={CarousePage} />
+              <Route path={`${this.props.match.path}/localFile`} component={LocalFile} />
             </Switch>
           </RightNav>
         </AppWrapper>
