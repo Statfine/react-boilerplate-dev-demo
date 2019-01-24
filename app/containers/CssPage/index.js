@@ -7,6 +7,8 @@ import ClipPath from './ClipPath';
 import RagsCom from './TagsCom';
 import WidthCom from './widthCom.js';
 import AutoTags from './AutoTagCom';
+import MoveCom from './MoveCom';
+import TextAreaCom from './TextAreaCom';
 
 const Div = styled.div`
   width: 100px;
@@ -156,8 +158,10 @@ class CssPage extends PureComponent {
         <Helmet title="样式demo" />
         {/* {this.renderTags()} */}
         {/* {this.renderOverFloss()} */}
-        {this.renderAutoTags()}
+        {/* {this.renderAutoTags()} */}
+        <TextAreaCom />
         <WidthCom text={'hahah我是谁'} />
+        <MoveCom />
       </div>
     );
   }

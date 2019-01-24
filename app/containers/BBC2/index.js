@@ -11,10 +11,10 @@ import { Helmet } from 'react-helmet';
 
 import AcrossVerticalBlur from './AcrossVerticalBlur'; // 横竖屏+补模糊边
 import Crop from './Crop'; // 裁剪
-import SimpleConnect from './SimpleConnect'; // 视频链接 - 简单的视屏拼接
-import SimpleConnect2 from './SimpleConnect2'; // 视频链接 - 添加转场
-import SimpleConnect3 from './SimpleConnect3'; // 视频链接 - 添加转场
-import SimpleConnect4 from './SimpleConnect4'; // 集成视频链接
+import SimpleConnect from './SimpleConnect'; // 集成视频链接
+import SimpleConnect2 from './SimpleConnect2'; // 视频链接-简单转场
+import SimpleConnect3 from './SimpleConnect3'; // 视频链接-集成转场(无中间转场)
+import SimpleConnect4 from './SimpleConnect4'; // 集成视频转场链接
 
 const Btn = styled(Button)`
   background: ${({ checked }) => checked ? '#4885ed' : '#1DA57A'};
