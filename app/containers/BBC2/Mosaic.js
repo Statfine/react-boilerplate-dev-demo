@@ -10,10 +10,10 @@ const FlexDiv = styled.div`
 `;
 
 /*
-* 裁剪
+* 马赛克
 */
 const Option = Select.Option;
-export default class AcrossVerticalBlur extends PureComponent {
+export default class Mosaic extends PureComponent {
   state = {
     duration: 0,
     currentTime: 0,
@@ -33,6 +33,16 @@ export default class AcrossVerticalBlur extends PureComponent {
     cropIndex: 0, // 裁剪
     cropSize: [
       [0, 0, 1, 1], // 不做裁剪
+      [0.5, 0.5, 0.5, 0.5],  // 右下角1/4
+      [0, 0, 1, 0.5], // 顶部一半 1/2
+      [0, 0, 0.5, 1], // 左侧一半 1/2
+    ],
+
+    mosaicTpye: 1, // 1 2马赛克类型
+    mosaicIndex: 0, // 马赛克
+    mosaicSize: [
+      [0.0, 0.0, 0, 0], // 无
+      [0.0, 0.0, 0.5, 0.5], // 左上角1/4
       [0.5, 0.5, 0.5, 0.5],  // 右下角1/4
       [0, 0, 1, 0.5], // 顶部一半 1/2
       [0, 0, 0.5, 1], // 左侧一半 1/2
@@ -59,6 +69,7 @@ export default class AcrossVerticalBlur extends PureComponent {
     this.ctx.reset();
     this.ctx.registerCallback('stalled', () => { console.log('====>Playback endedPlayback stalled'); });
     this.ctx.registerCallback('ended', () => { console.log('====>Playback ended'); clearInterval(this.timeIn); this.ctx.currentTime = 0; this.setState({ currentTime: 0 }); });
+    // this.ctx.registerCallback('update', () => { console.log('====>Playback update'); });
     this.ctx.registerTimelineCallback(15, () => { console.log('====>Playback registerTimelineCallback'); });
     this.init();
   }
@@ -73,11 +84,12 @@ export default class AcrossVerticalBlur extends PureComponent {
   init = () => {
     const {
       source, sourceIndex,  // 资源
-      canvasSize, canvasIndex, // 屏幕尺寸
+      mosaicSize, mosaicIndex, // 马赛克
+      canvasSize, canvasIndex, // 裁剪尺寸
       cropSize, cropIndex, // 裁剪
     } = this.state;
     const obj = source[sourceIndex];
-    const node = this.ctx.video(obj.src, 0, 4, { volume: 0.8, loop: false });
+    const node = this.ctx.video(obj.src, 0, 0, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     node.startAt(0);
     node.stopAt(10);
@@ -86,6 +98,26 @@ export default class AcrossVerticalBlur extends PureComponent {
     node.registerCallback('play', () => { console.log('====>video1 is playing'); });
     node.registerCallback('durationchange', () => { console.log('====>video1 is durationchange'); });
     node.registerCallback('ended', () => { console.log('====>video1 has eneded'); });
+    node.registerCallback('error', () => { console.log('====>video1 has error'); });
+    // node.registerCallback('render', () => { console.log('====>video1 has render', this.ctx.state, VideoContext.STATE.STALLED); });
+
+    /**
+    * 马赛克
+    * mode - 类型  1  2
+    * vw - 原始视频宽度
+    * vh - 原始视频高度
+    * rects -  [0.0, 0.0, 0.5, 0.5] 百分比
+    */
+    const mosaicOpts = {
+      mode: this.state.mosaicTpye,
+      vw: obj.w,
+      vh: obj.h,
+      // rects: [
+      //   [0.0, 0.0, 0.5, 0.5],
+      // ],
+      rects: [mosaicSize[mosaicIndex]],
+    };
+    const mosaicNode = this.ctx.mosaicNode(node, mosaicOpts);
 
     /**
     * 裁剪 （单位百分占比）
@@ -95,14 +127,9 @@ export default class AcrossVerticalBlur extends PureComponent {
     * 4 - 资源（视频）元素高（百分占比）
     */
     const cropFade = this.ctx.transition(VideoContext.DEFINITIONS.CROP); // 渐显
+    // cropFade.rect = [0, 0, 1, 1];
     cropFade.rect = cropSize[cropIndex];
-    // cropFade.rect = [
-    //   cropSize[cropIndex][0],
-    //   cropSize[cropIndex][1],
-    //   cropSize[cropIndex][2],
-    //   cropSize[cropIndex][3],
-    // ];
-    node.connect(cropFade);
+    mosaicNode.connect(cropFade);
 
     /**
     * 补边   如果有裁剪，资源的宽高需要随裁剪的变化
@@ -150,6 +177,9 @@ export default class AcrossVerticalBlur extends PureComponent {
   handleChangeSrc = (sourceIndex) => this.setState({ sourceIndex }, () => this.clearRegister());
   //  裁边修改
   handleChangeCrop = (cropIndex) => this.setState({ cropIndex }, () => this.clearRegister());
+  //  马赛克类型
+  handleMosaicType = (mosaicTpye) => this.setState({ mosaicTpye }, () => this.clearRegister());
+  handleMosaicSize = (mosaicIndex) => this.setState({ mosaicIndex }, () => this.clearRegister());
 
   renderSelect = () => (
     <div>
@@ -177,6 +207,21 @@ export default class AcrossVerticalBlur extends PureComponent {
           <Option value={1}>右下角1/4</Option>
           <Option value={2}>顶部一半 1/2</Option>
           <Option value={3}>左侧一半 1/2</Option>
+        </Select>
+      </FlexDiv>
+      <FlexDiv>
+        <p>马赛克类型:</p>
+        <Select value={this.state.mosaicTpye} style={{ width: 150 }} onChange={this.handleMosaicType}>
+          <Option value={1}>1</Option>
+          <Option value={2}>2</Option>
+        </Select>
+        <p>马赛克位置:</p>
+        <Select value={this.state.mosaicIndex} style={{ width: 150 }} onChange={this.handleMosaicSize}>
+          <Option value={0}>无马赛克</Option>
+          <Option value={1}>左上角1/4</Option>
+          <Option value={2}>右下角1/4</Option>
+          <Option value={3}>顶部一半 1/2</Option>
+          <Option value={4}>左侧一半 1/2</Option>
         </Select>
       </FlexDiv>
     </div>

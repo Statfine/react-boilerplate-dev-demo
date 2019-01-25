@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Button, Select } from 'antd';
-import VideoContext from './plugin/videocontext.commonjs2';
+import VideoContext from './plugin2/videocontext.commonjs2';
 
 /*
 * 视频链接
