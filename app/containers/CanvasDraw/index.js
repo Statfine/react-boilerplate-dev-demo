@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import Tesseract from 'tesseract.js';
 
 const CanvasStyle = {
   border: '1px solid red',
@@ -25,6 +26,7 @@ export class CanvasDraw extends React.PureComponent {
 
   state = {
     img: '',
+    text: '',
   }
 
   componentDidMount() {
@@ -133,12 +135,22 @@ export class CanvasDraw extends React.PureComponent {
   // 获取图片
   handleGetPNGImage = (canvas) => {
     this.setState({ img: canvas.toDataURL('image/png') }, () => {
+      // 实现下载
       const dom = document.createElement('a');
       dom.href = this.state.img;
       dom.download = `${new Date().getTime()}.png`;
       // dom.click();
-      // ??
+
+      // ?? 重置
       this.context = this.canvas.getContext('2d');
+
+      // ?? 文字识别
+      Tesseract.recognize('http://tesseract.projectnaptha.com/img/chi_sim.png')
+      // Tesseract.recognize(this.state.img)
+        .then(result => {
+          console.log('result', result);
+          this.setState({ text: result });
+        })
     });
   }
   handleGetJPGImage = () => {
@@ -151,7 +163,8 @@ export class CanvasDraw extends React.PureComponent {
         <canvas ref={(el) => (this.canvasDraw = el)} style={CanvasStyle} />
         <div style={Btn} onClick={this.handleReset}>重置</div>
         <div style={Btn} onClick={() => this.handleGetPNGImage(this.canvas)}>PNG</div>
-        <img src={this.state.img} alt="" />
+        <div>{this.state.text}</div>
+        <img src={this.state.img} alt="" ref={(el) => (this.imageTest = el)} />
       </div>
     );
   }

@@ -303,6 +303,7 @@
     "sanitize.css": "4.1.0",
     "sha1": "^1.1.1",
     "styled-components": "2.3.0",
+    "tesseract.js": "^1.0.14",
     "typeface-roboto": "0.0.35",
     "video.js": "^6.2.7",
     "videojs-contrib-hls": "^5.10.1",
