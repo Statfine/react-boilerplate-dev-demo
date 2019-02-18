@@ -8,7 +8,7 @@ import data from './subtitle.json';
 
 export default class SubtitlePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   state = {
-    src: 'http://123.206.18.31/static/video/sub_demo.mp4',
+    src: 'http://39.108.60.29/static/video/sub_demo.mp4',
     currentTime: 0,
     subtitle: data.data.subtitles[0].subtitles,
     marqueeObj: {

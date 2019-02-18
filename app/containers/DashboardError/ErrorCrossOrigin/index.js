@@ -63,8 +63,8 @@ export default class CrossOrigin extends PureComponent {
           ref={(c) => { this.video = c; }}
           controls
           id="video"
-          src="http://123.206.18.31/static/video/v1.mp4"
-          poster="http://123.206.18.31/static/video/v1.png"
+          src="http://39.108.60.29/static/video/v1.mp4"
+          poster="http://39.108.60.29/static/video/v1.png"
           crossOrigin="*"
           playsInline
           // x5PlaysInline

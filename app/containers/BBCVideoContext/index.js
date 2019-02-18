@@ -57,7 +57,7 @@ class BbcPage extends PureComponent {
     return (
       <div>
         <Helmet title="Videocontext页面" />
-        <a href="http://123.206.18.31/static/video/v1.mp4" download="w3logo">download</a>
+        <a href="http://39.108.60.29/static/video/v1.mp4" download="w3logo">download</a>
         <div>
           <Btn size="large" type="primary" choosed={this.state.index === 1} onClick={() => this.setState({ index: 1 })}>单个视频</Btn>
           <Btn size="large" type="primary" choosed={this.state.index === 2} onClick={() => this.setState({ index: 2 })}>单个图片</Btn>

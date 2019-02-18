@@ -34,7 +34,7 @@ class ClipboardPage extends PureComponent {
    */
   shareVideoAsy = async () => {
     try {
-      await fetchJson('http://123.206.18.31/static/mock.json');
+      await fetchJson('http://39.108.60.29/static/mock.json');
       this.antdBtnTwo.handleClick();
     } catch (error) {
       //

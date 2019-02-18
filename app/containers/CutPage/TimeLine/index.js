@@ -25,9 +25,9 @@ function zeroFill(s) {
 export default class TimeLine extends PureComponent {
   state = {
     videoList: [
-      { length: 180, startTime: 0, endTime: 180, cover: 'http://123.206.18.31/static/video/v1.png' },
-      { length: 260, startTime: 0, endTime: 260, cover: 'http://123.206.18.31/static/video/v2.png' },
-      { length: 300, startTime: 0, endTime: 40, cover: 'http://123.206.18.31/static/video/v1.png' },
+      { length: 180, startTime: 0, endTime: 180, cover: 'http://39.108.60.29/static/video/v1.png' },
+      { length: 260, startTime: 0, endTime: 260, cover: 'http://39.108.60.29/static/video/v2.png' },
+      { length: 300, startTime: 0, endTime: 40, cover: 'http://39.108.60.29/static/video/v1.png' },
     ],
     choosedIndex: -1,
     noTrans: false,

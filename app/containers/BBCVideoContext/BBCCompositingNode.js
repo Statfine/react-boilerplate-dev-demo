@@ -62,7 +62,7 @@ export default class BBCCompositingNode extends PureComponent {
   *  startAt 再绝对时间的开始时间    stopAt再绝对时间的结束时间
   */
   init = () => {
-    const videoNode1 = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false });
+    const videoNode1 = this.ctx.video('http://39.108.60.29/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     videoNode1.startAt(0);
     videoNode1.stopAt(10);
@@ -72,7 +72,7 @@ export default class BBCCompositingNode extends PureComponent {
     videoNode1.registerCallback('durationchange', () => { console.log('====>video1 is durationchange'); });
     videoNode1.registerCallback('ended', () => { console.log('====>video1 has eneded'); });
 
-    const videoNode2 = this.ctx.video('http://123.206.18.31/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
+    const videoNode2 = this.ctx.video('http://39.108.60.29/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
     videoNode2.start(10);
     videoNode2.stop(20);
     videoNode2.registerCallback('load', () => { console.log('====>video2 is loading'); });

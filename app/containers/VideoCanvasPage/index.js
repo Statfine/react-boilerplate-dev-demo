@@ -90,7 +90,7 @@ export default class VideoCanvaspage extends PureComponent {
         <Video
           id="video"
           innerRef={(c) => { this.video = c; }}
-          src="http://123.206.18.31/static/video/v1.mp4"
+          src="http://39.108.60.29/static/video/v1.mp4"
           controls
           crossOrigin="anonymous"
         />

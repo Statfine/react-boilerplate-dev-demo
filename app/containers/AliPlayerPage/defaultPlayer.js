@@ -8,7 +8,7 @@ class Player extends PureComponent {
   }
   initPlayer = () => {
     const coverSrc = 'http://ymz.api.tvmcloud.com/ymz?service=File.Getfile&url=atHvRm0cDovL3ZpZGVvLmNsb3VkLnR2bWluaW5nLmNvbS9UVk0vSlBHL0hlaUxvbmdKaWFuZ0hELzIwMTQvMDYvMjcvSGVpTG9uZ0ppYW5nSERfMjUwMDAwMF8yMDE0MDYyN184MDI1NTc3XzAuanBn';
-    // const coverSrc = 'http://123.206.18.31/static/video/v1.png';
+    // const coverSrc = 'http://39.108.60.29/static/video/v1.png';
     this.playLiveOne = new Aliplayer({ // eslint-disable-line
       id: this.props.playId, // 容器id
       autoplay: false,

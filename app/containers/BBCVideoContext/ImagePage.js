@@ -29,7 +29,7 @@ export default class BbcImage extends PureComponent {
   timeIn;
 
   init = () => {
-    const node = this.ctx.image('http://123.206.18.31/static/video/v1.png', 4);
+    const node = this.ctx.image('http://39.108.60.29/static/video/v1.png', 4);
     node.startAt(0);
     node.stopAt(10);
     console.log(`Duration: ${this.ctx.duration}`);

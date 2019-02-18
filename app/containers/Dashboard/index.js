@@ -29,6 +29,7 @@ import ClipboardPage from '../ClipboardPage';
 import DndNinePage from '../DndNinePage/Loadable';
 import CarousePage from '../CarouselPage';
 import LocalFile from '../LocalFile';
+import FetchPage from '../FetchPage/Loadable';
 
 import { eventsStatistics } from '../../utils/statistics';
 
@@ -123,6 +124,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('videoCnavas')} selected={location.pathname.startsWith('/dashboard/videoCnavas')}>canvas画video</P>
             <P onClick={() => this.onJump('carouse')} selected={location.pathname.startsWith('/dashboard/carouse')}>轮播图</P>
             <P onClick={() => this.onJump('localFile')} selected={location.pathname.startsWith('/dashboard/localFile')}>本地文件</P>
+            <P onClick={() => this.onJump('fetch')} selected={location.pathname.startsWith('/dashboard/fetch')}>Fetch</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
           <RightNav>
@@ -153,6 +155,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/clipboard`} component={ClipboardPage} />
               <Route path={`${this.props.match.path}/carouse`} component={CarousePage} />
               <Route path={`${this.props.match.path}/localFile`} component={LocalFile} />
+              <Route path={`${this.props.match.path}/fetch`} component={FetchPage} />
             </Switch>
           </RightNav>
         </AppWrapper>

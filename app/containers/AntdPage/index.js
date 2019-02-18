@@ -222,7 +222,7 @@ class AntdPage extends PureComponent {
         <Icon type="step-backward" />
         <AntdBtn type="primary" icon="download" size="large">Download</AntdBtn>
         <a
-          href={'http://123.206.18.31/static/video/v1.png'}
+          href={'http://39.108.60.29/static/video/v1.png'}
           target="_blank"
           download="logo"
         >导出excel</a>

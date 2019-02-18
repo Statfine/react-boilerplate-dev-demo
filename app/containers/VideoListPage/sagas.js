@@ -22,7 +22,7 @@ export function* fetchUserVideosWatcher() {
 
 export function* fetchJSON() {
   try {
-    const json = yield call(fetchJson, 'http://123.206.18.31/static/mock.json');
+    const json = yield call(fetchJson, 'http://39.108.60.29/static/mock.json');
     console.log(json);
     const jsonTwo = yield call(fetchJsonTwo, 'http://cloud-clip-out.oss-cn-hangzhou.aliyuncs.com/tracking/edc4353f-055b-4ee0-9938-8780e9270daa/5a21b61c-9537-4a25-b6d7-790ef6e723d7.json');
     console.log(jsonTwo);

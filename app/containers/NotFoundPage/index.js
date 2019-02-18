@@ -19,7 +19,7 @@ const Container = styled.div`
 export default function NotFound() {
   return (
     <Container>
-      <img src="http://123.206.18.31/static/image/404.jpg" alt="" />
+      <img src="http://39.108.60.29/static/image/404.jpg" alt="" />
     </Container>
   );
 }

@@ -107,7 +107,7 @@ export default class MosaicPage extends PureComponent {
     this.setState({ srtThree: cover });
   }
 
-  // 'http://123.206.18.31/static/video/v1.png'
+  // 'http://39.108.60.29/static/video/v1.png'
   render() {
     const { srt, srtTwo, srtThree, srtFour, item } = this.state;
     return (

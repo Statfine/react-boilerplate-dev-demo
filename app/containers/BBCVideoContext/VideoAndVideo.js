@@ -47,7 +47,7 @@ export default class VideoAndVideo extends PureComponent {
       this.clearCtx();
     }
     // 从视频第5面开始播，持续10秒（5s~15s）
-    const node = this.ctx.video('http://123.206.18.31/static/video/v1.mp4', 5, 4, { volume: 0.8, loop: false });
+    const node = this.ctx.video('http://39.108.60.29/static/video/v1.mp4', 5, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     node.startAt(0);
     node.stopAt(9.76543);
@@ -57,7 +57,7 @@ export default class VideoAndVideo extends PureComponent {
     node.registerCallback('durationchange', () => { console.log('====>video1 is durationchange'); });
     node.registerCallback('ended', () => { console.log('====>video1 has eneded'); });
 
-    const videoNode2 = this.ctx.video('http://123.206.18.31/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
+    const videoNode2 = this.ctx.video('http://39.108.60.29/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
     videoNode2.start(15);
     videoNode2.stop(24.1232131);
     videoNode2.registerCallback('load', () => { console.log('====>video2 is loading'); });
