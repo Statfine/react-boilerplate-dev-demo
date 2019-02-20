@@ -9,6 +9,7 @@ import WidthCom from './widthCom.js';
 import AutoTags from './AutoTagCom';
 import MoveCom from './MoveCom';
 import TextAreaCom from './TextAreaCom';
+import AdaptCom from './AdaptCom';
 
 const Div = styled.div`
   width: 100px;
@@ -150,7 +151,10 @@ class CssPage extends PureComponent {
     <Iner>6</Iner>
   </OverFlowDiv>
 
+  renderTextAreaCom = () => (<TextAreaCom />);
   renderAutoTags = () => <div><AutoTags /></div>;
+  renderWidthCom = () => (<WidthCom text={'hahah我是谁'} />);
+  renderMove = () => (<MoveCom />);
 
   render() {
     return (
@@ -159,9 +163,7 @@ class CssPage extends PureComponent {
         {/* {this.renderTags()} */}
         {/* {this.renderOverFloss()} */}
         {/* {this.renderAutoTags()} */}
-        <TextAreaCom />
-        <WidthCom text={'hahah我是谁'} />
-        <MoveCom />
+        <AdaptCom />
       </div>
     );
   }
