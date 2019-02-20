@@ -130,6 +130,8 @@ export class CanvasDraw extends React.PureComponent {
     width = width.replace('px', '');
     height = height.replace('px', '');
     this.context.clearRect(0, 0, width, height);
+    this.context.fillStyle = '#fff'; // 设置画布背景 生成图片不需设置
+    this.context.fillRect(0, 0, width, height);
   }
 
   // 获取图片
@@ -143,18 +145,20 @@ export class CanvasDraw extends React.PureComponent {
 
       // ?? 重置
       this.context = this.canvas.getContext('2d');
-
-      // ?? 文字识别
-      Tesseract.recognize('http://tesseract.projectnaptha.com/img/chi_sim.png')
-      // Tesseract.recognize(this.state.img)
-        .then(result => {
-          console.log('result', result);
-          this.setState({ text: result });
-        })
     });
   }
   handleGetJPGImage = () => {
     // this.setState({ img: canvas.toDataURL('image/jpeg', 0.5) });
+  }
+  // 文字识
+  handleGetText = () => {
+    Tesseract.recognize(canvas.toDataURL('image/png'), {
+      lang: 'chi_sim', // 语言
+    })
+      .progress((p) => { console.log('progress', p); })
+      .then((result) => {
+        console.log('result', result);
+      });
   }
 
   render() {
@@ -163,7 +167,7 @@ export class CanvasDraw extends React.PureComponent {
         <canvas ref={(el) => (this.canvasDraw = el)} style={CanvasStyle} />
         <div style={Btn} onClick={this.handleReset}>重置</div>
         <div style={Btn} onClick={() => this.handleGetPNGImage(this.canvas)}>PNG</div>
-        <div>{this.state.text}</div>
+        <div>{this.state.text.text}</div>
         <img src={this.state.img} alt="" ref={(el) => (this.imageTest = el)} />
       </div>
     );
