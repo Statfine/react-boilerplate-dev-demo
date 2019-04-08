@@ -21,6 +21,7 @@ import DashboardError from 'containers/DashboardError/Loadable';
 import AuthLoginPage from 'containers/AuthLoginPage/Loadable';
 import VideoMosaicPage from 'containers/VideoMosaicPage/Loadable';
 import WeiChatPage from '../WeiChatPage';
+import CenterPage from '../CssPage/AdaptCom/page';
 
 import Authentication from './Authentication';
 
@@ -88,6 +89,8 @@ class App extends React.Component {
     this.setState({ pavedSrc: base64 });
   }
 
+  renderCenterPage = () => (<CenterPage />);
+
   render() {
     const { pavedSrc } = this.state;
     return (
@@ -106,6 +109,7 @@ class App extends React.Component {
           <Route path="/features" component={Authentication(FeaturePage)} />
           <Route path="/weichat" component={WeiChatPage} />
           <Route path="/video" component={VideoMosaicPage} />
+          <Route path="/page" component={() => this.renderCenterPage()} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </AppWrapper>

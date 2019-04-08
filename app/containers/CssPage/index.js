@@ -10,6 +10,7 @@ import AutoTags from './AutoTagCom';
 import MoveCom from './MoveCom';
 import TextAreaCom from './TextAreaCom';
 import AdaptCom from './AdaptCom';
+import Waterfall from './Waterfall';
 
 const Div = styled.div`
   width: 100px;
@@ -155,6 +156,8 @@ class CssPage extends PureComponent {
   renderAutoTags = () => <div><AutoTags /></div>;
   renderWidthCom = () => (<WidthCom text={'hahah我是谁'} />);
   renderMove = () => (<MoveCom />);
+  renderAdaptCom = () => (<AdaptCom />); // 高度等比缩放
+  renderWaterfall = () => (<Waterfall />); // 瀑布流
 
   render() {
     return (
@@ -163,7 +166,8 @@ class CssPage extends PureComponent {
         {/* {this.renderTags()} */}
         {/* {this.renderOverFloss()} */}
         {/* {this.renderAutoTags()} */}
-        <AdaptCom />
+        {/* {this.renderAdaptCom()} */}
+        {this.renderWaterfall()}
       </div>
     );
   }

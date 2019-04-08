@@ -165,6 +165,7 @@
       "no-shadow": 0,
       "no-undef": 0,
       "no-multi-str": 0,
+      "no-mixed-operators": 0,
       "no-nested-ternary": 0,
       "no-restricted-properties": 0,
       "no-use-before-define": 0,
