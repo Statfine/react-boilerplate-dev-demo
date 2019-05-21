@@ -17,6 +17,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import styled from 'styled-components';
 
 import { eventStatisticsSearch } from '../../utils/statistics';
+import { Toast } from '../../components/Toast';
 
 import Example from './Example';
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
@@ -350,6 +351,11 @@ class AntdPage extends PureComponent {
             this.fileInputEl.value = '';
           }}
         />
+        <Btn
+          onClick={() => {
+            Toast.info('123', 3000, () => console.log('haha'));
+          }}
+        >Toast</Btn>
       </div>
     );
   }
