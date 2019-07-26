@@ -47,7 +47,7 @@ export default class VideoAndVideo extends PureComponent {
       this.clearCtx();
     }
     // 从视频第5面开始播，持续10秒（5s~15s）
-    const node = this.ctx.video('http://39.108.60.29/static/video/v1.mp4', 5, 4, { volume: 0.8, loop: false });
+    const node = this.ctx.video('http://39.108.60.29/static/video/v2.mp4', 5, 4, { volume: 0.8, loop: false });
     // 再绝对时间是的 0秒开始  10秒结束
     node.startAt(0);
     node.stopAt(9.76543);

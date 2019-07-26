@@ -18,6 +18,7 @@ export default class VideoTransVideo extends PureComponent {
     this.ctx.registerCallback('ended', () => { console.log('====>Playback ended'); clearInterval(this.timeIn); this.ctx.currentTime = 0; this.setState({ currentTime: 0 }); });
     this.ctx.registerTimelineCallback(15, () => { console.log('====>Playback registerTimelineCallback'); });
     this.init();
+    // this.initTwo();
   }
 
   componentWillUnmount() {
@@ -48,7 +49,7 @@ export default class VideoTransVideo extends PureComponent {
     node.registerCallback('durationchange', () => { console.log('====>video1 is durationchange'); });
     node.registerCallback('ended', () => { console.log('====>video1 has eneded'); });
 
-    const videoNode2 = this.ctx.video('http://39.108.60.29/static/video/v1.mp4', 0, 4, { volume: 0.8, loop: false });
+    const videoNode2 = this.ctx.video('http://39.108.60.29/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
     videoNode2.start(6);
     videoNode2.stop(16);
     videoNode2.registerCallback('load', () => { console.log('====>video2 is loading'); });
@@ -65,6 +66,33 @@ export default class VideoTransVideo extends PureComponent {
     node.connect(crossFade);
     videoNode2.connect(crossFade);
     crossFade.connect(this.ctx.destination);
+
+    this.setState({ duration: this.ctx.duration });
+  }
+
+  initTwo = () => {
+    const nodeOne = this.ctx.video('http://39.108.60.29/static/video/v2.mp4', 0, 4, { volume: 0.8, loop: false });
+    // 再绝对时间是的 0秒开始  10秒结束
+    nodeOne.startAt(0);
+    nodeOne.stopAt(6);
+    nodeOne.connect(this.ctx.destination);
+
+    const prevNode = this.ctx.video('http://39.108.60.29/static/video/v2.mp4', 6, 5, { volume: 0.8, loop: false });
+    prevNode.startAt(6);
+    prevNode.stopAt(10);
+    const nextNode = this.ctx.video('http://39.108.60.29/static/video/v2.mp4', 0, 5, { volume: 0.8, loop: false });
+    nextNode.startAt(6);
+    nextNode.stopAt(10);
+    const crossFade = this.ctx.transition(VideoContext.DEFINITIONS.CROSSFADE);
+    crossFade.transition(6, 10, 0.0, 1.0, 'progress');
+    prevNode.connect(crossFade);
+    nextNode.connect(crossFade);
+    crossFade.connect(this.ctx.destination);
+
+    const videoNode2 = this.ctx.video('http://39.108.60.29/static/video/v2.mp4', 4, 4, { volume: 0.8, loop: false });
+    videoNode2.start(10);
+    videoNode2.stopAt(16);
+    videoNode2.connect(this.ctx.destination);
 
     this.setState({ duration: this.ctx.duration });
   }
