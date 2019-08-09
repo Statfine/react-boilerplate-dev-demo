@@ -22,6 +22,7 @@ export default class TextAreaCom extends PureComponent {
     return (
       <div>
         <TextArea
+          style={{ width: 300 }}
           rows={4}
           value={value}
           onChange={this.handleChangeValue}

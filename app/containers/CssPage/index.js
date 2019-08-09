@@ -12,6 +12,10 @@ import TextAreaCom from './TextAreaCom';
 import AdaptCom from './AdaptCom';
 import Waterfall from './Waterfall';
 
+import {
+  fetchUserVideos
+} from '../VideoListPage/api';
+
 const Div = styled.div`
   width: 100px;
   height: 100px;
@@ -105,6 +109,26 @@ class CssPage extends PureComponent {
   handleOnWhell = (e) => {
     console.log(e.deltaX);
   }
+ // setTimeout(() => this.handleGetId(), 0);
+
+  handleAnsy = () => {
+    setTimeout(() => {
+      (async () => {
+        await this._doSomething();
+      })();
+    }, 0);
+  }
+
+  _doSomething = () => console.log('_doSomething');
+
+  async handleGetId() {
+    try {
+      const result = await fetchUserVideos();
+      console.log('result', result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   renderTest = () => (
     <div>
@@ -168,6 +192,7 @@ class CssPage extends PureComponent {
         {/* {this.renderAutoTags()} */}
         {/* {this.renderAdaptCom()} */}
         {this.renderWaterfall()}
+        <div onClick={this.handleAnsy}>ClickMe</div>
       </div>
     );
   }
