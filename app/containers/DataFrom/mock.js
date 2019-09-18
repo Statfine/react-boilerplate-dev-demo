@@ -22,33 +22,33 @@ export const dataOne = [
   {
     name: '水果',
     type: 'checkbox', // 多选框
+    field: 'fruits',
+    value: '0,1',
     defaultList: [
       { value: '0', label: 'Apple' },
       { value: '1', label: 'Pear' },
       { value: '2', label: 'Orange' },
     ],
-    field: 'fruits',
-    value: '0,1',
   },
   {
     name: '性别',
     type: 'radio', // 单选框
+    field: 'sex',
+    value: '0',
     defaultList: [
       { value: '0', label: '男' },
       { value: '1', label: '女' },
     ],
-    field: 'sex',
-    value: '0',
   },
   {
     name: '颜色',
     type: 'select', // 选择器器
+    field: 'color',
+    value: '0',
     defaultList: [
       { value: '0', label: 'Apple' },
       { value: '1', label: 'Pear' },
       { value: '2', label: 'Orange' },
     ],
-    field: 'color',
-    value: '0',
   },
 ];
