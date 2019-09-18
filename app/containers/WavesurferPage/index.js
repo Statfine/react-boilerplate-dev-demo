@@ -4,6 +4,8 @@ import { BasePage } from 'containers/BasePage';
 import { Helmet } from 'react-helmet';
 
 import Audio from './Audio';
+import MusicSrc from './410288837.mp3';
+import DefaultAudio from './DefaultAudio';
 
 const Content = styled.div`
   width: 926px;
@@ -38,8 +40,12 @@ class WaveSurferPage extends PureComponent {
     return (
       <Content>
         <Helmet title="水波纹" />
+        <DefaultAudio />
+        <audio src={MusicSrc} controls="controls">
+        您的浏览器不支持 audio 标签。
+        </audio>
         <p>解决：Failed to construct AudioContext: The number of hardware contexts provided (6) is greater than or equal to the maximum bound (6)</p>
-        <Audio playUrl={'https://vfine.oss-cn-beijing.aliyuncs.com/songs/7-50-908943bb4cd5fabee886b11b6f1e7098.mp3'} />
+        <Audio playUrl={MusicSrc} />
       </Content>
     );
   }

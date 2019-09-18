@@ -13,7 +13,7 @@ import AdaptCom from './AdaptCom';
 import Waterfall from './Waterfall';
 
 import {
-  fetchUserVideos
+  fetchUserVideos,
 } from '../VideoListPage/api';
 
 const Div = styled.div`
@@ -111,11 +111,19 @@ class CssPage extends PureComponent {
   }
  // setTimeout(() => this.handleGetId(), 0);
 
+  // handleAnsy = () => {
+  //   setTimeout(() => {
+  //     (async () => {
+  //       await this._doSomething();
+  //     })();
+  //   }, 0);
+  // }
   handleAnsy = () => {
     setTimeout(() => {
-      (async () => {
-        await this._doSomething();
-      })();
+      while (true) {
+        this._doSomething();
+        break;
+      }
     }, 0);
   }
 

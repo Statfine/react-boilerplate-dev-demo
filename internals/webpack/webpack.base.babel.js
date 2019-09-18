@@ -118,7 +118,7 @@ module.exports = (options) => ({
         use: 'html-loader',
       },
       {
-        test: /\.(mp4|webm)$/,
+        test: /\.(mp4|webm|mp3)$/,
         use: {
           loader: 'url-loader',
           options: {
