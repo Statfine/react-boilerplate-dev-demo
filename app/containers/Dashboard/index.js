@@ -33,6 +33,7 @@ import FetchPage from '../FetchPage/Loadable';
 import CanvasDraw from '../CanvasDraw/Loadable';
 import AnimateCssPage from '../AnimateCssPage';
 import SvgPage from '../SvgPage';
+import DataPage from '../DataFrom';
 
 import { eventsStatistics } from '../../utils/statistics';
 
@@ -131,6 +132,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
             <P onClick={() => this.onJump('canvasdraw')} selected={location.pathname.startsWith('/dashboard/canvasdraw')}>canvas签名</P>
             <P onClick={() => this.onJump('animate')} selected={location.pathname.startsWith('/dashboard/animate')}>AnimateCss</P>
             <P onClick={() => this.onJump('svg')} selected={location.pathname.startsWith('/dashboard/svg')}>SVG</P>
+            <P onClick={() => this.onJump('data')} selected={location.pathname.startsWith('/dashboard/data')}>表单</P>
             <P onClick={() => this.props.history.push('/')}>home</P>
           </LeftNav>
           <RightNav>
@@ -165,6 +167,7 @@ class Dashboard extends PureComponent { // eslint-disable-line react/prefer-stat
               <Route path={`${this.props.match.path}/canvasdraw`} component={CanvasDraw} />
               <Route path={`${this.props.match.path}/animate`} component={AnimateCssPage} />
               <Route path={`${this.props.match.path}/svg`} component={SvgPage} />
+              <Route path={`${this.props.match.path}/data`} component={DataPage} />
             </Switch>
           </RightNav>
         </AppWrapper>
