@@ -11,6 +11,7 @@ import injectSaga from 'utils/injectSaga';
 import AccessibilityIcon from 'material-ui/svg-icons/action/accessibility';
 
 import Foot from 'components/Footer';
+import { setLocal, getLocal } from '../../tool/localStorage';
 
 import TimeLineDrag from '../CutPage/TimeLineDrag';
 
@@ -33,8 +34,18 @@ class AuthLoginPage extends PureComponent {
     password: '',
   }
 
+  componentWillMount() {
+    setLocal('key', 'shaojia');
+  }
+
   componentDidMount() {
     this.urlInput.focus();
+    const KEY = getLocal('key');
+    console.log('KEY', KEY);
+    alert(KEY);
+    const SELF = window.self === window.top;
+    console.log('SELF', SELF);
+    alert(SELF);
   }
 
   handleLogin = () => {
@@ -58,7 +69,7 @@ class AuthLoginPage extends PureComponent {
     return (
       <Container>
         <AccessibilityIcon />
-        <div style={{ display: 'block' }}>
+        <div style={{ display: 'block' }} id="login_from">
           <Input
             ref={(ref) => { this.urlInput = ref; }}
             placeholder="Basic usage"

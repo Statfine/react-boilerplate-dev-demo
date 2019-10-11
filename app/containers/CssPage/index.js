@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import LinesEllipsis from 'react-lines-ellipsis';
 import { BasePage } from 'containers/BasePage';
 import { Helmet } from 'react-helmet';
 import AutoText from './AutoText';
@@ -195,6 +196,16 @@ class CssPage extends PureComponent {
     return (
       <div>
         <Helmet title="样式demo" />
+        <div style={{ width: 500 }}>
+          <LinesEllipsis
+            text="项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求"
+            // text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            maxLine="3"
+            ellipsis="..."
+            trimRight
+            basedOn="letters"
+          />
+        </div>
         {/* {this.renderTags()} */}
         {/* {this.renderOverFloss()} */}
         {/* {this.renderAutoTags()} */}

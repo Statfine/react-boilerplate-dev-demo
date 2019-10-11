@@ -16,7 +16,13 @@ const InputCom = ({
       {
         isNumber ?
           <InputNumber placeholder={dataInfo.name} value={value} onChange={onChange} style={{ width: '100%' }} /> :
-          <Input placeholder={dataInfo.name} value={value} onChange={onChange} style={{ width: '100%' }} />
+          <Input
+            placeholder={dataInfo.name}
+            value={value}
+            onChange={onChange}
+            style={{ width: '100%' }}
+            suffix={dataInfo.maxLimit && (<div>{value.length}/{dataInfo.maxLimit}</div>)}
+          />
       }
     </LabelRight>
   </Label>

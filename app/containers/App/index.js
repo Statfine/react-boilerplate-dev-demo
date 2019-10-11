@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
+import IframePage from 'containers/IframePage';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Dashboard from 'containers/Dashboard/Loadable';
@@ -110,6 +111,7 @@ class App extends React.Component {
           <Route path="/weichat" component={WeiChatPage} />
           <Route path="/video" component={VideoMosaicPage} />
           <Route path="/page" component={() => this.renderCenterPage()} />
+          <Route path="/iframe" component={IframePage} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </AppWrapper>
