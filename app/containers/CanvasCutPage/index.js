@@ -3,7 +3,8 @@
  */
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
-import Transformable from 'components/Transformable';
+// import Transformable from 'components/Transformable';
+import Transformable from 'components/TransPercent';
 import { Helmet } from 'react-helmet';
 import T from './test1.jpg';
 
@@ -21,10 +22,10 @@ export default class MosaicPage extends PureComponent {
     srtThree: '',
     srtFour: '',
     item: {
-      x: 0,
-      y: 0,
-      w: 100,
-      h: 100,
+      x: 10,
+      y: 10,
+      w: 20,
+      h: 30,
       deg: 0,
     },
   }
