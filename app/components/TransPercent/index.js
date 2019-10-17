@@ -416,7 +416,10 @@ class Transformable extends PureComponent {
       }
     }
     if (dragFlag === 'sw') {
-      if (start.startB - moveY >= 0) {
+      console.log('sw', start.startH, moveY, start);
+      if (moveY >= 0 ||
+          (moveY < 0 && start.startH + moveY >= MIN_HEIGHT)
+        ) {
         this.trancontainer.style.height = `${start.startH + moveY}px`;
 
         // 实现等比变化
@@ -426,11 +429,9 @@ class Transformable extends PureComponent {
       }
     }
     if (dragFlag === 'se') {
-      if (start.startR - moveX >= 0) {
-        this.trancontainer.style.width = `${start.startW + moveX}px`;
-        if (isTransScale) this.trancontainer.style.height = `${(start.startW + moveX) / transScale}px`;
-      }
-      if (start.startB - moveY >= 0) {
+      if (moveY >= 0 ||
+        (moveY < 0 && start.startH + moveY >= MIN_HEIGHT)
+      ) {
         this.trancontainer.style.height = `${start.startH + moveY}px`;
 
         // 实现等比变化

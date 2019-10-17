@@ -57,7 +57,7 @@ export default class TransfromPage extends PureComponent {
 
   state = {
     transFromList: [],
-    resolutionSize: '3',
+    resolutionSize: '1',
   }
 
   componentWillMount() {
