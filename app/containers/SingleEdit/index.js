@@ -57,7 +57,8 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.projectInfo.resolutionRatio !== this.props.projectInfo.resolutionRatio) {
-      this.handleResize(nextProps.projectInfo.resolutionRatio);
+      // this.handleResize(nextProps.projectInfo.resolutionRatio);
+      this.handleResize(false, true, nextProps); // 重置视频
     }
   }
 
@@ -80,12 +81,14 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
    *      const LeftElW = document.body.clientWidth - 382;
    *      const LeftElH = document.body.clientHeight - 48 - 40 - 132;
    *
-   * rRatio 分辨率，如果为空表示浏览器大小变化,无需重置播放器
+   * isWindowsResize  区分窗口变动还是分辨率调整 true-窗口变动 false-分辨率调整
+   * initVideo 是否重置视频
   */
-  handleResize = (rRatio = null) => {
+  handleResize = (isWindowsResize = true, initVideo = false, nextProps) => {
     this.setState({ isResizeIng: true });
-    const { videoInfo, projectInfo } = this.props;
-    const resolutionRatio = rRatio === null ? projectInfo.resolutionRatio : rRatio; // 可能是控制蓝修改，所以要判断传入
+    const videoInfo = isWindowsResize ? this.props.videoInfo : nextProps.videoInfo;
+    const projectInfo = isWindowsResize ? this.props.projectInfo : nextProps.projectInfo;
+    const resolutionRatio = Number(projectInfo.resolutionRatio);
     let ratio = RESOLUTION_RATIO[resolutionRatio].w / RESOLUTION_RATIO[resolutionRatio].h; // 获取宽高比
     if (Number(resolutionRatio) === 0) ratio = videoInfo.media_info.width / videoInfo.media_info.height;
 
@@ -101,7 +104,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
       setWidth = setHeight * ratio;
     }
     this.setState({ canvasStyle: { width: setWidth, height: setHeight } });
-    if (rRatio !== null) this.handleResizeVideo(ratio, setWidth, setHeight); // 分辨率变化 需要计算视频的位置 视频的比例原始比例不变
+    if (initVideo) this.handleResizeVideo(ratio, setWidth, setHeight); // 分辨率变化 需要计算视频的位置 视频的比例原始比例不变
     setTimeout(() => this.setState({ isResizeIng: false }), 500);
   }
 
