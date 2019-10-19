@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>购物车</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="导航及首页设计-v1.2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.699999988">
+        <g id="导航方案_2-copy" transform="translate(-1341.000000, -160.000000)">
+            <g id="顶部菜单（自适应优化）-copy-7" transform="translate(220.000000, 148.000000)">
+                <g id="购物车" transform="translate(1120.000000, 12.000000)">
+                    <rect id="Rectangle-7" x="0" y="0" width="24" height="24"></rect>
+                    <g id="Group-26" transform="translate(2.000000, 1.000000)">
+                        <path d="M22,0 L21,0 C19.3431458,3.04359188e-16 18,1.34314575 18,3 L18,14 C18,15.6568542 16.6568542,17 15,17 L3,17 C1.34314575,17 -6.85272294e-16,15.6568542 -8.8817842e-16,14 L2.22044605e-15,6 C2.01753992e-15,4.34314575 1.34314575,3 3,3 L14,3" id="Rectangle-8" stroke="#ffffff" stroke-width="1.5"></path>
+                        <circle id="Oval-3" fill="#ffffff" cx="1.5" cy="20.5" r="1.5"></circle>
+                        <circle id="Oval-3-Copy" fill="#ffffff" cx="16.5" cy="20.5" r="1.5"></circle>
+                        <path d="M4,7.75 L14,7.75" id="Path-25" stroke="#ffffff" stroke-width="1.5"></path>
+                        <path d="M4,12.75 L14,12.75" id="Path-25-Copy" stroke="#ffffff" stroke-width="1.5"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

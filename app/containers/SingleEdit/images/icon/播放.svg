@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 14</title>
+    <desc>Created with Sketch.</desc>
+    <g id="工具-视频" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="播放">
+            <rect id="Rectangle-14" x="0" y="0" width="40" height="40"></rect>
+            <g id="play_arrow-24px" transform="translate(8.000000, 8.000000)">
+                <path d="M8,6.82167316 L8,17.1783268 C8,17.7306116 8.44771525,18.1783268 9,18.1783268 C9.19018402,18.1783268 9.37642456,18.1240935 9.53687549,18.0219883 L17.6742462,12.8436615 C18.1401876,12.5471533 18.2775404,11.9290659 17.9810322,11.4631245 C17.9024535,11.3396437 17.797727,11.2349172 17.6742462,11.1563385 L9.53687549,5.97801168 C9.07093412,5.68150353 8.45284666,5.8188563 8.15633851,6.28479767 C8.05423337,6.44524861 8,6.63148914 8,6.82167316 Z" id="Path" fill="#333333"></path>
+                <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="17px" viewBox="0 0 24 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M24,0 L24,13 C24,15.209139 22.209139,17 20,17 L0,17 L24,0 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="搜索详情页-展开" transform="translate(-386.000000, -380.000000)">
+            <g id="Group-7" transform="translate(80.000000, 264.000000)">
+                <g id="Group-2" transform="translate(306.000000, 116.000000)">
+                    <g id="Rectangle-10-Copy">
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                        <path stroke="#F97835" stroke-width="0.5" d="M23.75,0.483446691 L0.785454152,16.75 L20,16.75 C22.0710678,16.75 23.75,15.0710678 23.75,13 L23.75,0.483446691 Z"></path>
+                    </g>
+                    <polyline id="Path-5" stroke="#FF8140" stroke-linecap="round" stroke-linejoin="round" points="12 11.8707882 15.457752 15 22 9"></polyline>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

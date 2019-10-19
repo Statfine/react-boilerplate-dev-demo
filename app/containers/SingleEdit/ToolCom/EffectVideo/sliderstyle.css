@@ -1,0 +1,11 @@
+.ant-slider .ant-slider-rail {
+  background-color: #efefef;
+}
+
+.ant-slider .ant-slider-track, .ant-slider:hover .ant-slider-track  {
+  background-color: #ff8140;
+}
+
+.ant-slider-handle {
+  cursor: pointer;
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="15px" viewBox="0 0 16 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>视频轨道</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="我的云剪设计-v1.2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="快速剪辑_添加剪辑" transform="translate(-16.000000, -665.000000)">
+            <g id="轨道" transform="translate(0.000000, 583.000000)">
+                <g id="操作">
+                    <g id="视频轨道" transform="translate(12.000000, 77.000000)">
+                        <rect id="Rectangle-13-Copy-7" x="0" y="0" width="24" height="24"></rect>
+                        <g id="视频" opacity="0.800000012" transform="translate(4.000000, 4.000000)">
+                            <rect id="Rectangle-13-Copy-11" x="0" y="0" width="16" height="16"></rect>
+                            <circle id="Oval-12-Copy-3" stroke="#000000" cx="7.5" cy="8.5" r="7"></circle>
+                            <rect id="Rectangle-32-Copy" fill="#000000" x="8" y="15" width="8" height="1"></rect>
+                            <circle id="Oval-13-Copy-5" stroke="#000000" cx="5" cy="6" r="1.5"></circle>
+                            <circle id="Oval-13-Copy-6" stroke="#000000" cx="5" cy="11" r="1.5"></circle>
+                            <circle id="Oval-13-Copy-7" stroke="#000000" cx="10" cy="6" r="1.5"></circle>
+                            <circle id="Oval-13-Copy-8" stroke="#000000" cx="10" cy="11" r="1.5"></circle>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

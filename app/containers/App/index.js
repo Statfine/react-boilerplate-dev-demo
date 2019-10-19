@@ -24,6 +24,7 @@ import VideoMosaicPage from 'containers/VideoMosaicPage/Loadable';
 import WeiChatPage from '../WeiChatPage';
 import CenterPage from '../CssPage/AdaptCom/page';
 import PageSize from '../PageSize';
+import SingleEdit from '../SingleEdit';
 
 import Authentication from './Authentication';
 
@@ -114,6 +115,7 @@ class App extends React.Component {
           <Route path="/page" component={() => this.renderCenterPage()} />
           <Route path="/iframe" component={IframePage} />
           <Route path="/size" component={PageSize} />
+          <Route path="/singleEdit" component={SingleEdit} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </AppWrapper>

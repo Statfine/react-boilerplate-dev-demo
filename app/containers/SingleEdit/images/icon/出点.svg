@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 14</title>
+    <desc>Created with Sketch.</desc>
+    <g id="工具-视频" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="跳转出点" transform="translate(20.000000, 20.000000) rotate(-180.000000) translate(-20.000000, -20.000000) ">
+            <rect id="Rectangle-14" x="0" y="0" width="40" height="40"></rect>
+            <g id="get_app-24px" transform="translate(20.000000, 20.000000) rotate(-270.000000) translate(-20.000000, -20.000000) translate(8.000000, 8.000000)">
+                <path d="M16.5857864,9 L15,9 L15,4 C15,3.44771525 14.5522847,3 14,3 L10,3 C9.44771525,3 9,3.44771525 9,4 L9,9 L7.41421356,9 C6.86192881,9 6.41421356,9.44771525 6.41421356,10 C6.41421356,10.2652165 6.5195704,10.5195704 6.70710678,10.7071068 L11.2928932,15.2928932 C11.6834175,15.6834175 12.3165825,15.6834175 12.7071068,15.2928932 L17.2928932,10.7071068 C17.6834175,10.3165825 17.6834175,9.68341751 17.2928932,9.29289322 C17.1053568,9.10535684 16.8510029,9 16.5857864,9 Z M5,19 L5,19 C5,19.5522847 5.44771525,20 6,20 L18,20 C18.5522847,20 19,19.5522847 19,19 L19,19 C19,18.4477153 18.5522847,18 18,18 L6,18 C5.44771525,18 5,18.4477153 5,19 Z" id="Shape" fill="#333333" fill-rule="nonzero"></path>
+                <polygon id="Path" points="0 0 24 0 24 24 0 24"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

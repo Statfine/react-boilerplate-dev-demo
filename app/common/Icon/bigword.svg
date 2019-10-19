@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>大字幕轨道</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="我的云剪设计-v1.2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="快速剪辑_添加剪辑" transform="translate(-16.000000, -749.000000)">
+            <g id="轨道" transform="translate(0.000000, 583.000000)">
+                <g id="操作">
+                    <g id="大字幕轨道" transform="translate(12.000000, 162.000000)">
+                        <rect id="Rectangle-13-Copy-7" x="0" y="0" width="24" height="24"></rect>
+                        <g id="文字轨道" opacity="0.800000012" transform="translate(4.000000, 4.000000)">
+                            <rect id="Rectangle-13-Copy-9" x="0" y="0" width="16" height="16"></rect>
+                            <circle id="Oval-12-Copy" stroke="#000000" cx="8" cy="8" r="7.5"></circle>
+                            <path d="M8.5,6 L8.5,13 L7.5,13 L7.5,6 L4,6 L4,5 L12,5 L12,6 L8.5,6 Z" id="Combined-Shape" fill="#000000"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

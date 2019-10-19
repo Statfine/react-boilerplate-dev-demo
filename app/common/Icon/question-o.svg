@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>帮助_移入</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="剪辑工具-v1.2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ICON" transform="translate(-454.000000, -147.000000)">
+            <g id="帮助_移入" transform="translate(453.000000, 146.000000)">
+                <rect id="底" x="0" y="0" width="24" height="24"></rect>
+                <rect id="Rectangle-19" stroke="#FF8140" stroke-width="1.5" x="1.75" y="1.75" width="20.5" height="20.5" rx="10.25"></rect>
+                <rect id="Rectangle-37" fill="#FF8140" x="11.25" y="18" width="1.5" height="1.5" rx="0.75"></rect>
+                <path d="M12.75,15.75 C12.75,16.1642136 12.4142136,16.5 12,16.5 C11.5857864,16.5 11.25,16.1642136 11.25,15.75 L11.25,15 C11.25,13.500385 11.7165677,12.7227721 12.9696699,11.4696699 C13.9665677,10.4727721 14.25,10.000385 14.25,9 C14.25,7.75735931 13.2426407,6.75 12,6.75 C10.7573593,6.75 9.75,7.75735931 9.75,9 C9.75,9.41421356 9.41421356,9.75 9,9.75 C8.58578644,9.75 8.25,9.41421356 8.25,9 C8.25,6.92893219 9.92893219,5.25 12,5.25 C14.0710678,5.25 15.75,6.92893219 15.75,9 C15.75,10.499615 15.2834323,11.2772279 14.0303301,12.5303301 C13.0334323,13.5272279 12.75,13.999615 12.75,15 L12.75,15.75 Z" id="Oval-43" fill="#FF8140" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
