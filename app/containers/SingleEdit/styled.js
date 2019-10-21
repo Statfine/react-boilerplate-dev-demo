@@ -20,6 +20,7 @@ export const TopLeft = styled.div`
   width: 382px;
   background: #fff;
   border-right: 1px solid rgba(217,217,217,1);
+  z-index: 98;
 `;
 export const TopRight = styled.div`
   flex: 1;
@@ -47,12 +48,12 @@ export const BottomContent = styled.div`
   height: 132px;
   min-height: 132px;
   display: flex;
-  z-index: 1;
+  z-index: 99;
 `;
 
 export const DevInfo = styled.div`
   position: fixed;
   top: 48px;
   left: 382px;
-  width: 100%;
+  z-index: 99;
 `;

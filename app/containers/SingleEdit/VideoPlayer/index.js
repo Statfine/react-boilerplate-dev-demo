@@ -12,6 +12,8 @@ import VideoContext from './videocontext.commonjs2';
 
 import { LoadingDiv, VideoContent, BtnContent, NoContent } from './styled';
 
+import { EFFECTIMAGE } from '../reducer';
+
 export default class VideoContextComponent extends PureComponent {
   state = {
     duration: 0,
@@ -142,7 +144,12 @@ export default class VideoContextComponent extends PureComponent {
 
     // todo - 图片特效 效果同上(注意背景和前景的区别)
 
-    filterAdjust.connect(this.ctx.destination);
+    // const finaleNode = this.addChartletDemo(filterAdjust); // 一个贴图特效
+    this.chartFilterList = []; // 清空贴图特效
+    const finaleNode = this.addChartlet(filterAdjust, 0);
+    finaleNode.connect(this.ctx.destination);
+
+    // filterAdjust.connect(this.ctx.destination);
 
     const { cbHandleTime, handleInitVideo } = this.props;
     this.ctx.currentTime = (this.props.reducerCurrentTime < 0.00001 || this.props.reducerCurrentTime > this.ctx.duration) ? 0.00001 : this.props.reducerCurrentTime; // 设置封面，不然是黑屏
@@ -158,6 +165,70 @@ export default class VideoContextComponent extends PureComponent {
       updateVideo: this.publickUpdateVideo, // 更新大小和背景
     });
   };
+
+  // 贴图迭代器
+  chartFilterList = [];
+  addChartlet = (filter, i) => {
+    if (i < EFFECTIMAGE.length) {
+      const chartFilter = this.addChartletSingle(filter, EFFECTIMAGE[i]);
+      return this.addChartlet(chartFilter, i + 1);
+    }
+    return filter;
+  }
+
+  // 同上(贴图迭代器)
+  addChartletMap = (beforeFilter) => {
+    let afterNode = beforeFilter;
+    EFFECTIMAGE.map((item) => afterNode = this.addChartletSingle(afterNode, item));
+    return afterNode;
+  }
+
+  // 设置贴图
+  addChartletSingle = (beforeFilter, imageObj) => {
+    const chartletNode = this.ctx.image(imageObj.image.src);
+    chartletNode.startAt(0);
+    chartletNode.stopAt(imageObj.endT);
+
+    const adjustChartlet = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
+    // 定义节点特效
+    this.chartFilterList[imageObj.effectKey] = adjustChartlet;
+
+    adjustChartlet.u_rect = [imageObj.position.x / 100, imageObj.position.y / 100, imageObj.position.w / 100, imageObj.position.h / 100]; // 前景位置(第二张图片)
+    adjustChartlet.u_bgColor = [0.2, 0.5, 0.1]; // 前景背景(背景色)
+    adjustChartlet.u_alpha = imageObj.alpha / 100; // 前景透明度（第二张图片）
+    adjustChartlet.u_width_view = this.props.width; // 画布
+    adjustChartlet.u_height_view = this.props.height; // 画布
+    adjustChartlet.u_width_image = Number(imageObj.image.width); // 前景宽（第二张图片）
+    adjustChartlet.u_height_image = Number(imageObj.image.height); // 前景高（第二张图片）
+    adjustChartlet.u_image_b_valid = 1.0; // 当前effect的背景是否显示（当前背景是视频）
+
+    chartletNode.connect(adjustChartlet);
+    beforeFilter.connect(adjustChartlet);
+
+    return adjustChartlet;
+  }
+
+  // 设置贴图 测试
+  addChartletDemo = (beforeFilter) => {
+    const chartletNode = this.ctx.image(this.props.effectVideo.backgroundImg.src);
+    chartletNode.startAt(0);
+
+    const adjustChartlet = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
+    adjustChartlet.u_rect = [0.5, 0.5, 0.4, 0.1]; // 前景位置(第二张图片)
+    adjustChartlet.u_bgColor = [0.2, 0.5, 0.1]; // 前景背景(背景色)
+    adjustChartlet.u_alpha = 1.0; // 前景透明度（第二张图片）
+    adjustChartlet.u_width_view = this.props.width; // 画布
+    adjustChartlet.u_height_view = this.props.height; // 画布
+    adjustChartlet.u_width_image = 248; // 前景宽（第二张图片）
+    adjustChartlet.u_height_image = 510; // 前景高（第二张图片）
+    adjustChartlet.u_image_b_valid = 1.0; // 当前effect的背景是否显示（当前背景是视频）
+
+    chartletNode.connect(adjustChartlet);
+    beforeFilter.connect(adjustChartlet);
+
+    return adjustChartlet;
+    // adjust2.connect(videoContext.destination);
+  }
 
   // 背景图node节点
   effectBacImageNode;
@@ -278,6 +349,13 @@ export default class VideoContextComponent extends PureComponent {
     if (!this.state.pause) this.ctx.play();
   }
 
+  // 更新贴图
+  publickUpdateChartlet = (effectKey, params = {}) => {
+    console.log('publickUpdateChartlet', params, effectKey, this.chartFilterList);
+    this.chartFilterList.map((item) => item.disconnect()); // 清空
+    this.effctFilterAdjust.connect(this.ctx.destination); // 重新连接
+  }
+
   render() {
     const { className, style } = this.props;
     const { laoding, duration, currentTime, noContent } = this.state;
@@ -290,6 +368,7 @@ export default class VideoContextComponent extends PureComponent {
           <Button onClick={this.publicPlay}>paly</Button>
           <Button onClick={this.publicPause}>pause</Button>
           <Button onClick={() => this.publickUpdateVideo({ rect: [0, 0, 0.5, 0.5], bgColor: '#fff' })}>update测试(白色，顶点50%)</Button>
+          <Button onClick={() => this.publickUpdateChartlet('image_1')}>update贴图</Button>
           <Button onClick={() => this.publicSeek(5)}>seek 5</Button>
           <p>{duration}/{currentTime}</p>
         </BtnContent>

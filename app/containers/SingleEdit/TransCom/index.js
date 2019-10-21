@@ -118,7 +118,6 @@ class Transformable extends PureComponent {
       document.body.style.msUserSelect = 'none';
       document.body.style.mozUserSelect = 'none';
       document.addEventListener('mouseup', this.handleMouseUp);
-      drag.style.cursor = 'move';
       const startTranslateX = this.getTransX(
         this.getStyle(this.trancontainer).transform,
       );
@@ -534,7 +533,7 @@ class Transformable extends PureComponent {
     // ;
     setTimeout(() => {
       this.isDrag = false;
-    }, 500);
+    }, 200);
     const result = this.handleActualSize();
     if (this.props.onChange && !this.props.disabled) {
       this.props.onChange(result);

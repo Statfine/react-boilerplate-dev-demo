@@ -20,7 +20,8 @@ export const EachTool = styled.div`
   border:1px solid rgba(217,217,217,1);
   cursor: pointer;
   &:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
+    border:1px solid #b4b4b4;
   }
 `;
 

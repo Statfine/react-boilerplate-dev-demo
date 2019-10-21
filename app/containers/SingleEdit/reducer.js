@@ -42,12 +42,57 @@ const EFFECTVIDEO = {
   startTime: 0,
   endTime: 11,
 };
+export const EFFECTIMAGE = [
+  {
+    zIndex: '1', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
+    effectKey: 'image_1', // 特效标识
+    type: 'image', // 特效类型
+    image: { // 图片信息
+      src: 'https://cloud-clip-img.oss-cn-hangzhou.aliyuncs.com/photograph/e5223726-661e-4dcd-8165-b2c45d79c005.jpg',
+      title: '94.png',
+      id: 'abc-hts13-231',
+      width: '248',
+      height: '510',
+    },
+    position: { // 图片位置
+      w: 40, // 百分比
+      h: 40,
+      x: 0,
+      y: 0,
+    },
+    alpha: 100, // 图片透明度
+    startT: 0, // 图片开始时间点
+    endT: 5, // 图片结束时间点
+  },
+  {
+    zIndex: '2', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
+    effectKey: 'image_2', // 特效标识
+    type: 'image', // 特效类型
+    image: {
+      src: 'https://cloud-clip-img.oss-cn-hangzhou.aliyuncs.com/photograph/e5223726-661e-4dcd-8165-b2c45d79c005.jpg',
+      title: '94.png',
+      id: 'abc-hts13-231',
+      width: '248',
+      height: '510',
+    },
+    position: {
+      w: 10, // 百分比
+      h: 40,
+      x: 50,
+      y: 50,
+    },
+    alpha: 100,
+    startT: 0,
+    endT: 11,
+  },
+];
 
 const initialState = fromJS({
   videoInfo: VIDEOINFO, // 单视频详情信息
 
   projectInfo: PROJECTINFO, // 项目信息 - 触发保存
   effectVideo: EFFECTVIDEO, // 视频特效 - 触发保存
+  effectImage: EFFECTIMAGE, // 贴图特效 - 触发保存
 
   videoPlayer: { // 播放器数据
     currentTime: 0, // 当前时间
