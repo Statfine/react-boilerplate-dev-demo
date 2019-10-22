@@ -113,3 +113,51 @@ export const Line = styled.span`
   flex: 1;
   border: 1px dashed #FFF;
 `;
+
+export const BaseLineX = styled.div`
+  width: 100%;
+  height: 2px;
+  border-top: 1px dashed #FF8140;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -1px;
+  z-index: 99;
+`;
+
+export const BaseLineY = styled.div`
+  width: 2px;
+  height: 100%;
+  border-left: 1px dashed #FF8140;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  margin-left: -1px;
+  z-index: 99;
+`;
+
+// {
+//   position: relative;
+//   &:before {
+//     content: '';
+//     width: 100%;
+//     height: 2px;
+//     border-top: 1px dashed #FF8140;
+//     position: absolute;
+//     left: 0;
+//     top: 50%;
+//     margin-top: -1px;
+//     z-index: 99;
+//   }
+//   &:after {
+//     content: '';
+//     width: 2px;
+//     height: 100%;
+//     border-left: 1px dashed #FF8140;
+//     position: absolute;
+//     left: 50%;
+//     top: 0;
+//     margin-left: -1px;
+//     z-index: 99;
+//   }
+// }

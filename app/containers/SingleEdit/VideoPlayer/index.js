@@ -145,11 +145,12 @@ export default class VideoContextComponent extends PureComponent {
     // todo - 图片特效 效果同上(注意背景和前景的区别)
 
     // const finaleNode = this.addChartletDemo(filterAdjust); // 一个贴图特效
-    this.chartFilterList = []; // 清空贴图特效
-    const finaleNode = this.addChartlet(filterAdjust, 0);
-    finaleNode.connect(this.ctx.destination);
+    // 多个贴图特效
+    // this.chartFilterList = []; // 清空贴图特效
+    // const finaleNode = this.addChartlet(filterAdjust, 0);
+    // finaleNode.connect(this.ctx.destination);
 
-    // filterAdjust.connect(this.ctx.destination);
+    filterAdjust.connect(this.ctx.destination);
 
     const { cbHandleTime, handleInitVideo } = this.props;
     this.ctx.currentTime = (this.props.reducerCurrentTime < 0.00001 || this.props.reducerCurrentTime > this.ctx.duration) ? 0.00001 : this.props.reducerCurrentTime; // 设置封面，不然是黑屏
@@ -255,25 +256,20 @@ export default class VideoContextComponent extends PureComponent {
   videoContextContent = () => this.setState({ noContent: false });
   videoContextNoContent = () => this.setState({ noContent: true });
   videoContextEnded = () => {
+    if (this.ctx.currentTime > this.ctx.duration) {
+      this.ctx.currentTime = this.ctx.duration;
+      const { cbHandleTime } = this.props;
+      if (cbHandleTime) cbHandleTime(this.ctx.duration);
+      this.setState({ currentTime: this.ctx.duration });
+    }
     this.publicPause();
-    // const { cbHandleTime: handleTime } = this.props;
-    // if (handleTime) handleTime(this.ctx.currentTime);
-    // this.ctx.currentTime = 0;
-    // if (!this.unmount) {
-    //   this.setState({
-    //     currentTime: 0,
-    //   });
-    // }
   };
   /** videoContext * */
 
   // 进度条定时 state 0:全部可播; 1:暂停; 2:一个或多个源不可播; 3:所有播放完毕; 4:损坏状态;
   currentTimeAnimation;
   drawVideo = () => {
-    if (this.ctx.currentTime > this.ctx.duration) {
-      this.ctx.currentTime = this.ctx.duration;
-      this.publicPause();
-    } else this.currentTimeAnimation = requestAnimationFrame(this.drawVideo);
+    this.currentTimeAnimation = requestAnimationFrame(this.drawVideo);
     const { cbHandleTime } = this.props;
     if (cbHandleTime) cbHandleTime(this.ctx.currentTime);
     this.setState({ currentTime: this.ctx.currentTime });

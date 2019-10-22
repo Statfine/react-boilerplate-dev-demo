@@ -40,7 +40,7 @@ export class TransVideo extends React.PureComponent { // eslint-disable-line rea
   }
 
   render() {
-    const { effectVideo: { position }, chooseEffect } = this.props;
+    const { effectVideo: { position }, chooseEffect, handleShowBaseLine } = this.props;
     return (
       <Transformable
         onChange={this.handleDragMouseUp}
@@ -52,6 +52,7 @@ export class TransVideo extends React.PureComponent { // eslint-disable-line rea
         handleActualTime={this.handleActualTime} // 实时
         disabled={chooseEffect.dragKey !== 'videoTrans'}
         handleClick={this.handleChoosed}
+        handleShowBaseLine={handleShowBaseLine}
       >
       </Transformable>
     );
@@ -59,6 +60,8 @@ export class TransVideo extends React.PureComponent { // eslint-disable-line rea
 }
 
 /**
+ *  handleShowBaseLine  是否显示基准线
+ *
  *  videoPlayerEl 视频实例
  *  effectVideo 视频特效
  *  chooseEffect 特效工具和key
@@ -67,6 +70,8 @@ export class TransVideo extends React.PureComponent { // eslint-disable-line rea
  *  actionChangeEffectCom 设置被选中的工具和拖动组件
 */
 TransVideo.propTypes = {
+  handleShowBaseLine: PropTypes.func,
+
   videoPlayerEl: PropTypes.object.isRequired,
   effectVideo: PropTypes.object.isRequired,
   chooseEffect: PropTypes.object.isRequired,

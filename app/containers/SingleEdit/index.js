@@ -43,6 +43,8 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
       height: 0,
     },
     isResizeIng: false, // 尺寸变化 canvas需要从新渲染
+    isShowBaseLineX: false,
+    isShowBaseLineY: false,
   };
 
   componentDidMount() {
@@ -168,7 +170,11 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
             <TopRight innerRef={(ref) => (this.rightCom = ref)}>
               {
                 isResizeIng ? <Spin size="large" /> : (
-                  <PreviewDiv style={canvasStyle}>
+                  <PreviewDiv
+                    style={canvasStyle}
+                    showBaseLineX={this.state.isShowBaseLineX}
+                    showBaseLineY={this.state.isShowBaseLineY}
+                  >
                     {
                       canvasStyle.width &&
                         <VideoPlayer
@@ -181,7 +187,14 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
                           handleVideoState={(state) => actionChangeVideoPlayer({ state })}
                         />
                     }
-                    <TransVideo />
+                    <TransVideo
+                      handleShowBaseLine={(lineParams) => {
+                        this.setState({
+                          isShowBaseLineX: lineParams.showLineX,
+                          isShowBaseLineY: lineParams.showLineY,
+                        });
+                      }}
+                    />
                   </PreviewDiv>
                 )
               }

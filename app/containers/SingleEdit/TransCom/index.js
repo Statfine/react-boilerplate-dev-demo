@@ -71,6 +71,8 @@ class Transformable extends PureComponent {
      * 附加操作按钮
      */
     extra: !this.props.disabled,
+    isShowBaseLineX: false,
+    isShowBaseLineY: false,
   }
   componentDidMount() {
     /**
@@ -87,8 +89,8 @@ class Transformable extends PureComponent {
     if (height === '0px') {
       this.parent.style.height = this.getStyle(this.parent.parentNode).height;
     }
-    drag.style.left = defaultPosition.x && `${Math.round(defaultPosition.x)}%`;
-    drag.style.top = defaultPosition.y && `${Math.round(defaultPosition.y)}%`;
+    drag.style.left = defaultPosition.x && `${Number(defaultPosition.x)}%`;
+    drag.style.top = defaultPosition.y && `${Number(defaultPosition.y)}%`;
     drag.style.transform = defaultPosition.rotate ? `rotate(${defaultPosition.rotate}deg)` : `rotate(${0}deg)`;
     if (this.props.translate) {
       drag.style.width = defaultPosition.w ? `${defaultPosition.w}%` : '10%';
@@ -281,10 +283,38 @@ class Transformable extends PureComponent {
     this.props.handleClick(true, this.props);
   }
 
+  // 判断基准线是否显示
+  handleCalculateBaseLine = () => {
+    const result = {
+      w: this.formatStyle(this.trancontainer, 'width'),
+      h: this.formatStyle(this.trancontainer, 'height'),
+      x: this.formatStyle(this.trancontainer, 'left') +
+      this.getTransX(this.getStyle(this.trancontainer).transform),
+      y: this.formatStyle(this.trancontainer, 'top') +
+      this.getTransY(this.getStyle(this.trancontainer).transform),
+      deg: this.state.rotate.get('deg'),
+    };
+    // 组件中心点(相对拖动区域)
+    const DragMiddleX = (result.w) / 2 + result.x;
+    const DragMiddleY = (result.h) / 2 + result.y;
+
+    // 基准线中心点(拖动区域)
+    const parentMiddleX = this.formatStyle(this.parent, 'width') / 2;
+    const parentMiddleY = this.formatStyle(this.parent, 'height') / 2;
+
+    const showMiddleX = Math.abs(parentMiddleY - DragMiddleY) <= 5;
+    const showMiddleY = Math.abs(parentMiddleX - DragMiddleX) <= 5;
+    this.props.handleShowBaseLine({
+      showLineX: this.isDrag && showMiddleX,
+      showLineY: this.isDrag && showMiddleY,
+    });
+  }
+
   /**
    * 拖动鼠标移动
    */
   handleDragMouseMove = (ev) => {
+    if (this.props.disabled) return;
     // console.log('handleDragMouseMove');
     // startX-鼠标X轴距离; startY-鼠标Y轴距离; tranX-相对父元素x轴距离; tranY-相对父元素Y轴距离
     const { startX, startY, tranX, tranY } = this.state.drag.toJS();
@@ -336,6 +366,7 @@ class Transformable extends PureComponent {
     }
     this.handleTransfrom();
     // document.addEventListener('mouseup', this.handleMouseUp);
+    if (this.props.handleShowBaseLine) this.handleCalculateBaseLine(); //  基准线判断
     if (this.props.handleActualTime) this.props.handleActualTime(this.handleActualSize());
   }
   /**
@@ -507,6 +538,7 @@ class Transformable extends PureComponent {
       }
     }
     this.handleTransfrom();
+    if (this.props.handleShowBaseLine) this.handleCalculateBaseLine(); //  基准线判断
     if (this.props.handleActualTime) this.props.handleActualTime(this.handleActualSize());
   }
 
@@ -537,6 +569,13 @@ class Transformable extends PureComponent {
     const result = this.handleActualSize();
     if (this.props.onChange && !this.props.disabled) {
       this.props.onChange(result);
+    }
+
+    if (this.props.handleShowBaseLine) {
+      this.props.handleShowBaseLine({
+        showLineX: false,
+        showLineY: false,
+      });
     }
 
     const drag = this.trancontainer;
@@ -704,6 +743,7 @@ class Transformable extends PureComponent {
  * dragKey 标识
  * dragType 类型
  * handleClick （true props）选中 （false）点击其他位置
+ * handleShowBaseLine 显示基准线
  */
 Transformable.defaultProps = {
   isTransScale: false,
@@ -725,6 +765,7 @@ Transformable.propTypes = {
   dragKey: PropTypes.string,
   dragType: PropTypes.string,
   handleClick: PropTypes.func,
+  handleShowBaseLine: PropTypes.func,
 };
 
 export default Transformable;
