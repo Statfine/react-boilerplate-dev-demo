@@ -11,6 +11,8 @@ export const CHANGE_PROJECT_INFO = 'app/SingleEdit/CHANGE_PROJECT_INFO';
 
 // 视频特效
 export const CHANGE_EFFECT_VIDEO = 'app/SingleEdit/CHANGE_EFFECT_VIDEO';
+// 贴图特效
+export const CHANGE_EFFECT_CHARTLET = 'app/SingleEdit/CHANGE_EFFECT_CHARTLET';
 
 // 修改播放器数据
 export const CHANGE_VIDEO_PLAYER = 'app/SingleEdit/CHANGE_VIDEO_PLAYER';

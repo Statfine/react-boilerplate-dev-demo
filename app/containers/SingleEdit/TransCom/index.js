@@ -75,7 +75,10 @@ class Transformable extends PureComponent {
     isShowBaseLineY: false,
   }
   componentDidMount() {
-    if (!this.props.disabled) document.addEventListener('click', this.handleDocumentClick); // 初次渲染的时候就已经是选中状态(窗口变化)
+    if (!this.props.disabled) {
+      document.addEventListener('click', this.handleDocumentClick); // 初次渲染的时候就已经是选中状态(窗口变化)
+      this.trancontainer.addEventListener('keydown', this.handleKeyDown);
+    }
     /**
      * 获取父元素节点，并设position为relative
      */
@@ -171,6 +174,7 @@ class Transformable extends PureComponent {
     document.removeEventListener('mouseup', this.handleMouseUp);
 
     document.removeEventListener('click', this.handleDocumentClick); // 用于取消选中
+    this.trancontainer.removeEventListener('keydown', this.handleKeyDown);
     clearTimeout(this.timer);
   }
 
@@ -255,24 +259,39 @@ class Transformable extends PureComponent {
    * 键盘按下
    */
   handleKeyDown = (ev) => {
-    // ev.stopPropagation();
-    // ev.preventDefault();
-    console.log('handleKeyDown');
-    const left = this.formatStyle(this.trancontainer, 'left');
-    const top = this.formatStyle(this.trancontainer, 'top');
-    if (ev.keyCode === 37) {
-      this.trancontainer.style.left = `${left - 1}px`;
-    }
-    if (ev.keyCode === 38) {
-      this.trancontainer.style.top = `${top - 1}px`;
-    }
-    if (ev.keyCode === 39) {
-      this.trancontainer.style.left = `${left + 1}px`;
-    }
-    if (ev.keyCode === 40) {
-      this.trancontainer.style.top = `${top + 1}px`;
-    }
+    ev.stopPropagation();
+    ev.preventDefault();
+    const { onKeyDown, dragKey, dragType } = this.props;
+    console.log('handleKeyDown', ev.keyCode);
+    // const left = this.formatStyle(this.trancontainer, 'left');
+    // const top = this.formatStyle(this.trancontainer, 'top');
+    // if (ev.keyCode === 37) {
+    //   this.trancontainer.style.left = `${left - 1}px`;
+    // }
+    // if (ev.keyCode === 38) {
+    //   this.trancontainer.style.top = `${top - 1}px`;
+    // }
+    // if (ev.keyCode === 39) {
+    //   this.trancontainer.style.left = `${left + 1}px`;
+    // }
+    // if (ev.keyCode === 40) {
+    //   this.trancontainer.style.top = `${top + 1}px`;
+    // }
+
+    // if ((e.keyCode === 8 || e.keyCode === 46) && onDeleteKeyDown) {
+    //   onDeleteKeyDown({
+    //     dragKey,
+    //     dragType,
+    //   });
+    // }
     // this.handleTransfrom();
+    if (onKeyDown) {
+      onKeyDown({
+        dragKey,
+        dragType,
+        ev,
+      });
+    }
   }
   parent = null;
 
@@ -692,12 +711,13 @@ class Transformable extends PureComponent {
       extraBtn,
       defaultPosition,
       isTransScale,
+      zIndex,
     } = this.props;
     const { extra } = this.state;
     return (
       <TranContainer
-        // eslint-disable-next-line no-return-assign
         innerRef={(ref) => this.trancontainer = ref}
+        zIndex={zIndex}
         tabIndex={0}
         autoFocus
         disabled
@@ -747,10 +767,14 @@ class Transformable extends PureComponent {
  * dragType 类型
  * handleClick （true props）选中 （false）点击其他位置
  * handleShowBaseLine 显示基准线
+ *
+ * zIndex 层级关系 (读个拖拽组件的层级)
+ * onKeyDown 键盘事件
  */
 Transformable.defaultProps = {
   isTransScale: false,
   translate: true,
+  zIndex: 1,
 };
 Transformable.propTypes = {
   children: PropTypes.object,
@@ -769,6 +793,8 @@ Transformable.propTypes = {
   dragType: PropTypes.string,
   handleClick: PropTypes.func,
   handleShowBaseLine: PropTypes.func,
+  zIndex: PropTypes.number,
+  onKeyDown: PropTypes.func,
 };
 
 export default Transformable;

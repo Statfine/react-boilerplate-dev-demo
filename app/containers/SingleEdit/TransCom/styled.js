@@ -10,13 +10,14 @@ export const TransCtrl = styled.div`
 `;
 
 export const TranContainer = styled.div`
-  left: 0px;
-  top: 0px;
-  z-index: ${(props) => props.disabled ? 1 : 100};
+  left: 0;
+  top: 0;
+  z-index: ${(props) => props.disabled ? props.zIndex : 100};
   min-width: ${MIN_WIDTH}px;
-  min-height: ${({ transScale }) => transScale ? `${MIN_WIDTH / transScale}px` : `${MIN_WIDTH}px`};;
+  min-height: ${({ transScale }) => transScale ? `${MIN_WIDTH / transScale}px` : `${MIN_WIDTH}px`};
   position: absolute;
   cursor: ${(props) => props.disabled ? 'pointer' : 'move'};
+
   &:focus {
     border: none;
     outline: none;

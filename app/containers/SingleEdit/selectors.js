@@ -45,6 +45,12 @@ const makeSelectChooseEffect = () => createSelector(
   (substate) => substate.get('chooseEffect').toJS()
 );
 
+// 贴图特效
+const makeSelectEffectImage = () => createSelector(
+  selectSingleEditDomain,
+  (substate) => substate.get('effectImage').toJS()
+);
+
 export const makeSelectTrackInfo = () => createSelector(
   selectSingleEditDomain,
   (substate) => substate.get('trackInfo').toJS()
@@ -58,4 +64,5 @@ export {
   makeSelectEffectVideo,
   makeSelectVideoPlayer,
   makeSelectChooseEffect,
+  makeSelectEffectImage,
 };

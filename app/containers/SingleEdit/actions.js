@@ -65,3 +65,12 @@ export function changeTrackInfo(payload) {
     payload,
   };
 }
+
+// 修改贴图特效 actionType： edit-修改 delete-删除 add-新增
+export function changeEffectChartLet(actionType, payload) {
+  return {
+    type: cons.CHANGE_EFFECT_CHARTLET,
+    actionType,
+    payload,
+  };
+}

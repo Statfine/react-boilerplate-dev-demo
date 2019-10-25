@@ -102,6 +102,7 @@ const initialState = fromJS({
       pause: () => console.log('暂停事件'), // 暂停事件
       seek: () => console.log('修改时间点'), // 修改时间点
       updateVideo: () => console.log('更新属性'), // 更新属性 具体参数看播放器内
+      updateChartlet: () => console.log('更新贴图'), // 更新属性 具体参数看播放器内
     }, // 实例对象
   },
   chooseEffect: {
@@ -137,6 +138,24 @@ function singleEditReducer(state = initialState, action) {
       return state.update('effectVideo', (p) => p.mergeDeep({ backgroundImg: { progress: 0, isUploading: true } }));
     case cons.CHANGE_UPLOAD_BAC_IMG_STATE:
       return state.update('effectVideo', (p) => p.mergeDeep({ backgroundImg: action.payload }));
+    case cons.CHANGE_EFFECT_CHARTLET: {
+      // 修改 edit。    actionType edit-修改 delete-删除 add-新增
+      if (action.actionType === 'edit') {
+        const index = state.get('effectImage')
+          .findIndex((v) => v.get('effectKey') === action.payload.effectKey);
+        return state.updateIn(['effectImage', index], (item) =>
+          item.merge(fromJS(action.payload))
+        );
+      }
+      // 删除 delete
+      if (action.actionType === 'delete') {
+        return state.update('effectImage', (list) =>
+          list.filter((v) => v.get('effectKey') !== action.payload.effectKey)
+        );
+      }
+      // 添加 add
+      return state.update('effectImage', (list) => list.push(fromJS(action.payload)));
+    }
     default:
       return state;
   }

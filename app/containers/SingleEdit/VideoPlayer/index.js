@@ -1,18 +1,28 @@
 /**
  * VideoContext 播放器
  * https://github.com/bbc/VideoContext
+ *
+ * 实例
+ *  effctFilterAdjust.connect(chartlet1)
+ *  chartlet1.connect(chartlet2)
+ *  chartlet3.connect(chartlet3)
+ *  chartlet3.connect(chartlet4)
+ *  chartlet4.connect(this.ctx.destination)
+ *    以此为基础修改
+ *    修改chartlet1之后，需要执行chartlet1.connect(chartlet2) 以此类推
+ *    删除chartlet1之后需要 effctFilterAdjust.connect(chartlet2) 以此类推
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Spin, Button } from 'antd';
-// import { isEqual } from 'lodash';
+import _ from 'lodash';
 import { detectOS } from 'utils/utils';
 import { colorToRGB } from 'utils/color';
 import VideoContext from './videocontext.commonjs2';
 
 import { LoadingDiv, VideoContent, BtnContent, NoContent } from './styled';
 
-import { EFFECTIMAGE } from '../reducer';
+// import { EFFECTIMAGE } from '../reducer';
 
 export default class VideoContextComponent extends PureComponent {
   state = {
@@ -144,13 +154,16 @@ export default class VideoContextComponent extends PureComponent {
 
     // todo - 图片特效 效果同上(注意背景和前景的区别)
 
-    // const finaleNode = this.addChartletDemo(filterAdjust); // 一个贴图特效
-    // 多个贴图特效
-    // this.chartFilterList = []; // 清空贴图特效
-    // const finaleNode = this.addChartlet(filterAdjust, 0);
+    // 贴图特效
+    // const finaleNode = this.addChartletDemo(filterAdjust);
     // finaleNode.connect(this.ctx.destination);
 
-    filterAdjust.connect(this.ctx.destination);
+    // 多个贴图特效
+    this.chartFilterList = []; // 清空贴图特效
+    const finaleNode = this.addChartlet(filterAdjust, 0);
+    finaleNode.connect(this.ctx.destination);
+
+    // filterAdjust.connect(this.ctx.destination);
 
     const { cbHandleTime, handleInitVideo } = this.props;
     this.ctx.currentTime = (this.props.reducerCurrentTime < 0.00001 || this.props.reducerCurrentTime > this.ctx.duration) ? 0.00001 : this.props.reducerCurrentTime; // 设置封面，不然是黑屏
@@ -164,14 +177,15 @@ export default class VideoContextComponent extends PureComponent {
       pause: this.publicPause, // 暂停
       seek: this.publicSeek, // 设置时间
       updateVideo: this.publickUpdateVideo, // 更新大小和背景
+      updateChartlet: this.publickUpdateChartlet, // 更新贴图
     });
   };
 
   // 贴图迭代器
   chartFilterList = [];
   addChartlet = (filter, i) => {
-    if (i < EFFECTIMAGE.length) {
-      const chartFilter = this.addChartletSingle(filter, EFFECTIMAGE[i]);
+    if (i < this.props.effectImage.length) {
+      const chartFilter = this.addChartletSingle(filter, this.props.effectImage[i]);
       return this.addChartlet(chartFilter, i + 1);
     }
     return filter;
@@ -180,7 +194,7 @@ export default class VideoContextComponent extends PureComponent {
   // 同上(贴图迭代器)
   addChartletMap = (beforeFilter) => {
     let afterNode = beforeFilter;
-    EFFECTIMAGE.map((item) => afterNode = this.addChartletSingle(afterNode, item));
+    this.props.effectImage.map((item) => afterNode = this.addChartletSingle(afterNode, item));
     return afterNode;
   }
 
@@ -202,8 +216,8 @@ export default class VideoContextComponent extends PureComponent {
     adjustChartlet.u_width_image = Number(imageObj.image.width); // 前景宽（第二张图片）
     adjustChartlet.u_height_image = Number(imageObj.image.height); // 前景高（第二张图片）
     adjustChartlet.u_image_b_valid = 1.0; // 当前effect的背景是否显示（当前背景是视频）
-
     chartletNode.connect(adjustChartlet);
+
     beforeFilter.connect(adjustChartlet);
 
     return adjustChartlet;
@@ -223,12 +237,27 @@ export default class VideoContextComponent extends PureComponent {
     adjustChartlet.u_width_image = 248; // 前景宽（第二张图片）
     adjustChartlet.u_height_image = 510; // 前景高（第二张图片）
     adjustChartlet.u_image_b_valid = 1.0; // 当前effect的背景是否显示（当前背景是视频）
-
     chartletNode.connect(adjustChartlet);
-    beforeFilter.connect(adjustChartlet);
 
-    return adjustChartlet;
-    // adjust2.connect(videoContext.destination);
+    const chartletNode2 = this.ctx.image(this.props.effectVideo.backgroundImg.src);
+    chartletNode2.startAt(0);
+
+    const adjustChartlet2 = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
+    adjustChartlet2.u_rect = [0.0, 0.0, 0.1, 0.4]; // 前景位置(第二张图片)
+    adjustChartlet2.u_bgColor = [0.2, 0.5, 0.1]; // 前景背景(背景色)
+    adjustChartlet2.u_alpha = 1.0; // 前景透明度（第二张图片）
+    adjustChartlet2.u_width_view = this.props.width; // 画布
+    adjustChartlet2.u_height_view = this.props.height; // 画布
+    adjustChartlet2.u_width_image = 248; // 前景宽（第二张图片）
+    adjustChartlet2.u_height_image = 510; // 前景高（第二张图片）
+    adjustChartlet2.u_image_b_valid = 1.0; // 当前effect的背景是否显示（当前背景是视频）
+    chartletNode2.connect(adjustChartlet2);
+
+    beforeFilter.connect(adjustChartlet);
+    adjustChartlet.connect(adjustChartlet2);
+
+    return adjustChartlet2;
+    // adjustChartlet2.connect(this.ctx.destination);
   }
 
   // 背景图node节点
@@ -345,11 +374,71 @@ export default class VideoContextComponent extends PureComponent {
     if (!this.state.pause) this.ctx.play();
   }
 
-  // 更新贴图
-  publickUpdateChartlet = (effectKey, params = {}) => {
+  /**
+   * 更新贴图
+   *  actionType-操作类型
+   *    changeBaseInfo-修改信息（位置）
+   *    delete-删除
+   *    add-添加
+  */
+  publickUpdateChartlet = (effectKey, actionType, params = {}) => {
     console.log('publickUpdateChartlet', params, effectKey, this.chartFilterList);
-    this.chartFilterList.map((item) => item.disconnect()); // 清空
-    this.effctFilterAdjust.connect(this.ctx.destination); // 重新连接
+    // 修改基本信息
+    if (actionType === 'changeBaseInfo') {
+      // 清空
+      // this.chartFilterList.map((item) => item.disconnect());
+      // this.effctFilterAdjust.connect(this.ctx.destination); // 重新连接
+
+      // // 修改最后一个
+      // this.chartFilterList[effectKey].disconnect();
+      // this.chartFilterList[effectKey].u_rect = params.rect;
+      // this.chartFilterList[effectKey].connect(this.ctx.destination); //  当前直接链接到video
+
+      // 修改非最后一个
+      // this.chartFilterList[effectKey].disconnect();
+      // this.chartFilterList[effectKey].u_rect = params.rect;
+      // this.chartFilterList[effectKey].connect(this.chartFilterList['image_2']); // 当前链接需要链接到后一个上(后一个是最后一个就是就链接video，同上)
+
+      /**
+       * 修改最后一个的时候， 使用当前filter链接context
+       * 修改最后一个的时候， 使用当前当前filter链接下一个filter
+      */
+      this.chartFilterList[effectKey].disconnect();
+      this.chartFilterList[effectKey].u_rect = params.rect;
+      const index = _.findIndex(this.props.effectImage, (item) => item.effectKey === effectKey); // 获取当前位置
+      if (index === this.props.effectImage.length - 1) {
+        this.chartFilterList[effectKey].connect(this.ctx.destination);
+      } else this.chartFilterList[effectKey].connect(this.chartFilterList[this.props.effectImage[index + 1].effectKey]);
+    }
+
+    if (actionType === 'delete') {
+      this.chartFilterList[effectKey].disconnect();
+
+      // 删除第一个 第一个链接修改
+      // this.effctFilterAdjust.connect(this.chartFilterList['image_2']);
+      // this.chartFilterList['image_2'].connect(this.ctx.destination);
+
+      // 删除最后一个 前面链接都不变， 最后链接this.ctx.destination修改
+      // this.chartFilterList['image_1'].connect(this.ctx.destination);
+
+      /**
+       * 只有一个的时候，删除之后使用最上层的filter(effctFilterAdjust)链接context
+       * 删除最后一个的时候， 使用当前filter的上一个(up)filter链接context
+       * 删除第一个的时候(并非只有一个) 使用使用最上层的filter(effctFilterAdjust)链接当前的下一个(next)filter
+       * 删除中间的时候 使用当前filter的上一个(up)filter链接当前(next)filter的下一个filter
+      */
+      const index = _.findIndex(this.props.effectImage, (item) => item.effectKey === effectKey); // 获取当前位置
+      if (this.props.effectImage.length === 1) this.effctFilterAdjust.connect(this.ctx.destination);
+      else if (index === this.props.effectImage.length - 1) {
+        this.chartFilterList[this.props.effectImage[index - 1].effectKey].connect(this.ctx.destination);
+      } else if (index === 0) this.effctFilterAdjust.connect(this.chartFilterList[this.props.effectImage[index + 1].effectKey]);
+      else this.chartFilterList[this.props.effectImage[index - 1].effectKey].connect(this.chartFilterList[this.props.effectImage[index + 1].effectKey]);
+    }
+
+    const oldTime = this.ctx.currentTime;
+    this.ctx.update();
+    this.ctx.currentTime = oldTime;
+    if (!this.state.pause) this.ctx.play();
   }
 
   render() {
@@ -420,6 +509,7 @@ export default class VideoContextComponent extends PureComponent {
  * width 画布宽
  * height 画布高
  * effectVideo 视频特效 （位置，音量，属性...）
+ * effectVideo 贴图特效 （位置）
  * reducerCurrentTime reducer里面的当前时间，用于重绘的时候seek到当前点
  *
  * handleInitVideo 设置实例对象（播放，暂停，seek，更新）
@@ -469,6 +559,7 @@ VideoContextComponent.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   effectVideo: PropTypes.object.isRequired,
+  effectImage: PropTypes.array.isRequired,
   reducerCurrentTime: PropTypes.number.isRequired,
 
   handleInitVideo: PropTypes.func.isRequired,

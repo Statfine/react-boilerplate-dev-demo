@@ -21,7 +21,7 @@ import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 
-import { makeSelectProjectInfo, makeSelectVideoInfo, makeSelectVideoPlayer, makeSelectEffectVideo, makeSelectTrackInfo } from './selectors';
+import { makeSelectProjectInfo, makeSelectVideoInfo, makeSelectVideoPlayer, makeSelectEffectVideo, makeSelectEffectImage, makeSelectTrackInfo } from './selectors';
 import { changeVideoPlayer, changeEffectVideo } from './actions';
 
 import { formatStyle } from './commom/tool';
@@ -35,6 +35,8 @@ import ControlCom from './ControlCom';
 import { Page, Content, MiddleContent, BottomContent,
   TopContent, TopLeft, TopRight, PreviewDiv, DevInfo } from './styled';
 import TrackCom from './TrackCom/index';
+
+import TransChartlet from './TransCom/TransChartlet';
 
 export class SingleEdit extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   state = {
@@ -158,7 +160,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
 
   render() {
     const { canvasStyle, isResizeIng } = this.state;
-    const { trackInfo, videoInfo, actionChangeVideoPlayer, videoPlayerEl, effectVideo, actionChangeEffectVideo } = this.props;
+    const { trackInfo, videoInfo, actionChangeVideoPlayer, videoPlayerEl, effectVideo, actionChangeEffectVideo, effectImage } = this.props;
     return (
       <Page>
         <Helmet title="视频编辑" />
@@ -181,6 +183,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
                           width={canvasStyle.width}
                           height={canvasStyle.height}
                           effectVideo={effectVideo}
+                          effectImage={effectImage}
                           reducerCurrentTime={videoPlayerEl.currentTime}
                           cbHandleTime={(currentTime) => actionChangeVideoPlayer({ currentTime })}
                           handleInitVideo={(params) => actionChangeVideoPlayer({ videoEl: params })}
@@ -194,6 +197,9 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
                           isShowBaseLineY: lineParams.showLineY,
                         });
                       }}
+                    />
+                    <TransChartlet
+                      handleShowBaseLine={(lineParams) => console.log('TransChartlet', lineParams)}
                     />
                   </PreviewDiv>
                 )
@@ -224,6 +230,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
  *  videoInfo 视频详情（纯数据）
  *  videoPlayerEl 视频实例对象
  *  effectVideo 视频特效 （位置）
+ *  effectImage 贴图特效 （位置）
  *
  *  actionChangeVideoPlayer 设置播放器实例 （时间，事件，状态）
  *  actionChangeEffectVideo 视频特效设置(位置)
@@ -234,6 +241,7 @@ SingleEdit.propTypes = {
   videoPlayerEl: PropTypes.object.isRequired,
   effectVideo: PropTypes.object.isRequired,
   trackInfo: PropTypes.object.isRequired,
+  effectImage: PropTypes.array.isRequired,
 
   actionChangeVideoPlayer: PropTypes.func.isRequired,
   actionChangeEffectVideo: PropTypes.func.isRequired,
@@ -244,6 +252,7 @@ const mapStateToProps = createStructuredSelector({
   videoInfo: makeSelectVideoInfo(),
   videoPlayerEl: makeSelectVideoPlayer(),
   effectVideo: makeSelectEffectVideo(),
+  effectImage: makeSelectEffectImage(),
   trackInfo: makeSelectTrackInfo(),
 });
 
