@@ -17,6 +17,18 @@ export default class AvgPage extends PureComponent {
           path={JiShiSvgOne}
           callback={(svg) => console.log(svg)}
         />
+        <div style={{ width: 400, overflow: 'hidden', resize: 'both' }}>
+          <svg
+            width="100%"
+            height="80"
+            viewBox="0 0 600 80"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+          >
+            <text fontSize="80" x="0" y="1em">这个标题很长哦可能一行放不下的怎么办呢</text>
+          </svg>
+        </div>
+        <p>这个标题很长哦可能一行放不下的怎么办呢</p>
       </div>
     );
   }

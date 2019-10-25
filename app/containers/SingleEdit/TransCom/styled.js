@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { MIN_WIDTH } from './config';
 
 export const TransCtrl = styled.div`
-  border: 1px dashed #000;
+  border: 2px dashed #FF8140;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -30,10 +30,10 @@ export const ContrlArrow = styled.div`
 `;
 
 export const Arrow = styled.span`
-  width: 7px;
-  height: 7px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  border: 1px solid #FF8140;
+  border: 2px solid #fff;
   background-color: #FF8140;
   display: inline-block;
   position: absolute;
@@ -41,50 +41,50 @@ export const Arrow = styled.span`
 `;
 
 export const ArrowLeft = styled(Arrow)`
-  left: -3px;
-  top: calc(50% - 3px);
+  left: -7px;
+  top: calc(50% - 7px);
   cursor: w-resize;
 `;
 
 export const ArrowRight = styled(Arrow)`
-  right: -3px;
-  top: calc(50% - 3px);
+  right: -7px;
+  top: calc(50% - 7px);
   cursor: e-resize;
 `;
 
 export const ArrowTop = styled(Arrow)`
-  top: -3px;
-  left: calc(50% - 3px);
+  top: -7px;
+  left: calc(50% - 8px);
   cursor: n-resize;
 `;
 
 export const ArrowBottom = styled(Arrow)`
-  bottom: -3px;
-  left: calc(50% - 3px);
+  bottom: -7px;
+  left: calc(50% - 8px);
   cursor: s-resize;
 `;
 
 export const ArrowLeftTop = styled(Arrow)`
-  left: -3px;
-  top: -3px;
+  left: -7px;
+  top: -7px;
   cursor: nw-resize;
 `;
 
 export const ArrowRightTop = styled(Arrow)`
-  right: -3px;
-  top: -3px;
+  right: -7px;
+  top: -7px;
   cursor: ne-resize;
 `;
 
 export const ArrowBottomLeft = styled(Arrow)`
-  bottom: -3px;
-  left: -3px;
+  bottom: -7px;
+  left: -7px;
   cursor: sw-resize;
 `;
 
 export const ArrowBottomRight = styled(Arrow)`
-  bottom: -3px;
-  right: -3px;
+  bottom: -7px;
+  right: -7px;
   cursor: se-resize;
 `;
 

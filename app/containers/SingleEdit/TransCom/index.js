@@ -75,6 +75,7 @@ class Transformable extends PureComponent {
     isShowBaseLineY: false,
   }
   componentDidMount() {
+    if (!this.props.disabled) document.addEventListener('click', this.handleDocumentClick); // 初次渲染的时候就已经是选中状态(窗口变化)
     /**
      * 获取父元素节点，并设position为relative
      */
@@ -168,6 +169,8 @@ class Transformable extends PureComponent {
     document.removeEventListener('mousemove', this.handleDragMouseMove);
     document.removeEventListener('mousemove', this.handleRotateMouseMove);
     document.removeEventListener('mouseup', this.handleMouseUp);
+
+    document.removeEventListener('click', this.handleDocumentClick); // 用于取消选中
     clearTimeout(this.timer);
   }
 

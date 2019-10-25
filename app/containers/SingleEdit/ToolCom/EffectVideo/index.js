@@ -20,7 +20,7 @@ import { changeEffectVideo, creatUploadBacImg, changeUplaodBacimgState } from '.
 import './sliderstyle.css';
 
 import { LeftRightOverSvg, UpDownOverSvg } from '../../images/icon/svg';
-import { EffectList, EachEffectDiv, LeftTitle, RightTitle, FlexDiv, ColorDiv, ColorBtn, OverDiv, UplaodingContent, ImgTitle } from './styled';
+import { EffectList, EachEffectDiv, LeftTitle, RightDiv, RightInput, FlexDiv, ColorDiv, ColorBtn, OverDiv, UplaodingContent, ImgTitle } from './styled';
 
 const STYLE = {
   slider: {
@@ -31,6 +31,41 @@ const STYLE = {
     marginRight: 10,
   },
 };
+
+function getCaretPosition(editableDiv) {
+  let caretPos = 0;
+  let sel;
+  let range;
+  if (window.getSelection) {
+    sel = window.getSelection();
+    if (sel.rangeCount) {
+      range = sel.getRangeAt(0);
+      if (range.commonAncestorContainer.parentNode === editableDiv) {
+        caretPos = range.endOffset;
+      }
+    }
+  } else if (document.selection && document.selection.createRange) {
+    range = document.selection.createRange();
+    if (range.parentElement() === editableDiv) {
+      const tempEl = document.createElement('span');
+      editableDiv.insertBefore(tempEl, editableDiv.firstChild);
+      const tempRange = range.duplicate();
+      tempRange.moveToElementText(tempEl);
+      tempRange.setEndPoint('EndToEnd', range);
+      caretPos = tempRange.text.length;
+    }
+  }
+  return caretPos;
+}
+
+function setCaret(el, pos) {
+  const range = document.createRange();
+  const sel = window.getSelection();
+  range.setStart(el.childNodes[0], pos);
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
 
 export class EffectVideo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -114,6 +149,38 @@ export class EffectVideo extends React.PureComponent { // eslint-disable-line re
     this.props.videoPlayerEl.videoEl.updateVideo({ volume });
   }
 
+  // 透明度Input
+  handleChangeOpacityInput = () => {
+    let number = Number(this.eleOpacity.innerText) || 100;
+    if (this.eleOpacity.innerText === '' || Number(this.eleOpacity.innerText) === 0) number = 0;
+    number = number < 0 ? 0 : number > 100 ? 100 : number;
+
+    let pos = getCaretPosition(this.eleOpacity) || 1;
+    this.eleOpacity.innerText = number;
+    this.handleChangeOpacity(number);
+
+    pos = pos > this.eleOpacity.innerText.length ? this.eleOpacity.innerText.length : pos;
+    setTimeout(() => setCaret(this.eleOpacity, pos), 10);
+  }
+
+  // 音量Input
+  handleChangeVolumeInput = () => {
+    let number = Number(this.eleVolume.innerText) || 100;
+    if (this.eleVolume.innerText === '' || Number(this.eleVolume.innerText) === 0) number = 0;
+    number = number < 0 ? 0 : number > 100 ? 100 : number;
+
+    let pos = getCaretPosition(this.eleVolume) || 1;
+    this.eleVolume.innerText = number;
+    this.handleChangeVolume(number);
+
+    pos = pos > this.eleVolume.innerText.length ? this.eleVolume.innerText.length : pos;
+    setTimeout(() => setCaret(this.eleVolume, pos), 10); // 设置光标的位置， 因为props改变的，所以此处用了定时来处理
+  }
+
+  createMarkup = (el) =>
+  // eslint-disable-line
+   ({ __html: el });
+
   render() {
     const { isOpenColorPick, recentLocalColor } = this.state;
     const { effectVideo } = this.props;
@@ -189,12 +256,33 @@ export class EffectVideo extends React.PureComponent { // eslint-disable-line re
         <EachEffectDiv>
           <LeftTitle>透明度</LeftTitle>
           <Slider style={STYLE.slider} value={effectVideo.opacity} onChange={this.handleChangeOpacity} />
-          <RightTitle>{effectVideo.opacity}%</RightTitle>
+          <RightDiv>
+            <RightInput
+              innerRef={(e) => { this.eleOpacity = e; }}
+              contentEditable="true"
+              edit={this.state.opacityEdit}
+              dangerouslySetInnerHTML={this.createMarkup(effectVideo.opacity)}
+              onInput={this.handleChangeOpacityInput}
+              onFocus={() => this.setState({ opacityEdit: true })}
+              onBlur={() => this.setState({ opacityEdit: false })}
+            />
+            %
+          </RightDiv>
         </EachEffectDiv>
         <EachEffectDiv>
           <LeftTitle>音量</LeftTitle>
           <Slider style={STYLE.slider} value={effectVideo.volume} onChange={this.handleChangeVolume} />
-          <RightTitle>{effectVideo.volume}%</RightTitle>
+          <RightDiv>
+            <RightInput
+              innerRef={(e) => { this.eleVolume = e; }}
+              contentEditable="true"
+              edit={this.state.volumeEdit}
+              dangerouslySetInnerHTML={this.createMarkup(effectVideo.volume)}
+              onInput={this.handleChangeVolumeInput}
+              onFocus={() => this.setState({ volumeEdit: true })}
+              onBlur={() => this.setState({ volumeEdit: false })}
+            />
+          </RightDiv>
         </EachEffectDiv>
       </EffectList>
     );

@@ -19,6 +19,15 @@ export const RightTitle = styled.p`
   color: #333333;
   width: 40px;
 `;
+export const RightDiv = styled.div`
+  width: 40px;
+`;
+export const RightInput = styled.span`
+  color: #333333;
+  outline: none;
+  cursor: text;
+  border-bottom: ${({ edit }) => edit ? '1px solid #333' : 'none'};
+`;
 
 export const FlexDiv = styled.div`
   display: flex;
