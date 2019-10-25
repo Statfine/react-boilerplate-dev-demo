@@ -67,7 +67,7 @@ export class TransChartlet extends React.PureComponent { // eslint-disable-line 
   render() {
     const { chooseEffect, handleShowBaseLine, effectImage } = this.props;
     return (
-        effectImage.map((item) => (
+        effectImage.map((item, i) => (
           <Transformable
             key={item.effectKey}
             onChange={this.handleDragMouseUp}
@@ -81,6 +81,7 @@ export class TransChartlet extends React.PureComponent { // eslint-disable-line 
             handleClick={this.handleChoosed}
             handleShowBaseLine={handleShowBaseLine}
             onKeyDown={this.handleKeyDown}
+            zIndex={chooseEffect.dragKey !== '' ? 100 + i : i + 1}
           >
           </Transformable>
         ))
