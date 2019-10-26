@@ -35,7 +35,7 @@ import { Page, Content, MiddleContent, BottomContent,
   TopContent, TopLeft, TopRight, PreviewDiv, DevInfo } from './styled';
 import TrackCom from './TrackCom/index';
 
-import TransCom from './TransCom';
+import TransCom from './TransPreview';
 
 export class SingleEdit extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   state = {
