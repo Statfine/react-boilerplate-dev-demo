@@ -74,3 +74,11 @@ export function changeEffectChartLet(actionType, payload) {
     payload,
   };
 }
+
+// 修改本地视频
+export function changeBaseVideo(payload) {
+  return {
+    type: cons.CHANGE_BASE_VIDEO,
+    payload,
+  };
+}

@@ -32,7 +32,8 @@ function* uploadBacImgSaga({ payload }) {
       return;
     }
     if (success) {
-      yield put(actions.changeUplaodBacimgState({ ...endingState, ...success }));
+      // yield put(actions.changeUplaodBacimgState({ ...endingState, ...success }));
+      yield put(actions.changeEffectVideo({ backgroundImg: { ...endingState, ...success } })); // 触发保存
       alert('上传成功');
       return;
     }

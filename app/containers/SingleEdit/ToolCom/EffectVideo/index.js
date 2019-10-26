@@ -7,16 +7,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Slider, Popover, Progress, Icon } from 'antd';
+import { Slider, Popover, Progress, Icon, Button } from 'antd';
 import ToolTip from 'components/ToolTip';
 import ColorPicker from 'components/ColorPicker';
 import UploadBtn from 'components/UploadBtn';
 import { colorToRGB, rgbToHexString } from 'utils/color';
 import { createStructuredSelector } from 'reselect';
 import { testFileNamePaster } from 'utils/verification';
+import guid from 'utils/guid';
 
 import { makeSelectEffectVideo, makeSelectVideoPlayer } from '../../selectors';
-import { changeEffectVideo, creatUploadBacImg, changeUplaodBacimgState } from '../../actions';
+import { changeEffectVideo, creatUploadBacImg, changeUplaodBacimgState, changeBaseVideo } from '../../actions';
 import './sliderstyle.css';
 
 import { LeftRightOverSvg, UpDownOverSvg } from '../../images/icon/svg';
@@ -72,6 +73,10 @@ export class EffectVideo extends React.PureComponent { // eslint-disable-line re
   state = {
     isOpenColorPick: false, // 是否打开颜色选择器
     recentLocalColor: [], //  最近使用
+
+    opacityEdit: false,
+    volumeEdit: false,
+    localVideoSrc: '',
   }
 
   componentDidMount() {
@@ -124,7 +129,30 @@ export class EffectVideo extends React.PureComponent { // eslint-disable-line re
       alert('文件格式不支持');
       return;
     }
-    this.props.actionCreatUploadBacImg(file);
+
+    const request = false; // 不执行异步上传，本地获取
+    if (request) this.props.actionCreatUploadBacImg(file);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (theFile) => {
+      const image = new Image();
+      image.src = theFile.target.result;
+      image.onload = () => {
+        // alert("图片的宽度为"+image.width+",长度为"+image.height);
+        this.props.actionChangeEffectVideo({
+          backgroundImg: { // 背景图
+            src: theFile.target.result,
+            title: encodeURIComponent(file.name),
+            progress: 0,
+            isUploading: false,
+            id: guid(),
+            width: image.width,
+            height: image.height,
+          },
+        });
+      };
+    };
   };
   // 清空图片 video的更新再componentWillReceiveProps中
   handleClearImg = () => {
@@ -175,6 +203,37 @@ export class EffectVideo extends React.PureComponent { // eslint-disable-line re
 
     pos = pos > this.eleVolume.innerText.length ? this.eleVolume.innerText.length : pos;
     setTimeout(() => setCaret(this.eleVolume, pos), 10); // 设置光标的位置， 因为props改变的，所以此处用了定时来处理
+  }
+
+  // 更换视频
+  handleVideoFileChange = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    // if (!testFileMp4(file.name)) {
+    //   alert('文件格式不支持');
+    //   return;
+    // }
+    this.setState({ localVideoSrc: URL.createObjectURL(file) });
+  }
+
+  // 视频可播放
+  handleCanPlay = () => {
+    console.log(this.localVideoEl.duration, this.localVideoEl.videoWidth, this.localVideoEl.videoHeight);
+    const videoInfo = {
+      media_info: {
+        width: this.localVideoEl.videoWidth,
+        height: this.localVideoEl.videoHeight,
+        duration: this.localVideoEl.duration,
+        size: 0,
+      },
+      play_url: this.state.localVideoSrc,
+      cover: 'http://39.108.60.29/static/videoedit/cover.png',
+      detail_id: 'local',
+      id: guid(),
+      length: this.localVideoEl.duration,
+    };
+    this.props.actionChangeBaseVideo(videoInfo);
+    this.props.actionChangeEffectVideo({ startTime: 0, endTime: this.localVideoEl.duration });
   }
 
   createMarkup = (el) =>
@@ -284,6 +343,28 @@ export class EffectVideo extends React.PureComponent { // eslint-disable-line re
             />
           </RightDiv>
         </EachEffectDiv>
+        <div>
+          <Button onClick={() => this.fileVideoInputEl.click()}>更换视频(本地视频只支持mp4)</Button>
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            ref={(el) => this.fileVideoInputEl = el}
+            onChange={(...v) => {
+              this.handleVideoFileChange(...v);
+              this.fileVideoInputEl.value = '';
+            }}
+          />
+          <video
+            ref={(el) => this.localVideoEl = el}
+            src={this.state.localVideoSrc}
+            style={{ display: 'none' }}
+            controls="controls"
+            onCanPlayThrough={this.handleCanPlay}
+            onError={() => {
+              if (this.state.localVideoSrc) alert('视频播放不了');
+            }}
+          />
+        </div>
       </EffectList>
     );
   }
@@ -297,6 +378,7 @@ export class EffectVideo extends React.PureComponent { // eslint-disable-line re
  *
  *  actionCreatUploadBacImg 上传
  *  actionChangeUplaodBacimgState 清空上传背景图
+ *  actionChangeBaseVideo  修改本地视频
 */
 EffectVideo.propTypes = {
   effectVideo: PropTypes.object.isRequired,
@@ -305,6 +387,7 @@ EffectVideo.propTypes = {
 
   actionCreatUploadBacImg: PropTypes.func.isRequired,
   actionChangeUplaodBacimgState: PropTypes.func.isRequired,
+  actionChangeBaseVideo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -316,6 +399,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actionChangeEffectVideo: (params) => dispatch(changeEffectVideo(params)),
     actionCreatUploadBacImg: (params) => dispatch(creatUploadBacImg(params)),
+    actionChangeBaseVideo: (...arg) => dispatch(changeBaseVideo(...arg)),
     actionChangeUplaodBacimgState: () => dispatch(changeUplaodBacimgState({
       src: '',
       title: '',

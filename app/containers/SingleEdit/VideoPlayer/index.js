@@ -143,7 +143,7 @@ export default class VideoContextComponent extends PureComponent {
     filterAdjust.u_alpha = effectVideo.opacity * 0.01; // 前景透明度
     filterAdjust.u_width_view = this.props.width; // 画布宽
     filterAdjust.u_height_view = this.props.height; // 画布高
-    const mediaInfo = JSON.parse(this.props.videoInfo.media_info);
+    const mediaInfo = this.props.videoInfo.media_info;
     filterAdjust.u_width_image = mediaInfo.width; // 前景宽(视频)
     filterAdjust.u_height_image = mediaInfo.height; // 前景高（视频）
     filterAdjust.u_image_b_valid = bacImageNode ? 1.0 : 0.0; // 当前的背景是否显示(图片) 1-显示 0-不显示
@@ -522,7 +522,7 @@ VideoContextComponent.defaultProps = {
     detail_id: 32273,
     length: 15,
     id: '254767025149215744570',
-    media_info: '{ "width": 848, "height": 620, "duration": 15, "size": 1479243 }',
+    media_info: { width: 848, height: 620, duration: 15, size: 1479243 },
     media_state: 2,
     play_url: 'https://cloud-clip-out.oss-cn-hangzhou.aliyuncs.com/vod-out/hd/80046ef0-a925-4215-b4d5-1b4bebab6882.mp4',
     quick_edit_thumb_nb: 5,

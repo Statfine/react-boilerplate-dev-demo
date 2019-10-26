@@ -22,6 +22,11 @@ function testFileNameAudio(name) {
   return regExp.test(name.toLowerCase());
 }
 
+function testFileMp4(name) {
+  const regExp = /\.(mp4)$/;
+  return regExp.test(name.toLowerCase());
+}
+
 function testFileNameVideo(name) {
   return /\.(3g2|3gp|a64|amr|apng|asf|avi|cavsvideo|dv|flv|hds|mjpeg|mpegts|ts|rawvideo|vc1|wav|webm|oma|mj2|vivo|xmv|wmvhd|wmv|vob|dat|mp4|mkv|rm|rmvb|mov|ogg|ogv|oga|mod|mpeg|mts|m4v|mpg)$/.test(
     name.toLowerCase()
@@ -62,4 +67,5 @@ export {
   testID,
   testFileName,
   testNumber,
+  testFileMp4,
 };

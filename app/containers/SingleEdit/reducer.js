@@ -11,10 +11,10 @@ const PROJECTINFO = {
   resolutionRatio: '0', // 分辨率 RESOLUTION_RATIO
   name: '', // 项目名称
 };
-const VIDEOINFO = {
+export const VIDEOINFO = {
   media_info: { width: 848, height: 620, duration: 15, size: 1479243 },
-  play_url: 'https://cloud-clip-out.oss-cn-hangzhou.aliyuncs.com/vod-out/hd/80046ef0-a925-4215-b4d5-1b4bebab6882.mp4',
-  cover: 'https://cloud-clip-img.oss-cn-hangzhou.aliyuncs.com/snapshot/80046ef0-a925-4215-b4d5-1b4bebab6882-1000.jpg',
+  play_url: 'http://39.108.60.29/static/videoedit/s.mp4',
+  cover: 'http://39.108.60.29/static/videoedit/s.jpg',
   detail_id: 32199,
   id: '7da13b63-e761-4e02-b54c-546745e2d6e7',
   length: 15,
@@ -30,13 +30,13 @@ const EFFECTVIDEO = {
   volume: 100, // 音量
   backgroundColor: '#000', // 背景色
   backgroundImg: { // 背景图
-    src: 'https://cloud-clip-img.oss-cn-hangzhou.aliyuncs.com/material//e1882dbe-4b22-496e-9e35-7275b90b39cf.png',
-    title: '%E6%B5%8B%E8%AF%95%E5%9B%BE%E7%89%87%E7%A7%91%E6%AF%94.png',
+    src: 'http://39.108.60.29/static/videoedit/test_video_cover.jpeg',
+    title: 'test_video_cover.png',
     progress: 0,
     isUploading: false,
     id: 'e1882dbe-4b22-496e-9e35-7275b90b39cf',
-    width: '1235',
-    height: '691',
+    width: '400',
+    height: '299',
   },
   reversal: -1, // 翻转 -1-无 1-左右翻转 0-上下翻转
   startTime: 0,
@@ -48,7 +48,7 @@ export const EFFECTIMAGE = [
     effectKey: 'image_1', // 特效标识
     type: 'image', // 特效类型
     image: { // 图片信息
-      src: 'https://cloud-clip-img.oss-cn-hangzhou.aliyuncs.com/photograph/e5223726-661e-4dcd-8165-b2c45d79c005.jpg',
+      src: 'http://39.108.60.29/static/videoedit/test1.jpg',
       title: '94.png',
       id: 'abc-hts13-231',
       width: '248',
@@ -69,11 +69,11 @@ export const EFFECTIMAGE = [
     effectKey: 'image_2', // 特效标识
     type: 'image', // 特效类型
     image: {
-      src: 'https://cloud-clip-img.oss-cn-hangzhou.aliyuncs.com/photograph/e5223726-661e-4dcd-8165-b2c45d79c005.jpg',
+      src: 'http://39.108.60.29/static/videoedit/test2.jpg',
       title: '94.png',
       id: 'abc-hts13-231',
-      width: '248',
-      height: '510',
+      width: '400',
+      height: '300',
     },
     position: {
       w: 10, // 百分比
@@ -119,6 +119,8 @@ function singleEditReducer(state = initialState, action) {
   switch (action.type) {
     case cons.DEFAULT_ACTION:
       return state;
+    case cons.CHANGE_BASE_VIDEO:
+      return state.set('videoInfo', fromJS(action.payload));
     case cons.CHANGE_PROJECT_INFO:
       return state.update('projectInfo', (p) => p.mergeDeep(action.payload));
     case cons.CHANGE_EFFECT_VIDEO:

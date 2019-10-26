@@ -47,6 +47,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
     isResizeIng: false, // 尺寸变化 canvas需要从新渲染
     isShowBaseLineX: false,
     isShowBaseLineY: false,
+    isReloadVideo: false, // 视频是否有变化
   };
 
   componentDidMount() {
@@ -63,6 +64,11 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
     if (nextProps.projectInfo.resolutionRatio !== this.props.projectInfo.resolutionRatio) {
       // this.handleResize(nextProps.projectInfo.resolutionRatio);
       this.handleResize(false, true, nextProps); // 重置视频
+    }
+    if (nextProps.videoInfo.play_url !== this.props.videoInfo.play_url) {
+      this.handleDebounce();
+      this.setState({ isReloadVideo: true });
+      setTimeout(() => this.setState({ isReloadVideo: false }), 500);
     }
   }
 
@@ -147,8 +153,9 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
   // 用于调试测试
   renderShowTestPosition = () => {
     const { videoInfo, videoPlayerEl } = this.props;
+    const { canvasStyle } = this.state;
     const { resolutionRatio } = this.props.projectInfo;
-    if (!window.show) return null;
+    // if (!window.show) return null;
     return (
       <DevInfo>
         <p onClick={() => videoPlayerEl.videoEl.play()}>当前比例:{RESOLUTION_RATIO[resolutionRatio].value};</p>
@@ -180,6 +187,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
                     {
                       canvasStyle.width &&
                         <VideoPlayer
+                          videoInfo={videoInfo}
                           width={canvasStyle.width}
                           height={canvasStyle.height}
                           effectVideo={effectVideo}
@@ -199,7 +207,12 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
                       }}
                     />
                     <TransChartlet
-                      handleShowBaseLine={(lineParams) => console.log('TransChartlet', lineParams)}
+                      handleShowBaseLine={(lineParams) => {
+                        this.setState({
+                          isShowBaseLineX: lineParams.showLineX,
+                          isShowBaseLineY: lineParams.showLineY,
+                        });
+                      }}
                     />
                   </PreviewDiv>
                 )
@@ -210,14 +223,16 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
             <ControlCom />
           </MiddleContent>
           <BottomContent>
-            <TrackCom
-              effectVideo={effectVideo}
-              trackInfo={trackInfo}
-              videoInfo={videoInfo}
-              videoPlayerEl={videoPlayerEl}
-              onChangeEffectVideo={actionChangeEffectVideo}
-              onChangeVideoPlay={actionChangeVideoPlayer}
-            />
+            {
+              !this.state.isReloadVideo && videoInfo.length !== 0 && <TrackCom
+                effectVideo={effectVideo}
+                trackInfo={trackInfo}
+                videoInfo={videoInfo}
+                videoPlayerEl={videoPlayerEl}
+                onChangeEffectVideo={actionChangeEffectVideo}
+                onChangeVideoPlay={actionChangeVideoPlayer}
+              />
+            }
           </BottomContent>
         </Content>
       </Page>
