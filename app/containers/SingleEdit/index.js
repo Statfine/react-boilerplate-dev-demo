@@ -147,49 +147,6 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
     this.props.actionChangeEffectVideo({ position: videoPosition });
   }
 
-  // 敲黑板，如果只显示当前选中的拖拽组件可以用如下方法
-  // 选中可以通过 获取点击的位置，遍历得到哪些特效。更近层级关系获取层级最高的。
-  handlePreviewDivMouseUp = (ev) => {
-    ev.stopPropagation();
-    const { effectVideo } = this.props;
-    const rect = this.previewDiv.getBoundingClientRect();
-    console.log(rect, ev.clientX, ev.clientY);
-    const evPointX = ev.clientX - rect.x;
-    const evPointY = ev.clientY - rect.y;
-    console.log('1点击点', ev.clientX - rect.x, ev.clientY - rect.y);
-    console.log('画布', this.state.canvasStyle);
-    const videoSection = this.handleEffectSection(effectVideo.position);
-    console.log('effectVideo Section', videoSection);
-    if ((evPointX >= videoSection.startX && evPointX <= videoSection.endX)
-      && (evPointY >= videoSection.startY && evPointY <= videoSection.endY)
-    ) {
-      console.log('videoCHoosed');
-    }
-  }
-
-  // 特效区间
-  handleEffectSection = (position) => {
-    console.log('position', position);
-    const { canvasStyle } = this.state;
-    let startX = 0;
-    let endX = 0;
-    let startY = 0;
-    let endY = 0;
-    if (position.x < 0) startX = 0;
-    else startX = position.x;
-    endX = startX + position.w;
-    if (position.x < 0) startY = 0;
-    else startY = position.y;
-    endY = startY + position.h;
-    const params = {
-      startX: startX * 0.01 * canvasStyle.width,
-      endX: endX * 0.01 * canvasStyle.width,
-      startY: startY * 0.01 * canvasStyle.height,
-      endY: endY * 0.01 * canvasStyle.height,
-    };
-    return params;
-  }
-
   // 用于调试测试
   renderShowTestPosition = () => {
     const { videoInfo, videoPlayerEl } = this.props;
@@ -219,11 +176,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
             <TopRight innerRef={(ref) => (this.rightCom = ref)}>
               {
                 isResizeIng ? <Spin size="large" /> : (
-                  <PreviewDiv
-                    style={canvasStyle}
-                    innerRef={(ref) => this.previewDiv = ref}
-                    onMouseUp={this.handlePreviewDivMouseUp}
-                  >
+                  <PreviewDiv style={canvasStyle}>
                     {
                       canvasStyle.width &&
                         <VideoPlayer
