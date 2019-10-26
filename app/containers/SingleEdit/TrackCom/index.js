@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import imgPointerRuler from './pointer_ruler.svg';
 import { timeToMSecond } from '../commom/tool';
-import { AXIS, PER_IMG_SECONDS, ADSORB_DISTANCE } from '../commom/config';
+import { AXIS, ADSORB_DISTANCE } from '../commom/config';
 
 const Wrap = styled.div`
   width: 100%;
@@ -177,21 +177,25 @@ const DragMaskRight = styled.div`
 class Track extends React.Component {
   state = {
     axisItemWidth: 0,
-    baseWidth: 0,
     pxWith1s: 0,
     oneSwithPx: 0,
     moveEle: 0, // 移动元素 1:左侧 2:整体 3:右侧 4: 播放指针
     moveEleInfo: null, // 移动元素信息
+    imgCounts: 0,
   }
 
   componentDidMount() {
     this.listenResize();
-    window.addEventListener('resize', this.listenResize);
+    window.addEventListener('resize', () => this.listenResize());
     document.addEventListener('mousemove', this.handleMouseMove, false);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.videoInfo.length !== this.props.videoInfo.length) this.listenResize(nextProps.videoInfo.length);
+  }
+
   componentWillUnmount() {
-    window.removeEventListener('resize', this.listenResize);
+    window.removeEventListener('resize', () => this.listenResize());
   }
 
   setTime = () => { // 设置定时，吸附时短暂停止滑动
@@ -211,17 +215,21 @@ class Track extends React.Component {
   pointerEle = null;
   dragRight = null;
   startX = 0; // 鼠标滑动前起始位置
+  resizeTimeout = null;
 
-  listenResize = () => {
-    if (this.axisEle) {
-      const { videoInfo } = this.props;
-      const { length } = videoInfo;
-      const ele = this.axisEle.getBoundingClientRect();
-      const itemWidth = (ele.width - 32) / AXIS;
-      const pxWith1s = (ele.width - 32) / length; // 每秒所占的像素大小
-      const oneSwithPx = length / (ele.width - 32); // 每个像素所占的视频时间
-      this.setState({ axisItemWidth: itemWidth, baseWidth: ele.width - 32, pxWith1s, oneSwithPx });
-    }
+  listenResize = (length = this.props.videoInfo.length) => {
+    if (this.resizeTimeout) clearTimeout(this.resizeTimeout);
+    this.resizeTimeout = setTimeout(() => { // 延迟.3s执行，多次触发resize，执行最后一次
+      if (this.axisEle) {
+        const ele = this.axisEle.getBoundingClientRect();
+        const itemWidth = (ele.width - 32) / AXIS;
+        const pxWith1s = (ele.width - 32) / length; // 每秒所占的像素大小
+        const oneSwithPx = length / (ele.width - 32); // 每个像素所占的视频时间
+        const imgCounts = Math.ceil((ele.width - 32) / 100);
+        if (this.state.imgCounts !== imgCounts) this.props.onFetchThumbNb(imgCounts);
+        this.setState({ imgCounts, axisItemWidth: itemWidth, pxWith1s, oneSwithPx });
+      }
+    }, 300);
   }
 
   handleClickPointer = (e) => { // 鼠标点击,移动播放指针
@@ -256,6 +264,7 @@ class Track extends React.Component {
   // 鼠标按下
   handleMouseDown = (e, moveEle) => {
     e.stopPropagation();
+    e.preventDefault();
     document.addEventListener('mouseup', this.handleMouseUp, true);
     this.startX = e.clientX;
     this.setState({ moveEle });
@@ -264,10 +273,11 @@ class Track extends React.Component {
   // 鼠标抬起
   handleMouseUp = () => {
     const { moveEle, oneSwithPx, pxWith1s } = this.state;
-    const { trackInfo, effectVideo, onChangeEffectVideo, videoPlayerEl, onChangeVideoPlay } = this.props;
+    const { effectVideo, onChangeEffectVideo, videoPlayerEl } = this.props;
     const { startTime, endTime } = effectVideo;
-    const { currentTime } = videoPlayerEl;
-    const { curTime } = trackInfo;
+    const { currentTime, videoEl } = videoPlayerEl;
+    // const { curTime } = trackInfo;
+    const curTime = startTime + currentTime;
     if (moveEle === 0) return;
     document.removeEventListener('mouseup', this.handleMouseUp, true);
     // 对比初始距离，计算修改后的初始时间和结束时间
@@ -288,9 +298,10 @@ class Track extends React.Component {
       const maskDiffSec = maskDiff * oneSwithPx;
       const dragDiffSec = dragDiff * oneSwithPx;
       onChangeEffectVideo({ startTime: startTime + maskDiffSec, endTime: endTime + maskDiffSec + dragDiffSec });
-      const { width: dragW } = this.dragCon.getBoundingClientRect();
-      if (curTime < startTime + maskDiffSec) onChangeVideoPlay({ currentTime: 0 });
-      else if (curTime > endTime + maskDiffSec + dragDiffSec) onChangeVideoPlay({ currentTime: dragW * oneSwithPx });
+      let videoCurTime = Number((curTime - startTime - maskDiffSec).toFixed(9));
+      if (videoCurTime < 0) videoCurTime = 0;
+      else if (curTime > endTime + maskDiffSec + dragDiffSec) videoCurTime = dragEndDragConInfo.width * oneSwithPx;
+      videoEl.seek(videoCurTime);
     }
     this.setState({ moveEle: 0 });
   }
@@ -300,18 +311,25 @@ class Track extends React.Component {
     const { moveEle } = this.state;
     if (!moveEle || this.pauseMove) return;
     const mx = e.clientX; // 鼠标位置
-    const differ = mx - this.startX;
+    const differ = Math.round(mx - this.startX);
     this.startX = mx;
-    const { left: pointerX } = this.pointerEle.getBoundingClientRect();
+    let { left: pointerX } = this.pointerEle.getBoundingClientRect();
+    let { width: maskLWidth } = this.maskLeft.getBoundingClientRect(); // 左边蒙层信息
+    let { width: maskRWidth, left: maskRX } = this.maskRight.getBoundingClientRect(); // 右边蒙层信息
+    let { width: dragConWidth, left: dragConX, right: dragConR } = this.dragCon.getBoundingClientRect(); // 滑块信息
+    pointerX = Math.round(pointerX);
+    maskLWidth = Math.round(maskLWidth);
+    maskRWidth = Math.round(maskRWidth);
+    maskRX = Math.round(maskRX);
+    dragConWidth = Math.round(dragConWidth);
+    dragConX = Math.round(dragConX);
+    dragConR = Math.round(dragConR);
     if (moveEle === 4) { // 播放指针
-      if (pointerX <= 16 && differ <= 0) return; // 移到最左边
-      if (pointerX >= this.state.baseWidth + 14 && differ >= 0) return; // 移到最右边
-      this.pointerEle.style.left = `${pointerX + differ < 0 ? 0 : pointerX + differ}px`;
+      if (pointerX <= dragConX && differ <= 0) this.pointerEle.style.left = `${dragConX}px`; // 移到最左边
+      else if (pointerX >= maskRX && differ >= 0) this.pointerEle.style.left = `${maskRX}px`; // 移到最右边
+      else this.pointerEle.style.left = `${pointerX + differ < 0 ? 0 : pointerX + differ}px`;
       return;
     }
-    const { width: maskLWidth } = this.maskLeft.getBoundingClientRect(); // 左边蒙层信息
-    const { width: maskRWidth, left: maskRX } = this.maskRight.getBoundingClientRect(); // 右边蒙层信息
-    const { width: dragConWidth, left: dragConX, right: dragConR } = this.dragCon.getBoundingClientRect(); // 滑块信息
     if (moveEle === 1) { // 拉伸左边滑块
       if (dragConWidth <= 5 && differ >= 0) return;
       if (
@@ -322,7 +340,8 @@ class Track extends React.Component {
         this.maskLeft.style.width = `${pointerX - 16 < 0 ? 0 : pointerX - 16}px`;
         this.dragCon.style.width = `${dragConR - pointerX < 0 ? 0 : dragConR - pointerX}px`;
       } else {
-        const { left: dragRX } = this.dragRight.getBoundingClientRect();
+        let { left: dragRX } = this.dragRight.getBoundingClientRect();
+        dragRX = Math.round(dragRX);
         if (dragRX - 16 <= maskLWidth + differ) this.maskLeft.style.width = `${dragRX - 16}px`;
         else this.maskLeft.style.width = `${maskLWidth + differ < 0 ? 0 : maskLWidth + differ}px`;
         this.dragCon.style.width = `${dragConWidth - differ < 5 ? 5 : dragConWidth - differ}px`;
@@ -330,7 +349,7 @@ class Track extends React.Component {
     } else if (moveEle === 2) { // 滑块整体移动
       if ((maskRWidth <= 0 && differ >= 0) || (maskLWidth <= 0 && differ <= 0)) return; // 一端处于边缘位置，禁止向边缘位置滑动
       if ( // 左侧切刀临近播放指针
-        (pointerX - dragConX < ADSORB_DISTANCE && differ > 0 && pointerX - dragConX > 0 && maskRWidth >= ADSORB_DISTANCE) || // 滑块向右移动，吸附效果
+        (pointerX - dragConX < ADSORB_DISTANCE && differ > 0 && pointerX - dragConX > 0 && maskRWidth >= pointerX - dragConX) || // 滑块向右移动，吸附效果
         (dragConX - pointerX < ADSORB_DISTANCE && differ < 0 && dragConX - pointerX > 0) // 滑块向左移动，吸附
         ) {
         this.setTime();
@@ -386,16 +405,16 @@ class Track extends React.Component {
 
   // 渲染最底层图片
   renderBaseImgs = () => {
-    const { baseWidth } = this.state;
-    const { videoInfo } = this.props;
-    const { length, id, cover, quick_edit_thumb_nb: quickThumb } = videoInfo;
-    const counts = Math.ceil(baseWidth / 100);
+    const { imgCounts } = this.state;
+    const { videoInfo, videoPlayerEl } = this.props;
+    const { id, cover } = videoInfo;
+    const { thumb } = videoPlayerEl;
     const result = [];
-    const thumbSize = Math.ceil(length / PER_IMG_SECONDS);
-    for (let i = 0; i < counts; i += 1) {
-      const iThumb = 1 + i / counts * thumbSize;
-      let coverImg = cover;
-      if (thumbSize <= (quickThumb || 0)) coverImg = `https://image.clip.cn/thumbseq/quick_edit_${id}_${Math.floor(iThumb)}.png?x-oss-process=image/resize,m_pad,w_100,h_56,color_000000`;
+    // const thumbSize = Math.ceil(length / PER_IMG_SECONDS);
+    for (let i = 0; i < imgCounts; i += 1) {
+      // const iThumb = 1 + i / counts * thumbSize;
+      let coverImg = `${cover}?x-oss-process=image/resize,m_pad,w_100,h_56,color_000000`;
+      if (thumb > 0) coverImg = `https://image.clip.cn/thumbseq/single_edit_${id}_${Math.floor(i + 1)}.png?x-oss-process=image/resize,m_pad,w_100,h_56,color_000000`;
       result.push(<BaseImg url={coverImg} key={i} />);
     }
     return result;
@@ -403,14 +422,14 @@ class Track extends React.Component {
 
   render() {
     const { pxWith1s } = this.state;
-    const { effectVideo, trackInfo } = this.props;
-    const { curTime } = trackInfo;
+    const { effectVideo, videoPlayerEl } = this.props;
+    const { currentTime } = videoPlayerEl;
     const { startTime, endTime } = effectVideo;
     return (
       <Wrap>
         <PointerAxis>
           <Pointer
-            style={{ left: `${curTime * pxWith1s + 16}px` }}
+            style={{ left: `${Math.round((currentTime + startTime) * pxWith1s) + 16}px` }}
             onMouseDown={(e) => this.handleMouseDown(e, 4)}
             innerRef={(ele) => { this.pointerEle = ele; }}
           >
@@ -426,12 +445,12 @@ class Track extends React.Component {
             <BaseContainer>{this.renderBaseImgs()}</BaseContainer>
             <DragContainer>
               <DragMaskLeft
-                style={{ width: pxWith1s * startTime }}
+                style={{ width: Math.round(pxWith1s * startTime) }}
                 // width={pxWith1s * start}
                 innerRef={(ele) => { this.maskLeft = ele; }}
               />
               <DragEle
-                style={{ width: pxWith1s * (endTime - startTime) }}
+                style={{ width: Math.round(pxWith1s * (endTime - startTime)) }}
                 // width={pxWith1s * (end - start)}
                 onMouseDown={(e) => this.handleMouseDown(e, 2)}
                 innerRef={(ele) => { this.dragCon = ele; }}
@@ -452,10 +471,11 @@ Track.propTypes = {
   videoInfo: PropTypes.object.isRequired,
   effectVideo: PropTypes.object.isRequired,
   videoPlayerEl: PropTypes.object.isRequired,
-  trackInfo: PropTypes.object,
+  // trackInfo: PropTypes.object,
 
   onChangeEffectVideo: PropTypes.func,
   onChangeVideoPlay: PropTypes.func,
+  onFetchThumbNb: PropTypes.func,
 };
 
 export default Track;

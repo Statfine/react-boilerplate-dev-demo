@@ -118,6 +118,7 @@ class Transformable extends PureComponent {
     */
     drag.addEventListener('mousedown', (e) => { // eslint-disable-line
       // if (!disabled) {
+      // this.handleClickTrans(e);
       this.isDrag = true;
       document.body.style.userSelect = 'none';
       document.body.style.webkitUserSelect = 'none';
@@ -724,7 +725,6 @@ class Transformable extends PureComponent {
         {...this.props}
         transScale={isTransScale && defaultPosition.w / defaultPosition.h} // transScale是否等比设置最小高度
         onClick={this.handleClickTrans}
-        // onDblClick={this.handleClickTrans}
       >
         {extra && extraBtn && extraBtn()}
         {!disabled && rotate && this.handleRenderRotate()}

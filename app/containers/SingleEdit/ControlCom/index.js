@@ -9,10 +9,11 @@ import PropTypes from 'prop-types';
 import { Dropdown, Menu, Icon } from 'antd';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import ToolTip from 'components/ToolTip';
 import { timeToMSecond } from '../commom/tool';
 import { ARRAY_RESOLUTION_RATIO, RESOLUTION_RATIO } from '../commom/config';
 
-import { makeSelectProjectInfo, makeSelectVideoPlayer, makeSelectEffectVideo, makeSelectTrackInfo } from '../selectors';
+import { makeSelectProjectInfo, makeSelectVideoPlayer, makeSelectEffectVideo } from '../selectors';
 import { changeProjectInfo, changeVideoPlayer } from '../actions';
 
 import { PlaySvg, PointOutSvg, PointInSvg, UpFrameSvg, NextFrameSvg, PauseSvg } from '../images/icon/svg';
@@ -31,10 +32,10 @@ export class ControlCom extends React.PureComponent { // eslint-disable-line rea
   }
 
   // 设置播放帧数
-  setFame = (fame) => {
+  setFrame = (frame) => {
     const { effectVideo } = this.props;
     const { startTime, endTime } = effectVideo;
-    const currentTime = fame * (1 / 24);
+    const currentTime = frame * (1 / 24);
     if (currentTime < startTime) this.setPlaySeek(startTime);
     else if (currentTime > endTime) this.setPlaySeek(endTime);
     else this.setPlaySeek(currentTime);
@@ -54,36 +55,51 @@ export class ControlCom extends React.PureComponent { // eslint-disable-line rea
   )
 
   render() {
-    const { videoPlayerEl, projectInfo, effectVideo, trackInfo } = this.props;
+    const { videoPlayerEl, projectInfo, effectVideo } = this.props;
     const { resolutionRatio } = projectInfo;
-    const { curTime } = trackInfo;
+    const { currentTime } = videoPlayerEl;
     const { startTime, endTime } = effectVideo;
-    const fameCounts = Math.ceil(curTime * 24);
+    const curTime = currentTime + startTime;
+    const frameCounts = Math.ceil(curTime * 24);
     return (
       <ControlContent>
         <div />
         <FlexDiv>
           <TimeP>
             <TimeItem>{timeToMSecond(curTime)}</TimeItem>
-            <div>fame:{fameCounts}</div>
+            <div>frame:{frameCounts}</div>
           </TimeP>
           <IconBtns>
-            <IconBtn><PointInSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" onClick={() => this.setPlaySeek(startTime)} /></IconBtn>
-            <IconBtn><UpFrameSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" onClick={() => this.setFame(fameCounts - 1)} /></IconBtn>
+            <ToolTip title="跳转到入点" offsetLeft={-18}>
+              <IconBtn><PointInSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" onClick={() => this.setPlaySeek(startTime)} /></IconBtn>
+            </ToolTip>
+            <ToolTip title="前一帧" offsetLeft={-8}>
+              <IconBtn><UpFrameSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" onClick={() => this.setFrame(frameCounts - 1)} /></IconBtn>
+            </ToolTip>
             {
-              videoPlayerEl.state === 0 && <IconBtn onClick={() => videoPlayerEl.videoEl.play()}><PlaySvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" /></IconBtn>
+              videoPlayerEl.state === 0 && <ToolTip title="播放">
+                <IconBtn onClick={() => videoPlayerEl.videoEl.play()}><PlaySvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" /></IconBtn>
+              </ToolTip>
             }
             {
-              videoPlayerEl.state === 1 && <IconBtn onClick={() => videoPlayerEl.videoEl.pause()}><PauseSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" /></IconBtn>
+              videoPlayerEl.state === 1 && <ToolTip title="暂停">
+                <IconBtn onClick={() => videoPlayerEl.videoEl.pause()}><PauseSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" /></IconBtn>
+              </ToolTip>
             }
-            <IconBtn><NextFrameSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" onClick={() => this.setFame(fameCounts + 1)} /></IconBtn>
-            <IconBtn><PointOutSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" onClick={() => this.setPlaySeek(endTime)} /></IconBtn>
+            <ToolTip title="后一帧" offsetLeft={-8}>
+              <IconBtn><NextFrameSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" onClick={() => this.setFrame(frameCounts + 1)} /></IconBtn>
+            </ToolTip>
+            <ToolTip title="跳转到出点" offsetLeft={-18}>
+              <IconBtn><PointOutSvg style={{ width: 40, height: 40 }} viewBox="0 0 40 40" onClick={() => this.setPlaySeek(endTime)} /></IconBtn>
+            </ToolTip>
           </IconBtns>
         </FlexDiv>
         <SelectRatio>
-          <Dropdown overlay={this.renderMenu()} placement="topCenter">
-            <p>{RESOLUTION_RATIO[resolutionRatio].value} <Icon type="down" /></p>
-          </Dropdown>
+          {
+            resolutionRatio !== '' && <Dropdown overlay={this.renderMenu()} placement="topCenter">
+              <p>{RESOLUTION_RATIO[resolutionRatio].value} <Icon type="down" /></p>
+            </Dropdown>
+          }
         </SelectRatio>
       </ControlContent>
     );
@@ -96,7 +112,7 @@ export class ControlCom extends React.PureComponent { // eslint-disable-line rea
  * videoPlayerEl 视频实例对象 控制播放相关
 */
 ControlCom.propTypes = {
-  trackInfo: PropTypes.object.isRequired,
+  // trackInfo: PropTypes.object.isRequired,
   projectInfo: PropTypes.object.isRequired,
   effectVideo: PropTypes.object.isRequired,
   actionChangeProjectInfo: PropTypes.func.isRequired,
@@ -108,7 +124,7 @@ const mapStateToProps = createStructuredSelector({
   projectInfo: makeSelectProjectInfo(),
   videoPlayerEl: makeSelectVideoPlayer(),
   effectVideo: makeSelectEffectVideo(),
-  trackInfo: makeSelectTrackInfo(),
+  // trackInfo: makeSelectTrackInfo(),
 });
 
 function mapDispatchToProps(dispatch) {

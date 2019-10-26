@@ -21,7 +21,7 @@ import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 
-import { makeSelectProjectInfo, makeSelectVideoInfo, makeSelectVideoPlayer, makeSelectEffectVideo, makeSelectEffectImage, makeSelectTrackInfo } from './selectors';
+import { makeSelectProjectInfo, makeSelectVideoInfo, makeSelectVideoPlayer, makeSelectEffectVideo, makeSelectEffectImage } from './selectors';
 import { changeVideoPlayer, changeEffectVideo } from './actions';
 
 import { formatStyle } from './commom/tool';
@@ -167,7 +167,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
 
   render() {
     const { canvasStyle, isResizeIng } = this.state;
-    const { trackInfo, videoInfo, actionChangeVideoPlayer, videoPlayerEl, effectVideo, actionChangeEffectVideo, effectImage } = this.props;
+    const { videoInfo, actionChangeVideoPlayer, videoPlayerEl, effectVideo, actionChangeEffectVideo, effectImage } = this.props;
     return (
       <Page>
         <Helmet title="视频编辑" />
@@ -226,11 +226,11 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
             {
               !this.state.isReloadVideo && videoInfo.length !== 0 && <TrackCom
                 effectVideo={effectVideo}
-                trackInfo={trackInfo}
                 videoInfo={videoInfo}
                 videoPlayerEl={videoPlayerEl}
                 onChangeEffectVideo={actionChangeEffectVideo}
                 onChangeVideoPlay={actionChangeVideoPlayer}
+                onFetchThumbNb={(imgCounts) => console.log(`获取缩略图${imgCounts}`)}
               />
             }
           </BottomContent>
@@ -255,7 +255,7 @@ SingleEdit.propTypes = {
   videoInfo: PropTypes.object.isRequired,
   videoPlayerEl: PropTypes.object.isRequired,
   effectVideo: PropTypes.object.isRequired,
-  trackInfo: PropTypes.object.isRequired,
+  // trackInfo: PropTypes.object.isRequired,
   effectImage: PropTypes.array.isRequired,
 
   actionChangeVideoPlayer: PropTypes.func.isRequired,
@@ -268,7 +268,7 @@ const mapStateToProps = createStructuredSelector({
   videoPlayerEl: makeSelectVideoPlayer(),
   effectVideo: makeSelectEffectVideo(),
   effectImage: makeSelectEffectImage(),
-  trackInfo: makeSelectTrackInfo(),
+  // trackInfo: makeSelectTrackInfo(),
 });
 
 function mapDispatchToProps(dispatch) {
