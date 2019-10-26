@@ -30,13 +30,12 @@ import { RESOLUTION_RATIO, PREVIEWDIV_SINGLE_MINMARGIN } from './commom/config';
 import HeaderCom from './Header';
 import ToolCom from './ToolCom';
 import VideoPlayer from './VideoPlayer';
-import TransVideo from './TransCom/TransVideo';
 import ControlCom from './ControlCom';
 import { Page, Content, MiddleContent, BottomContent,
   TopContent, TopLeft, TopRight, PreviewDiv, DevInfo } from './styled';
 import TrackCom from './TrackCom/index';
 
-import TransChartlet from './TransCom/TransChartlet';
+import TransCom from './TransCom';
 
 export class SingleEdit extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   state = {
@@ -45,8 +44,6 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
       height: 0,
     },
     isResizeIng: false, // 尺寸变化 canvas需要从新渲染
-    isShowBaseLineX: false,
-    isShowBaseLineY: false,
     isReloadVideo: false, // 视频是否有变化
   };
 
@@ -226,8 +223,6 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
                     style={canvasStyle}
                     innerRef={(ref) => this.previewDiv = ref}
                     onMouseUp={this.handlePreviewDivMouseUp}
-                    showBaseLineX={this.state.isShowBaseLineX}
-                    showBaseLineY={this.state.isShowBaseLineY}
                   >
                     {
                       canvasStyle.width &&
@@ -243,22 +238,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
                           handleVideoState={(state) => actionChangeVideoPlayer({ state })}
                         />
                     }
-                    <TransVideo
-                      handleShowBaseLine={(lineParams) => {
-                        this.setState({
-                          isShowBaseLineX: lineParams.showLineX,
-                          isShowBaseLineY: lineParams.showLineY,
-                        });
-                      }}
-                    />
-                    <TransChartlet
-                      handleShowBaseLine={(lineParams) => {
-                        this.setState({
-                          isShowBaseLineX: lineParams.showLineX,
-                          isShowBaseLineY: lineParams.showLineY,
-                        });
-                      }}
-                    />
+                    <TransCom />
                   </PreviewDiv>
                 )
               }

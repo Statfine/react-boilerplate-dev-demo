@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectVideoPlayer, makeSelectEffectVideo, makeSelectChooseEffect } from '../selectors';
 import { changeEffectVideo, changeEffectCom } from '../actions';
 
-import Transformable from './index';
+import Transformable from './ControlTransCom';
 
 export class TransVideo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 

@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
 export const VideoContent = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
   height: 100%;
+  width: 100%;
   background: #000;
-  position: relative;
   display: flex;
   justify-content: center;
   cursor: default;

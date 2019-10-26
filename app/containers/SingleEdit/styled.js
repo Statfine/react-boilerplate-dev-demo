@@ -33,30 +33,7 @@ export const TopRight = styled.div`
 export const PreviewDiv = styled.div`
   background: #fff;
   box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.08);
-  &:before {
-    content: '';
-    display: ${({ showBaseLineX }) => showBaseLineX ? 'block' : 'none'};
-    width: 100%;
-    height: 2px;
-    border-top: 1px dashed #FF8140;
-    position: absolute;
-    left: 0;
-    top: 50%;
-    margin-top: -1px;
-    z-index: 99;
-  }
-  &:after {
-    content: '';
-    display: ${({ showBaseLineY }) => showBaseLineY ? 'block' : 'none'};
-    width: 2px;
-    height: 100%;
-    border-left: 1px dashed #FF8140;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    margin-left: -1px;
-    z-index: 99;
-  }
+  position: relative;
 `;
 
 export const MiddleContent = styled.div`

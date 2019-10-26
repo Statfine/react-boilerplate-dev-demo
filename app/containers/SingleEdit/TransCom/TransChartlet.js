@@ -12,7 +12,7 @@ import { createStructuredSelector } from 'reselect';
 import { makeSelectVideoPlayer, makeSelectChooseEffect, makeSelectEffectImage } from '../selectors';
 import { changeEffectCom, changeEffectChartLet } from '../actions';
 
-import Transformable from './index';
+import Transformable from './ControlTransCom';
 
 export class TransChartlet extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
