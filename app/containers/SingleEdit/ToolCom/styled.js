@@ -5,7 +5,7 @@ export const ToolContent = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  padding: 40px;
+  padding: 32px 31px;
 `;
 
 
@@ -14,14 +14,16 @@ export const EachTool = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width:90px;
-  height:90px;
-  border-radius:8px;
-  border:1px solid rgba(217,217,217,1);
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
+  border: 1px solid rgba(217, 217, 217, 1);
   cursor: pointer;
+  margin: 8px;
+
   &:hover {
     transform: scale(1.1);
-    border:1px solid #b4b4b4;
+    border: 1px solid #b4b4b4;
   }
 `;
 
@@ -30,8 +32,8 @@ export const EachToolImg = styled.img`
   height: 36px;
 `;
 export const EachToolP = styled.p`
-  color: #333333;
-  font-szie: 12px;
+  color: #333;
+  font-size: 12px;
   margin-top: 4px;
 `;
 

@@ -20,7 +20,8 @@ import { Spin, Button } from 'antd';
 import _ from 'lodash';
 import { detectOS } from 'utils/utils';
 import { colorToRGB } from 'utils/color';
-import VideoContext from './videocontext.commonjs2';
+import VideoContext from './videocontext.commonjs2(image-time)';
+// import VideoContext from './videocontext.commonjs2';
 
 import { LoadingDiv, VideoContent, BtnContent, NoContent } from './styled';
 
@@ -204,7 +205,7 @@ export default class VideoContextComponent extends PureComponent {
   addChartletSingle = (beforeFilter, imageObj) => {
     const chartletNode = this.ctx.image(imageObj.image.src);
     chartletNode.startAt(0);
-    chartletNode.stopAt(imageObj.endT);
+    // chartletNode.stopAt(imageObj.endT);
 
     const adjustChartlet = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
     // 定义节点特效
@@ -218,6 +219,8 @@ export default class VideoContextComponent extends PureComponent {
     adjustChartlet.u_width_image = Number(imageObj.image.width); // 前景宽（第二张图片）
     adjustChartlet.u_height_image = Number(imageObj.image.height); // 前景高（第二张图片）
     adjustChartlet.u_image_b_valid = 1.0; // 当前effect的背景是否显示（当前背景是视频）
+    adjustChartlet.start = imageObj.startT;
+    adjustChartlet.end = imageObj.endT;
     chartletNode.connect(adjustChartlet);
 
     beforeFilter.connect(adjustChartlet);

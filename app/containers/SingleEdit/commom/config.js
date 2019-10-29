@@ -2,7 +2,11 @@
  * 常量
 */
 // import { VideoSvg } from '../images/icon/svg';
-import VideoSvg from '../images/icon/视频.svg';
+import ToolVideoSvg from '../images/icon/视频.svg';
+import ToolFilterSvg from '../images/icon/滤镜.svg';
+import ToolMosaicSvg from '../images/icon/马赛克.svg';
+import ToolPicSvg from '../images/icon/图片.svg';
+import ToolTextSvg from '../images/icon/文字.svg';
 
 // 分辨率
 export const RESOLUTION_RATIO = {
@@ -25,7 +29,11 @@ export const PREVIEWDIV_SINGLE_MINMARGIN = 40;
 
 // 工具栏列表
 export const TOOL_LIST = [
-  { key: 'effectVideo', icon: VideoSvg, text: '视频' },
+  { key: 'effectVideo', icon: ToolVideoSvg, text: '视频' },
+  { key: 'effectFilter', icon: ToolFilterSvg, text: '滤镜' },
+  { key: 'effectMosaic', icon: ToolMosaicSvg, text: '马赛克' },
+  { key: 'effectPic', icon: ToolPicSvg, text: '加图片' },
+  { key: 'effectText', icon: ToolTextSvg, text: '加文字' },
 ];
 
 export const AXIS = 30; // 刻度值

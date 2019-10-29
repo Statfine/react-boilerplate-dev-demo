@@ -120,7 +120,13 @@ class TransPreview extends PureComponent {
     console.log('选中了', effectList);
 
     if (effectList.length > 0) {
-      this.props.actionChangeEffectCom({ dragKey: effectList[effectList.length - 1].dragKey || 'videoTrans' });
+      let dragKey = 'videoTrans';
+      let effectKey = 'effectVideo';
+      if (effectList[effectList.length - 1].dragKey) {
+        dragKey = effectList[effectList.length - 1].dragKey;
+        effectKey = effectList[effectList.length - 1].type;
+      }
+      this.props.actionChangeEffectCom({ dragKey, effectKey });
     } else this.props.actionChangeEffectCom({ dragKey: '' });
   }
 

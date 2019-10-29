@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle</title>
+    <desc>Created with Sketch.</desc>
+    <g id="主页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-6">
+            <g id="马赛克" transform="translate(6.000000, 6.000000)">
+                <rect id="Rectangle" fill="#000000" opacity="0" x="1" y="0" width="23.9765854" height="24"></rect>
+                <g>
+                    <rect id="Rectangle" fill="#000000" opacity="0" x="0" y="0" width="24" height="24"></rect>
+                    <path d="M12,4.96875 L19.03125,4.96875 L19.03125,12 L12,12 L12,4.96875 Z M4.96875,12 L12,12 L12,19.03125 L4.96875,19.03125 L4.96875,12 Z" id="Shape" fill="#333333" fill-rule="nonzero"></path>
+                    <path d="M19.173913,22.25 C20.738961,22.25 22.25,20.738961 22.25,19.173913 L22.25,4.82608696 C22.25,3.26103897 20.738961,1.75 19.173913,1.75 L4.82608696,1.75 C3.26103897,1.75 1.75,3.26103897 1.75,4.82608696 L1.75,19.173913 C1.75,20.738961 3.26103897,22.25 4.82608696,22.25 L19.173913,22.25 Z" id="Path" stroke="#333333" stroke-width="1.5" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
