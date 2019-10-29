@@ -219,8 +219,8 @@ export default class VideoContextComponent extends PureComponent {
     adjustChartlet.u_width_image = Number(imageObj.image.width); // 前景宽（第二张图片）
     adjustChartlet.u_height_image = Number(imageObj.image.height); // 前景高（第二张图片）
     adjustChartlet.u_image_b_valid = 1.0; // 当前effect的背景是否显示（当前背景是视频）
-    adjustChartlet.start = imageObj.startT;
-    adjustChartlet.end = imageObj.endT;
+    adjustChartlet.start = imageObj.start;
+    adjustChartlet.end = imageObj.end;
     chartletNode.connect(adjustChartlet);
 
     beforeFilter.connect(adjustChartlet);
@@ -409,7 +409,18 @@ export default class VideoContextComponent extends PureComponent {
        * 修改最后一个的时候， 使用当前当前filter链接下一个filter
       */
       this.chartFilterList[dragKey].disconnect();
-      this.chartFilterList[dragKey].u_rect = params.rect;
+
+      if ('rect' in params) {
+        this.chartFilterList[dragKey].u_rect = params.rect;
+      }
+
+      if ('start' in params) {
+        this.chartFilterList[dragKey].start = params.start;
+      }
+      if ('end' in params) {
+        this.chartFilterList[dragKey].end = params.end;
+      }
+
       const index = _.findIndex(this.props.effectImage, (item) => item.dragKey === dragKey); // 获取当前位置
       if (index === this.props.effectImage.length - 1) {
         this.chartFilterList[dragKey].connect(this.ctx.destination);

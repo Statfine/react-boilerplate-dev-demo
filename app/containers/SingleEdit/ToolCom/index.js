@@ -15,9 +15,11 @@ import { TOOL_LIST } from '../commom/config';
 import { makeSelectChooseEffect } from '../selectors';
 import { changeEffectCom } from '../actions';
 
+import { ToolContent, EachTool, EachToolImg, EachToolP, EffectVideoContent } from './styled';
+
 import ToolHeader from './header';
 import EffectVideo from './EffectVideo';
-import { ToolContent, EachTool, EachToolImg, EachToolP, EffectVideoContent } from './styled';
+import EffectChartlet from './EffectChartlet';
 
 export class ToolCom extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -27,6 +29,8 @@ export class ToolCom extends React.PureComponent { // eslint-disable-line react/
     switch (effectKey) {
       case 'effectVideo':
         return (<EffectVideo />);
+      case 'effectChartlet':
+        return (<EffectChartlet />);
       default:
         return null;
     }

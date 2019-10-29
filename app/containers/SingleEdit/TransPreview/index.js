@@ -66,7 +66,8 @@ class TransPreview extends PureComponent {
 
   handleKeyDown = (ev) => {
     console.log('handleKeyDown', ev.keyCode);
-    const { dragKey } = this.props.chooseEffect;
+    const { dragKey, effectKey } = this.props.chooseEffect;
+    if ((dragKey === '' && effectKey === '') || dragKey === 'videoTrans') return;
     if (ev.keyCode === 8 || ev.keyCode === 46) { // 删除
       console.log('handleKeyDown2:', dragKey);
       this.props.videoPlayerEl.videoEl.updateChartlet(

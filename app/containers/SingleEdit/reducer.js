@@ -46,7 +46,7 @@ export const EFFECTIMAGE = [
   {
     zIndex: '1', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
     dragKey: 'image_1', // 特效标识
-    type: 'effectPic', // 特效类型
+    type: 'effectChartlet', // 特效类型
     image: { // 图片信息
       src: 'http://39.108.60.29/static/videoedit/test1.jpg',
       title: '94.png',
@@ -61,13 +61,14 @@ export const EFFECTIMAGE = [
       y: 0,
     },
     alpha: 100, // 图片透明度
-    startT: 0, // 图片开始时间点
-    endT: 5, // 图片结束时间点
+    start: 0, // 图片开始时间点
+    end: 5, // 图片结束时间点
+    isAlwaysShow: true,
   },
   {
     zIndex: '2', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
     dragKey: 'image_2', // 特效标识
-    type: 'effectPic', // 特效类型
+    type: 'effectChartlet', // 特效类型
     image: {
       src: 'http://39.108.60.29/static/videoedit/test2.jpg',
       title: '94.png',
@@ -82,8 +83,9 @@ export const EFFECTIMAGE = [
       y: 50,
     },
     alpha: 100,
-    startT: 6,
-    endT: 11,
+    start: 6,
+    end: 11,
+    isAlwaysShow: false,
   },
 ];
 

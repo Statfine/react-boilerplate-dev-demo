@@ -32,7 +32,7 @@ export const TOOL_LIST = [
   { key: 'effectVideo', icon: ToolVideoSvg, text: '视频' },
   { key: 'effectFilter', icon: ToolFilterSvg, text: '滤镜' },
   { key: 'effectMosaic', icon: ToolMosaicSvg, text: '马赛克' },
-  { key: 'effectPic', icon: ToolPicSvg, text: '加图片' },
+  { key: 'effectChartlet', icon: ToolPicSvg, text: '加图片' },
   { key: 'effectText', icon: ToolTextSvg, text: '加文字' },
 ];
 
