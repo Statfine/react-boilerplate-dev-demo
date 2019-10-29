@@ -21,6 +21,7 @@ export class TransVideo extends React.PureComponent { // eslint-disable-line rea
   // 鼠标抬起回调位置
   handleDragMouseUp = (val) => {
     console.log('handleDragMouseUp', val);
+    this.props.handleIsDraging(false);
     this.props.actionChangeEffectVideo({ position: {
       w: val.w, // 百分比
       h: val.h,
@@ -30,17 +31,12 @@ export class TransVideo extends React.PureComponent { // eslint-disable-line rea
   }
   handleActualTime = (val) => {
     console.log('handleActualTime', val);
+    this.props.handleIsDraging(true);
     this.props.videoPlayerEl.videoEl.updateVideo({ rect: [val.x / 100, val.y / 100, val.w / 100, val.h / 100] });
   }
 
-  // isChoosed true-选中  false-丢失
-  handleChoosed = (isChoosed, params) => {
-    // this.setState({ dragKey: isChoosed ? params.dragKey : '' });
-    this.props.actionChangeEffectCom({ dragKey: isChoosed ? params.dragKey : '' });
-  }
-
   render() {
-    const { effectVideo: { position }, chooseEffect, handleShowBaseLine } = this.props;
+    const { effectVideo: { position }, chooseEffect, handleShowBaseLine, handleIsDraging } = this.props;
     return (
       <Transformable
         onChange={this.handleDragMouseUp}
@@ -51,8 +47,8 @@ export class TransVideo extends React.PureComponent { // eslint-disable-line rea
         // isTransScale // 等比
         handleActualTime={this.handleActualTime} // 实时
         disabled={chooseEffect.dragKey !== 'videoTrans'}
-        handleClick={this.handleChoosed}
         handleShowBaseLine={handleShowBaseLine}
+        handleIsDraging={handleIsDraging}
       >
       </Transformable>
     );
@@ -77,7 +73,8 @@ TransVideo.propTypes = {
   chooseEffect: PropTypes.object.isRequired,
 
   actionChangeEffectVideo: PropTypes.func.isRequired,
-  actionChangeEffectCom: PropTypes.func.isRequired,
+  // actionChangeEffectCom: PropTypes.func.isRequired,
+  handleIsDraging: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({

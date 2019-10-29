@@ -17,6 +17,7 @@ export const TranContainer = styled.div`
   min-height: ${({ transScale }) => transScale ? `${MIN_WIDTH / transScale}px` : `${MIN_WIDTH}px`};
   position: absolute;
   cursor: ${(props) => props.disabled ? 'pointer' : 'move'};
+  display: ${(props) => props.disabled ? 'none' : 'block'};
 
   &:focus {
     border: none;

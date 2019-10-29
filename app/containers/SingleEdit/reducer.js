@@ -45,7 +45,7 @@ const EFFECTVIDEO = {
 export const EFFECTIMAGE = [
   {
     zIndex: '1', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
-    effectKey: 'image_1', // 特效标识
+    dragKey: 'image_1', // 特效标识
     type: 'image', // 特效类型
     image: { // 图片信息
       src: 'http://39.108.60.29/static/videoedit/test1.jpg',
@@ -66,7 +66,7 @@ export const EFFECTIMAGE = [
   },
   {
     zIndex: '2', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
-    effectKey: 'image_2', // 特效标识
+    dragKey: 'image_2', // 特效标识
     type: 'image', // 特效类型
     image: {
       src: 'http://39.108.60.29/static/videoedit/test2.jpg',
@@ -144,7 +144,7 @@ function singleEditReducer(state = initialState, action) {
       // 修改 edit。    actionType edit-修改 delete-删除 add-新增
       if (action.actionType === 'edit') {
         const index = state.get('effectImage')
-          .findIndex((v) => v.get('effectKey') === action.payload.effectKey);
+          .findIndex((v) => v.get('dragKey') === action.payload.dragKey);
         return state.updateIn(['effectImage', index], (item) =>
           item.merge(fromJS(action.payload))
         );
@@ -152,8 +152,8 @@ function singleEditReducer(state = initialState, action) {
       // 删除 delete
       if (action.actionType === 'delete') {
         return state.update('effectImage', (list) =>
-          list.filter((v) => v.get('effectKey') !== action.payload.effectKey)
-        );
+          list.filter((v) => v.get('dragKey') !== action.payload.dragKey)
+        ).setIn(['chooseEffect', 'dragKey'], '');
       }
       // 添加 add
       return state.update('effectImage', (list) => list.push(fromJS(action.payload)));

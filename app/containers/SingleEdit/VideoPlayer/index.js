@@ -208,7 +208,7 @@ export default class VideoContextComponent extends PureComponent {
 
     const adjustChartlet = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
     // 定义节点特效
-    this.chartFilterList[imageObj.effectKey] = adjustChartlet;
+    this.chartFilterList[imageObj.dragKey] = adjustChartlet;
 
     adjustChartlet.u_rect = [imageObj.position.x / 100, imageObj.position.y / 100, imageObj.position.w / 100, imageObj.position.h / 100]; // 前景位置(第二张图片)
     adjustChartlet.u_bgColor = [0.2, 0.5, 0.1]; // 前景背景(背景色)
@@ -383,8 +383,8 @@ export default class VideoContextComponent extends PureComponent {
    *    delete-删除
    *    add-添加
   */
-  publickUpdateChartlet = (effectKey, actionType, params = {}) => {
-    console.log('publickUpdateChartlet', params, effectKey, this.chartFilterList);
+  publickUpdateChartlet = (dragKey, actionType, params = {}) => {
+    console.log('publickUpdateChartlet', params, dragKey, this.chartFilterList);
     // 修改基本信息
     if (actionType === 'changeBaseInfo') {
       // 清空
@@ -392,29 +392,29 @@ export default class VideoContextComponent extends PureComponent {
       // this.effctFilterAdjust.connect(this.ctx.destination); // 重新连接
 
       // // 修改最后一个
-      // this.chartFilterList[effectKey].disconnect();
-      // this.chartFilterList[effectKey].u_rect = params.rect;
-      // this.chartFilterList[effectKey].connect(this.ctx.destination); //  当前直接链接到video
+      // this.chartFilterList[dragKey].disconnect();
+      // this.chartFilterList[dragKey].u_rect = params.rect;
+      // this.chartFilterList[dragKey].connect(this.ctx.destination); //  当前直接链接到video
 
       // 修改非最后一个
-      // this.chartFilterList[effectKey].disconnect();
-      // this.chartFilterList[effectKey].u_rect = params.rect;
-      // this.chartFilterList[effectKey].connect(this.chartFilterList['image_2']); // 当前链接需要链接到后一个上(后一个是最后一个就是就链接video，同上)
+      // this.chartFilterList[dragKey].disconnect();
+      // this.chartFilterList[dragKey].u_rect = params.rect;
+      // this.chartFilterList[dragKey].connect(this.chartFilterList['image_2']); // 当前链接需要链接到后一个上(后一个是最后一个就是就链接video，同上)
 
       /**
        * 修改最后一个的时候， 使用当前filter链接context
        * 修改最后一个的时候， 使用当前当前filter链接下一个filter
       */
-      this.chartFilterList[effectKey].disconnect();
-      this.chartFilterList[effectKey].u_rect = params.rect;
-      const index = _.findIndex(this.props.effectImage, (item) => item.effectKey === effectKey); // 获取当前位置
+      this.chartFilterList[dragKey].disconnect();
+      this.chartFilterList[dragKey].u_rect = params.rect;
+      const index = _.findIndex(this.props.effectImage, (item) => item.dragKey === dragKey); // 获取当前位置
       if (index === this.props.effectImage.length - 1) {
-        this.chartFilterList[effectKey].connect(this.ctx.destination);
-      } else this.chartFilterList[effectKey].connect(this.chartFilterList[this.props.effectImage[index + 1].effectKey]);
+        this.chartFilterList[dragKey].connect(this.ctx.destination);
+      } else this.chartFilterList[dragKey].connect(this.chartFilterList[this.props.effectImage[index + 1].dragKey]);
     }
 
     if (actionType === 'delete') {
-      this.chartFilterList[effectKey].disconnect();
+      this.chartFilterList[dragKey].disconnect();
 
       // 删除第一个 第一个链接修改
       // this.effctFilterAdjust.connect(this.chartFilterList['image_2']);
@@ -429,12 +429,12 @@ export default class VideoContextComponent extends PureComponent {
        * 删除第一个的时候(并非只有一个) 使用使用最上层的filter(effctFilterAdjust)链接当前的下一个(next)filter
        * 删除中间的时候 使用当前filter的上一个(up)filter链接当前(next)filter的下一个filter
       */
-      const index = _.findIndex(this.props.effectImage, (item) => item.effectKey === effectKey); // 获取当前位置
+      const index = _.findIndex(this.props.effectImage, (item) => item.dragKey === dragKey); // 获取当前位置
       if (this.props.effectImage.length === 1) this.effctFilterAdjust.connect(this.ctx.destination);
       else if (index === this.props.effectImage.length - 1) {
-        this.chartFilterList[this.props.effectImage[index - 1].effectKey].connect(this.ctx.destination);
-      } else if (index === 0) this.effctFilterAdjust.connect(this.chartFilterList[this.props.effectImage[index + 1].effectKey]);
-      else this.chartFilterList[this.props.effectImage[index - 1].effectKey].connect(this.chartFilterList[this.props.effectImage[index + 1].effectKey]);
+        this.chartFilterList[this.props.effectImage[index - 1].dragKey].connect(this.ctx.destination);
+      } else if (index === 0) this.effctFilterAdjust.connect(this.chartFilterList[this.props.effectImage[index + 1].dragKey]);
+      else this.chartFilterList[this.props.effectImage[index - 1].dragKey].connect(this.chartFilterList[this.props.effectImage[index + 1].dragKey]);
     }
 
     const oldTime = this.ctx.currentTime;

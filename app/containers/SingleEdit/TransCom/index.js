@@ -5,7 +5,7 @@
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { isParent } from 'utils/DOMutils';
+// import { isParent } from 'utils/DOMutils';
 import { fromJS } from 'immutable';
 import {
   Line,
@@ -75,10 +75,6 @@ class Transformable extends PureComponent {
     isShowBaseLineY: false,
   }
   componentDidMount() {
-    if (!this.props.disabled) {
-      document.addEventListener('click', this.handleDocumentClick); // 初次渲染的时候就已经是选中状态(窗口变化)
-      this.trancontainer.addEventListener('keydown', this.handleKeyDown);
-    }
     /**
      * 获取父元素节点，并设position为relative
      */
@@ -111,14 +107,12 @@ class Transformable extends PureComponent {
      */
     if (!disabled) {
       drag.focus();
-      drag.addEventListener('keydown', this.handleKeyDown);
     }
     /**
     * 拖动鼠标落下
     */
     drag.addEventListener('mousedown', (e) => { // eslint-disable-line
       // if (!disabled) {
-      // this.handleClickTrans(e);
       this.isDrag = true;
       document.body.style.userSelect = 'none';
       document.body.style.webkitUserSelect = 'none';
@@ -148,13 +142,9 @@ class Transformable extends PureComponent {
       this.setState({ extra: !nextProps.disabled });
       if (nextProps.disabled) {
         drag.addEventListener('mouseenter', this.handleMouseEnter);
-        this.trancontainer.removeEventListener('keydown', this.handleKeyDown);
-        document.removeEventListener('click', this.handleDocumentClick);
       } else {
         drag.removeEventListener('mouseenter', this.handleMouseEnter);
         drag.removeEventListener('mouseleave', this.handleMouseLeave);
-        this.trancontainer.addEventListener('keydown', this.handleKeyDown);
-        document.addEventListener('click', this.handleDocumentClick);
       }
     }
     if (nextProps.deg !== this.props.deg) {
@@ -173,9 +163,6 @@ class Transformable extends PureComponent {
     document.removeEventListener('mousemove', this.handleDragMouseMove);
     document.removeEventListener('mousemove', this.handleRotateMouseMove);
     document.removeEventListener('mouseup', this.handleMouseUp);
-
-    document.removeEventListener('click', this.handleDocumentClick); // 用于取消选中
-    this.trancontainer.removeEventListener('keydown', this.handleKeyDown);
     clearTimeout(this.timer);
   }
 
@@ -224,15 +211,15 @@ class Transformable extends PureComponent {
     return angle;
   }
 
-  isDrag = false; // 是否是拖动,用于点击其他位置取消选中
-  handleDocumentClick = (ev) => {
-    if (ev.target !== this.trancontainer
-      && !isParent(ev.target, this.trancontainer)
-      && !this.isDrag
-    ) {
-      this.props.handleClick(false);
-    }
-  }
+  isDrag = false; // 是否是拖动中
+  // handleDocumentClick = (ev) => {
+  //   if (ev.target !== this.trancontainer
+  //     && !isParent(ev.target, this.trancontainer)
+  //     && !this.isDrag
+  //   ) {
+  //     this.props.handleClick(false);
+  //   }
+  // }
 
   handleMouseEnter = () => {
     clearTimeout(this.timer);
@@ -256,55 +243,12 @@ class Transformable extends PureComponent {
     </Rotate>
   );
 
-  /**
-   * 键盘按下
-   */
-  handleKeyDown = (ev) => {
-    ev.stopPropagation();
-    ev.preventDefault();
-    const { onKeyDown, dragKey, dragType } = this.props;
-    console.log('handleKeyDown', ev.keyCode);
-    // const left = this.formatStyle(this.trancontainer, 'left');
-    // const top = this.formatStyle(this.trancontainer, 'top');
-    // if (ev.keyCode === 37) {
-    //   this.trancontainer.style.left = `${left - 1}px`;
-    // }
-    // if (ev.keyCode === 38) {
-    //   this.trancontainer.style.top = `${top - 1}px`;
-    // }
-    // if (ev.keyCode === 39) {
-    //   this.trancontainer.style.left = `${left + 1}px`;
-    // }
-    // if (ev.keyCode === 40) {
-    //   this.trancontainer.style.top = `${top + 1}px`;
-    // }
-
-    // if ((e.keyCode === 8 || e.keyCode === 46) && onDeleteKeyDown) {
-    //   onDeleteKeyDown({
-    //     dragKey,
-    //     dragType,
-    //   });
-    // }
-    // this.handleTransfrom();
-    if (onKeyDown) {
-      onKeyDown({
-        dragKey,
-        dragType,
-        ev,
-      });
-    }
-  }
   parent = null;
 
   formatStyle = (ele, props) => {
     const str = this.getStyle(ele)[props];
     return parseFloat(str.substring(0, str.length - 2));
   };
-
-  handleClickTrans = (ev) => {
-    ev.stopPropagation();
-    this.props.handleClick(true, this.props);
-  }
 
   // 判断基准线是否显示
   handleCalculateBaseLine = () => {
@@ -338,6 +282,7 @@ class Transformable extends PureComponent {
    */
   handleDragMouseMove = (ev) => {
     if (this.props.disabled) return;
+    if (this.props.handleIsDraging) this.props.handleIsDraging(true);
     // console.log('handleDragMouseMove');
     // startX-鼠标X轴距离; startY-鼠标Y轴距离; tranX-相对父元素x轴距离; tranY-相对父元素Y轴距离
     const { startX, startY, tranX, tranY } = this.state.drag.toJS();
@@ -442,8 +387,9 @@ class Transformable extends PureComponent {
    * 缩放鼠标移动事件
    */
   handleMouseMove = (ev) => {
-    // console.log('handleMouseMove');
+    console.log('handleMouseMove');
     const start = this.state.scale.toJS();
+    if (this.props.handleIsDraging) this.props.handleIsDraging(true);
     const { isTransScale } = this.props;
     const transScale = start.startW / start.startH; // 缩放尺寸， 基于当前宽高比
     const MIN_HEIGHT = isTransScale ? (MIN_WIDTH / transScale) : MIN_WIDTH; // 拖拽组件最小高度
@@ -585,9 +531,12 @@ class Transformable extends PureComponent {
    * 鼠标抬起事件
    */
   handleMouseUp = () => {
+    console.log('handleMouseUp');
     // ;
+    if (this.props.disabled) return;
     setTimeout(() => {
       this.isDrag = false;
+      if (this.props.handleIsDraging) this.props.handleIsDraging(false);
     }, 200);
     const result = this.handleActualSize();
     if (this.props.onChange && !this.props.disabled) {
@@ -724,7 +673,6 @@ class Transformable extends PureComponent {
         disabled
         {...this.props}
         transScale={isTransScale && defaultPosition.w / defaultPosition.h} // transScale是否等比设置最小高度
-        onClick={this.handleClickTrans}
       >
         {extra && extraBtn && extraBtn()}
         {!disabled && rotate && this.handleRenderRotate()}
@@ -791,10 +739,9 @@ Transformable.propTypes = {
   handleActualTime: PropTypes.func,
   dragKey: PropTypes.string,
   dragType: PropTypes.string,
-  handleClick: PropTypes.func,
   handleShowBaseLine: PropTypes.func,
   zIndex: PropTypes.number,
-  onKeyDown: PropTypes.func,
+  handleIsDraging: PropTypes.func,
 };
 
 export default Transformable;

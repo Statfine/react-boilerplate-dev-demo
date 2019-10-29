@@ -24,7 +24,7 @@ export class TransChartlet extends React.PureComponent { // eslint-disable-line 
     this.props.actionChangeEffectChartlet(
       'edit',
       {
-        effectKey: val.dragKey,
+        dragKey: val.dragKey,
         position: {
           w: val.w, // 百分比
           h: val.h,
@@ -53,35 +53,29 @@ export class TransChartlet extends React.PureComponent { // eslint-disable-line 
       this.props.actionChangeEffectCom({ dragKey: '' });
       this.props.actionChangeEffectChartlet(
         'delete',
-        { effectKey: obj.dragKey },
+        { dragKey: obj.dragKey },
       );
     }
   }
 
-  // isChoosed true-选中  false-丢失
-  handleChoosed = (isChoosed, params) => {
-    console.log('handleChoosed', params);
-    this.props.actionChangeEffectCom({ dragKey: isChoosed ? params.dragKey : '' });
-  }
-
   render() {
-    const { chooseEffect, handleShowBaseLine, effectImage } = this.props;
+    const { chooseEffect, handleShowBaseLine, effectImage, handleIsDraging } = this.props;
     return (
         effectImage.map((item, i) => (
           <Transformable
-            key={item.effectKey}
+            key={item.dragKey}
             onChange={this.handleDragMouseUp}
             drag
             defaultPosition={item.position}
-            dragKey={item.effectKey}
+            dragKey={item.dragKey}
             dragType={item.type}
             // isTransScale // 等比
             handleActualTime={this.handleActualTime} // 实时
-            disabled={chooseEffect.dragKey !== item.effectKey}
-            handleClick={this.handleChoosed}
+            disabled={chooseEffect.dragKey !== item.dragKey}
             handleShowBaseLine={handleShowBaseLine}
-            onKeyDown={this.handleKeyDown}
-            zIndex={chooseEffect.dragKey !== '' ? 100 + i : i + 1}
+            // zIndex={chooseEffect.dragKey !== '' ? 100 + i : i + 1}
+            zIndex={i + 1}
+            handleIsDraging={handleIsDraging}
           >
           </Transformable>
         ))
@@ -107,6 +101,7 @@ TransChartlet.propTypes = {
 
   actionChangeEffectCom: PropTypes.func.isRequired,
   actionChangeEffectChartlet: PropTypes.func.isRequired,
+  handleIsDraging: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
