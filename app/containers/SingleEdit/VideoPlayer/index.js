@@ -2,7 +2,9 @@
  * VideoContext 播放器
  * https://github.com/bbc/VideoContext
  *
- * 实例
+ * 实例  filterFlip-翻转特效  effctFilterAdjust-视频特效
+ *  node.connect(filterFlip);
+ *  filterFlip.connect(effctFilterAdjust)
  *  effctFilterAdjust.connect(chartlet1)
  *  chartlet1.connect(chartlet2)
  *  chartlet3.connect(chartlet3)

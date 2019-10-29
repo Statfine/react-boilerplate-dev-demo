@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
 export const EffectList = styled.div`
+  height: 100%;
   margin-top: 33px;
+  overflow: auto;
+  padding: 0 24px 81px 24px;
 `;
 
 export const EachEffectDiv = styled.div`
@@ -16,14 +19,14 @@ export const LeftTitle = styled.p`
   width: 46px;
 `;
 export const RightTitle = styled.p`
-  color: #333333;
+  color: #333;
   width: 40px;
 `;
 export const RightDiv = styled.div`
   width: 40px;
 `;
 export const RightInput = styled.span`
-  color: #333333;
+  color: #333;
   outline: none;
   cursor: text;
   border-bottom: ${({ edit }) => edit ? '1px solid #333' : 'none'};
@@ -32,41 +35,44 @@ export const RightInput = styled.span`
 export const FlexDiv = styled.div`
   display: flex;
   align-items: center;
-  .ant-popover-inner-content{
-    padding: 0
+
+  .ant-popover-inner-content {
+    padding: 0;
   }
 `;
 
 export const OverDiv = styled(FlexDiv)`
-  width:36px;
-  height:36px;
-  border-radius:4px;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
   border: ${({ choosed }) => `1px solid ${choosed ? '#FF8140' : '#D9D9D9'}`};
   margin-left: 16px;
   justify-content: center;
   cursor: pointer;
+
   &:hover {
-    border: 1px solid #FF8140;  
+    border: 1px solid #FF8140;
   }
 `;
 
 export const ColorDiv = styled.div`
-  width:78px;
-  height:32px;
+  width: 78px;
+  height: 32px;
   margin-left: 25px;
   text-align: center;
   line-height: 30px;
   cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
-  border-radius:4px;
+  border-radius: 4px;
   border: ${({ choosed }) => `1px solid ${choosed ? '#FF8140' : '#D9D9D9'}`};
+
   &:hover {
     border: ${({ disabled }) => `1px solid ${disabled ? '#D9D9D9' : '#FF8140'}`};
-    color: ${({ disabled }) => disabled ? '#838383' : '#FF8140'};;
+    color: ${({ disabled }) => disabled ? '#838383' : '#FF8140'};
   }
 `;
 
 export const ColorBtn = styled(ColorDiv)`
-  background: ${({ backgroundColor }) => backgroundColor}
+  background: ${({ backgroundColor }) => backgroundColor};
 `;
 
 export const UplaodingContent = styled(FlexDiv)`

@@ -8,6 +8,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import _ from 'lodash';
 
 import { TOOL_LIST } from '../commom/config';
 
@@ -16,7 +17,7 @@ import { changeEffectCom } from '../actions';
 
 import ToolHeader from './header';
 import EffectVideo from './EffectVideo';
-import { ToolContent, EachTool, EachToolImg, EachToolP, EffectVideoContent, EffectDiv } from './styled';
+import { ToolContent, EachTool, EachToolImg, EachToolP, EffectVideoContent } from './styled';
 
 export class ToolCom extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -34,16 +35,15 @@ export class ToolCom extends React.PureComponent { // eslint-disable-line react/
   // effectKey 选中的工具
   render() {
     const { chooseEffect, actionChangeEffectCom } = this.props;
+    const title = chooseEffect.effectKey === '' ? '' : _.filter(TOOL_LIST, { key: chooseEffect.effectKey })[0].text;
     if (chooseEffect.effectKey) {
       return (
         <EffectVideoContent>
           <ToolHeader
             handleBack={() => actionChangeEffectCom({ effectKey: '' })}
-            title={'视频'}
+            title={title}
           />
-          <EffectDiv>
-            {this.renderEffectDetail(chooseEffect.effectKey)}
-          </EffectDiv>
+          {this.renderEffectDetail(chooseEffect.effectKey)}
         </EffectVideoContent>
       );
     }

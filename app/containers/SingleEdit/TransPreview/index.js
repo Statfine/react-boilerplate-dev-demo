@@ -63,24 +63,29 @@ class TransPreview extends PureComponent {
 
     const videoSection = this.handleEffectSection(effectVideo.position, previewStyle);
     console.log('effectVideo Section', videoSection);
+    const effectList = []; // 所在区间的特效
+    // 判断视频
     if ((evPointX >= videoSection.startX && evPointX <= videoSection.endX)
       && (evPointY >= videoSection.startY && evPointY <= videoSection.endY)
     ) {
       console.log('选中了视频');
+      effectList.push(effectVideo);
     }
-    const effectList = effectImage.map((item) => {
+    // 判断贴图
+    effectImage.map((item) => {
       const effectSection = this.handleEffectSection(item.position, previewStyle);
       if ((evPointX >= effectSection.startX && evPointX <= effectSection.endX)
         && (evPointY >= effectSection.startY && evPointY <= effectSection.endY)
       ) {
         console.log('选中当前', item);
+        effectList.push(item);
       }
-      return item;
+      return null;
     });
     console.log('选中了', effectList);
   }
 
-  // 特效区间(基于预览区域(TransDiv))
+  // 特效区间(基于预览区域的顶点(TransDiv))
   handleEffectSection = (position, previewStyle) => {
     console.log('position', position, previewStyle);
     let startX = 0;

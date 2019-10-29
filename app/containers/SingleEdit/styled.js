@@ -48,6 +48,7 @@ export const MiddleContent = styled.div`
 export const BottomContent = styled.div`
   height: 132px;
   min-height: 132px;
+  background: #fff;
   display: flex;
   z-index: 99;
 `;
