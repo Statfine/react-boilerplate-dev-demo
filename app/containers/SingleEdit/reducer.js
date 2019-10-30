@@ -38,7 +38,7 @@ const EFFECTVIDEO = {
     width: '400',
     height: '299',
   },
-  reversal: -1, // 翻转 -1-无 1-左右翻转 0-上下翻转
+  reversal: -1, // 翻转 -1-无 0-左右翻转 1-上下翻转
   startTime: 0,
   endTime: 11,
 };

@@ -296,16 +296,16 @@ export class EffectVideo extends React.PureComponent { // eslint-disable-line re
           <FlexDiv>
             <ToolTip title="左右翻转">
               <OverDiv
-                choosed={effectVideo.reversal === 0}
-                onClick={() => this.handleReversal(0)}
+                choosed={effectVideo.reversal === 1}
+                onClick={() => this.handleReversal(1)}
               >
                 <LeftRightOverSvg style={{ width: 36, height: 36 }} viewBox="0 0 36 36" />
               </OverDiv>
             </ToolTip>
             <ToolTip title="上下翻转">
               <OverDiv
-                choosed={effectVideo.reversal === 1}
-                onClick={() => this.handleReversal(1)}
+                choosed={effectVideo.reversal === 0}
+                onClick={() => this.handleReversal(0)}
               >
                 <UpDownOverSvg style={{ width: 36, height: 36 }} viewBox="0 0 36 36" />
               </OverDiv>

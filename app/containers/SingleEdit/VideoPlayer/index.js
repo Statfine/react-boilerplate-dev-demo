@@ -2,17 +2,17 @@
  * VideoContext 播放器
  * https://github.com/bbc/VideoContext
  *
- * 实例  filterFlip-翻转特效  effctFilterAdjust-视频特效
- *  node.connect(filterFlip);
- *  filterFlip.connect(effctFilterAdjust)
- *  effctFilterAdjust.connect(chartlet1)
+ * 实例  effctFilterFanZhuan-翻转特效  effctFilterVideoAdjust-视频特效 filterNode-滤镜参数 filterImageNode-冷暖色
+ *  node.connect(filterFlipFanZhuan);
+ *  filterFlipFanZhuan.connect(effctFilterVideoAdjust)
+ *  effctFilterVideoAdjust.connect(chartlet1)
  *  chartlet1.connect(chartlet2)
  *  chartlet3.connect(chartlet3)
  *  chartlet3.connect(chartlet4)
  *  chartlet4.connect(this.ctx.destination)
  *    以此为基础修改
  *    修改chartlet1之后，需要执行chartlet1.connect(chartlet2) 以此类推
- *    删除chartlet1之后需要 effctFilterAdjust.connect(chartlet2) 以此类推
+ *    删除chartlet1之后需要 effctFilterVideoAdjust.connect(chartlet2) 以此类推
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -22,7 +22,9 @@ import { detectOS } from 'utils/utils';
 import { colorToRGB } from 'utils/color';
 import VideoContext from './videocontext.commonjs2(image-time)';
 // import VideoContext from './videocontext.commonjs2';
+// import VideoContext from './videocontext.commonjs2(lut)';
 
+import LookupBlackPng from '../images/lookup-black.png';
 import { LoadingDiv, VideoContent, BtnContent, NoContent } from './styled';
 
 // import { EFFECTIMAGE } from '../reducer';
@@ -102,8 +104,8 @@ export default class VideoContextComponent extends PureComponent {
     this.ctx.reset();
   };
 
-  effctFilterAdjust; // 用于尺寸和背景色修改是update用的filter
-  effctFilterFlip; // 翻转
+  effctFilterVideoAdjust; // 用于尺寸和背景色修改是update用的filter
+  effctFilterFanZhuan; // 翻转
   videoNode; // 视频节点
 
   resize = (videoInfo, effectVideo) => {
@@ -130,43 +132,68 @@ export default class VideoContextComponent extends PureComponent {
     const bacImageNode = this.initBackImgNode(effectVideo, effectVideo.backgroundImg.src);
 
     // 翻转特效
-    const filterFlip = this.ctx.effect(VideoContext.DEFINITIONS.FLIP);
-    filterFlip.u_hv = effectVideo.reversal; // 0.0垂直翻转，1.0是水平翻转
-    this.effctFilterFlip = filterFlip; // 定义对象用于update直接更新
+    const filterFlipFanZhuan = this.ctx.effect(VideoContext.DEFINITIONS.FLIP);
+    filterFlipFanZhuan.u_hv = effectVideo.reversal; // 0.0垂直翻转，1.0是水平翻转
+    this.effctFilterFanZhuan = filterFlipFanZhuan; // 定义对象用于update直接更新
 
     // 视频大小，背景色，背景图片，透明度
-    const filterAdjust = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
-    this.effctFilterAdjust = filterAdjust; // 定义对象用于update直接更新
-
+    const filterVideoAdjust = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
+    this.effctFilterVideoAdjust = filterVideoAdjust; // 定义对象用于update直接更新
     // 视频位置 [x轴边距，y轴边距，w宽，h高] （小数百分比）
     const { x, y, w, h } = effectVideo.position;
-    filterAdjust.u_rect = [x / 100, y / 100, w / 100, h / 100]; // 前景位置(视频)
+    filterVideoAdjust.u_rect = [x / 100, y / 100, w / 100, h / 100]; // 前景位置(视频)
     const rgb = colorToRGB(effectVideo.backgroundColor);
-    filterAdjust.u_bgColor = [rgb.r / 255, rgb.g / 255, rgb.b / 255]; // 背景色
-    filterAdjust.u_alpha = effectVideo.opacity * 0.01; // 前景透明度
-    filterAdjust.u_width_view = this.props.width; // 画布宽
-    filterAdjust.u_height_view = this.props.height; // 画布高
+    filterVideoAdjust.u_bgColor = [rgb.r / 255, rgb.g / 255, rgb.b / 255]; // 背景色
+    filterVideoAdjust.u_alpha = effectVideo.opacity * 0.01; // 前景透明度
+    filterVideoAdjust.u_width_view = this.props.width; // 画布宽
+    filterVideoAdjust.u_height_view = this.props.height; // 画布高
     const mediaInfo = this.props.videoInfo.media_info;
-    filterAdjust.u_width_image = mediaInfo.width; // 前景宽(视频)
-    filterAdjust.u_height_image = mediaInfo.height; // 前景高（视频）
-    filterAdjust.u_image_b_valid = bacImageNode ? 1.0 : 0.0; // 当前的背景是否显示(图片) 1-显示 0-不显示
+    filterVideoAdjust.u_width_image = mediaInfo.width; // 前景宽(视频)
+    filterVideoAdjust.u_height_image = mediaInfo.height; // 前景高（视频）
+    filterVideoAdjust.u_image_b_valid = bacImageNode ? 1.0 : 0.0; // 当前的背景是否显示(图片) 1-显示 0-不显示
 
-    node.connect(filterFlip);
-    filterFlip.connect(filterAdjust);
-    if (bacImageNode) bacImageNode.connect(filterAdjust);
+    // 滤镜参数
+    const filterNode = this.ctx.effect(VideoContext.DEFINITIONS.HSVC);
+    filterNode.u_hue = 0.0; // 色调
+    filterNode.u_saturation = 1.0; // 饱和度 1为正常值（0.0~1+）
+    filterNode.u_value = 1.0; // 亮度  1为正常值（0.0~1+）
+    filterNode.u_contrast = 0.0; // 对比度 0为正常值（-1~0+）
+
+    // 滤镜(暖色，冷色)
+    const filterImageNode = this.ctx.image(LookupBlackPng);
+    filterImageNode.startAt(0);
+    const lookup = this.ctx.effect(VideoContext.DEFINITIONS.LOOKUP);
+    lookup.intensity = 1.0;
+
+    // 滤镜+翻转+滤镜参数+视频基本
+    // node.connect(lookup);
+    // filterImageNode.connect(lookup);
+    // lookup.connect(filterFlipFanZhuan);
+    // filterFlipFanZhuan.connect(filterNode);
+    // filterNode.connect(filterVideoAdjust);
+
+    // 翻转+滤镜参数+视频基本
+    // node.connect(filterFlipFanZhuan);
+    // filterFlipFanZhuan.connect(filterNode);
+    // filterNode.connect(filterVideoAdjust);
+
+    // 翻转+视频基本
+    node.connect(filterFlipFanZhuan);
+    filterFlipFanZhuan.connect(filterVideoAdjust);
+
+    if (bacImageNode) bacImageNode.connect(filterVideoAdjust);
 
     // todo - 图片特效 效果同上(注意背景和前景的区别)
-
     // 贴图特效
-    // const finaleNode = this.addChartletDemo(filterAdjust);
+    // const finaleNode = this.addChartletDemo(filterVideoAdjust);
     // finaleNode.connect(this.ctx.destination);
 
     // 多个特效
     this.filterList = []; // 清空贴图特效
-    const finaleNode = this.addChartlet(filterAdjust, 0);
+    const finaleNode = this.addChartlet(filterVideoAdjust, 0);
     finaleNode.connect(this.ctx.destination);
 
-    // filterAdjust.connect(this.ctx.destination);
+    // filterVideoAdjust.connect(this.ctx.destination);
 
     const { cbHandleTime, handleInitVideo } = this.props;
     this.ctx.currentTime = (this.props.reducerCurrentTime < 0.00001 || this.props.reducerCurrentTime > this.ctx.duration) ? 0.00001 : this.props.reducerCurrentTime; // 设置封面，不然是黑屏
@@ -350,29 +377,29 @@ export default class VideoContextComponent extends PureComponent {
   */
   publickUpdateVideo = (params) => {
     if ('rect' in params) {
-      this.effctFilterAdjust.u_rect = params.rect;
+      this.effctFilterVideoAdjust.u_rect = params.rect;
     }
     if ('bgColor' in params) {
       const rgb = colorToRGB(params.bgColor);
-      this.effctFilterAdjust.u_bgColor = [rgb.r / 255, rgb.g / 255, rgb.b / 255];
+      this.effctFilterVideoAdjust.u_bgColor = [rgb.r / 255, rgb.g / 255, rgb.b / 255];
     }
     if ('opacity' in params) {
-      this.effctFilterAdjust.u_alpha = params.opacity * 0.01;
+      this.effctFilterVideoAdjust.u_alpha = params.opacity * 0.01;
     }
     if ('volume' in params) {
       this.videoNode.volume = params.volume * 0.01;
     }
     if ('hv' in params) {
-      this.effctFilterFlip.u_hv = params.hv; // 0.0垂直翻转，1.0是水平翻转
+      this.effctFilterFanZhuan.u_hv = params.hv; // 0.0垂直翻转，1.0是水平翻转
     }
     if ('bgcImg' in params) {
       this.effectBacImageNode.disconnect();
       if (!params.bgcImg) {
-        this.effctFilterAdjust.u_image_b_valid = 0.0; // 当前的背景是否显示(图片) 1-显示 0-不显示
+        this.effctFilterVideoAdjust.u_image_b_valid = 0.0; // 当前的背景是否显示(图片) 1-显示 0-不显示
       } else {
-        this.effctFilterAdjust.u_image_b_valid = 1.0;
+        this.effctFilterVideoAdjust.u_image_b_valid = 1.0;
         const bacImageNode = this.initBackImgNode(this.props.effectVideo, params.bgcImg);
-        bacImageNode.connect(this.effctFilterAdjust);
+        bacImageNode.connect(this.effctFilterVideoAdjust);
       }
     }
     const oldTime = this.ctx.currentTime;
@@ -394,7 +421,7 @@ export default class VideoContextComponent extends PureComponent {
     if (actionType === 'changeBaseInfo') {
       // 清空
       // this.filterList.map((item) => item.disconnect());
-      // this.effctFilterAdjust.connect(this.ctx.destination); // 重新连接
+      // this.effctFilterVideoAdjust.connect(this.ctx.destination); // 重新连接
 
       this.filterList[dragKey].disconnect();
 
@@ -423,24 +450,24 @@ export default class VideoContextComponent extends PureComponent {
       this.filterList[dragKey].disconnect();
 
       /**
-       * 只有一个的时候，删除之后使用最上层的filter(effctFilterAdjust)链接context
+       * 只有一个的时候，删除之后使用最上层的filter(effctFilterVideoAdjust)链接context
        * 删除最后一个的时候， 使用当前filter的上一个(up)filter链接context
-       * 删除第一个的时候(并非只有一个) 使用使用最上层的filter(effctFilterAdjust)链接当前的下一个(next)filter
+       * 删除第一个的时候(并非只有一个) 使用使用最上层的filter(effctFilterVideoAdjust)链接当前的下一个(next)filter
        * 删除中间的时候 使用当前filter的上一个(up)filter链接当前(next)filter的下一个filter
       */
       const index = _.findIndex(this.props.effectImage, (item) => item.dragKey === dragKey); // 获取当前位置
-      if (this.props.effectImage.length === 1) this.effctFilterAdjust.connect(this.ctx.destination);
+      if (this.props.effectImage.length === 1) this.effctFilterVideoAdjust.connect(this.ctx.destination);
       else if (index === this.props.effectImage.length - 1) {
         this.filterList[this.props.effectImage[index - 1].dragKey].connect(this.ctx.destination);
-      } else if (index === 0) this.effctFilterAdjust.connect(this.filterList[this.props.effectImage[index + 1].dragKey]);
+      } else if (index === 0) this.effctFilterVideoAdjust.connect(this.filterList[this.props.effectImage[index + 1].dragKey]);
       else this.filterList[this.props.effectImage[index - 1].dragKey].connect(this.filterList[this.props.effectImage[index + 1].dragKey]);
     }
 
     if (actionType === 'add') {
       const length = this.props.effectImage.length;
       if (length === 0) {
-        this.effctFilterAdjust.disconnect();
-        const addFilter = this.addChartletSingle(this.effctFilterAdjust, params);
+        this.effctFilterVideoAdjust.disconnect();
+        const addFilter = this.addChartletSingle(this.effctFilterVideoAdjust, params);
         addFilter.connect(this.ctx.destination);
       } else {
         const beforeFilter = this.filterList[this.props.effectImage[length - 1].dragKey];
