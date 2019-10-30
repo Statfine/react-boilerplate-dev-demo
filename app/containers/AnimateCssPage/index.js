@@ -49,6 +49,55 @@ const AnimaleSpan = styled.span`
   position: absolute;
   animation: ${(props) => props.isAnimale ? `${ani(props)} ${props.time}s linear` : ''};
 `;
+const slideInLeft = keyframes`
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+    transform: translateX(-300px);
+  }
+`;
+const slideInRight = keyframes`
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+`;
+const floatUp = keyframes`
+  0% {
+    opacity:0;
+  }
+
+  40% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+`;
+const LeftCard = styled.div`
+  display: inline-block;
+  width: 529px;
+  height: 298px;
+  background: #4885ed;
+  animation: ${slideInLeft} 1.2s;
+`;
+const RightCard = styled.div`
+  display: inline-block;
+  width: 543px;
+  height: 298px;
+  background: #FF8140;
+  animation: ${slideInRight} 1.2s;
+`;
+
+const FloatUpDiv = styled.div`
+  width: 1072px;
+  height: 298px;
+  background: #333;
+  animation: ${floatUp} 1.2s;
+`;
 
 const Option = Select.Option;
 const children = [];
@@ -132,6 +181,11 @@ class AnimateCssPage extends PureComponent { // eslint-disable-line
           <Button type="primary" style={STYLE.leftStyle} onClick={this.handleResetAnima}>恢复</Button>
           <Button type="primary" style={STYLE.leftStyle} onClick={this.handleStopAnima}>{isStop ? '继续' : '暂停'}</Button>
         </FlexDiv>
+        <FlexDiv>
+          <LeftCard />
+          <RightCard />
+        </FlexDiv>
+        <FloatUpDiv />
       </div>
     );
   }
