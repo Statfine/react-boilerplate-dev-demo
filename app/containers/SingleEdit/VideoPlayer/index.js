@@ -20,9 +20,9 @@ import { Spin, Button } from 'antd';
 import _ from 'lodash';
 import { detectOS } from 'utils/utils';
 import { colorToRGB } from 'utils/color';
-import VideoContext from './videocontext.commonjs2(image-time)';
+// import VideoContext from './videocontext.commonjs2(image-time)';
 // import VideoContext from './videocontext.commonjs2';
-// import VideoContext from './videocontext.commonjs2(lut)';
+import VideoContext from './videocontext.commonjs2(lut)';
 
 import LookupBlackPng from '../images/lookup-black.png';
 import { LoadingDiv, VideoContent, BtnContent, NoContent } from './styled';
@@ -166,11 +166,11 @@ export default class VideoContextComponent extends PureComponent {
     lookup.intensity = 1.0;
 
     // 滤镜+翻转+滤镜参数+视频基本
-    // node.connect(lookup);
-    // filterImageNode.connect(lookup);
-    // lookup.connect(filterFlipFanZhuan);
-    // filterFlipFanZhuan.connect(filterNode);
-    // filterNode.connect(filterVideoAdjust);
+    node.connect(lookup);
+    filterImageNode.connect(lookup);
+    lookup.connect(filterFlipFanZhuan);
+    filterFlipFanZhuan.connect(filterNode);
+    filterNode.connect(filterVideoAdjust);
 
     // 翻转+滤镜参数+视频基本
     // node.connect(filterFlipFanZhuan);
@@ -178,8 +178,8 @@ export default class VideoContextComponent extends PureComponent {
     // filterNode.connect(filterVideoAdjust);
 
     // 翻转+视频基本
-    node.connect(filterFlipFanZhuan);
-    filterFlipFanZhuan.connect(filterVideoAdjust);
+    // node.connect(filterFlipFanZhuan);
+    // filterFlipFanZhuan.connect(filterVideoAdjust);
 
     if (bacImageNode) bacImageNode.connect(filterVideoAdjust);
 
