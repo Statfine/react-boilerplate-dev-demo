@@ -161,8 +161,8 @@ export default class VideoContextComponent extends PureComponent {
     // const finaleNode = this.addChartletDemo(filterAdjust);
     // finaleNode.connect(this.ctx.destination);
 
-    // 多个贴图特效
-    this.chartFilterList = []; // 清空贴图特效
+    // 多个特效
+    this.filterList = []; // 清空贴图特效
     const finaleNode = this.addChartlet(filterAdjust, 0);
     finaleNode.connect(this.ctx.destination);
 
@@ -185,7 +185,7 @@ export default class VideoContextComponent extends PureComponent {
   };
 
   // 贴图迭代器
-  chartFilterList = [];
+  filterList = [];
   addChartlet = (filter, i) => {
     if (i < this.props.effectImage.length) {
       const chartFilter = this.addChartletSingle(filter, this.props.effectImage[i]);
@@ -209,7 +209,7 @@ export default class VideoContextComponent extends PureComponent {
 
     const adjustChartlet = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
     // 定义节点特效
-    this.chartFilterList[imageObj.dragKey] = adjustChartlet;
+    this.filterList[imageObj.dragKey] = adjustChartlet;
 
     adjustChartlet.u_rect = [imageObj.position.x / 100, imageObj.position.y / 100, imageObj.position.w / 100, imageObj.position.h / 100]; // 前景位置(第二张图片)
     adjustChartlet.u_bgColor = [0.2, 0.5, 0.1]; // 前景背景(背景色)
@@ -232,6 +232,7 @@ export default class VideoContextComponent extends PureComponent {
   addChartletDemo = (beforeFilter) => {
     const chartletNode = this.ctx.image(this.props.effectVideo.backgroundImg.src);
     chartletNode.startAt(0);
+    // chartletNode.stopAt(5);
 
     const adjustChartlet = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
     adjustChartlet.u_rect = [0.5, 0.5, 0.4, 0.1]; // 前景位置(第二张图片)
@@ -246,6 +247,7 @@ export default class VideoContextComponent extends PureComponent {
 
     const chartletNode2 = this.ctx.image(this.props.effectVideo.backgroundImg.src);
     chartletNode2.startAt(0);
+    // chartletNode.stopAt(5);
 
     const adjustChartlet2 = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
     adjustChartlet2.u_rect = [0.0, 0.0, 0.1, 0.4]; // 前景位置(第二张图片)
@@ -387,55 +389,38 @@ export default class VideoContextComponent extends PureComponent {
    *    add-添加
   */
   publickUpdateChartlet = (dragKey, actionType, params = {}) => {
-    console.log('publickUpdateChartlet', params, dragKey, this.chartFilterList);
+    console.log('publickUpdateChartlet', params, dragKey, this.filterList);
     // 修改基本信息
     if (actionType === 'changeBaseInfo') {
       // 清空
-      // this.chartFilterList.map((item) => item.disconnect());
+      // this.filterList.map((item) => item.disconnect());
       // this.effctFilterAdjust.connect(this.ctx.destination); // 重新连接
 
-      // // 修改最后一个
-      // this.chartFilterList[dragKey].disconnect();
-      // this.chartFilterList[dragKey].u_rect = params.rect;
-      // this.chartFilterList[dragKey].connect(this.ctx.destination); //  当前直接链接到video
+      this.filterList[dragKey].disconnect();
 
-      // 修改非最后一个
-      // this.chartFilterList[dragKey].disconnect();
-      // this.chartFilterList[dragKey].u_rect = params.rect;
-      // this.chartFilterList[dragKey].connect(this.chartFilterList['image_2']); // 当前链接需要链接到后一个上(后一个是最后一个就是就链接video，同上)
+      if ('rect' in params) {
+        this.filterList[dragKey].u_rect = params.rect;
+      }
+
+      if ('start' in params) {
+        this.filterList[dragKey].start = params.start;
+      }
+      if ('end' in params) {
+        this.filterList[dragKey].end = params.end;
+      }
 
       /**
        * 修改最后一个的时候， 使用当前filter链接context
        * 修改最后一个的时候， 使用当前当前filter链接下一个filter
       */
-      this.chartFilterList[dragKey].disconnect();
-
-      if ('rect' in params) {
-        this.chartFilterList[dragKey].u_rect = params.rect;
-      }
-
-      if ('start' in params) {
-        this.chartFilterList[dragKey].start = params.start;
-      }
-      if ('end' in params) {
-        this.chartFilterList[dragKey].end = params.end;
-      }
-
       const index = _.findIndex(this.props.effectImage, (item) => item.dragKey === dragKey); // 获取当前位置
       if (index === this.props.effectImage.length - 1) {
-        this.chartFilterList[dragKey].connect(this.ctx.destination);
-      } else this.chartFilterList[dragKey].connect(this.chartFilterList[this.props.effectImage[index + 1].dragKey]);
+        this.filterList[dragKey].connect(this.ctx.destination);
+      } else this.filterList[dragKey].connect(this.filterList[this.props.effectImage[index + 1].dragKey]);
     }
 
     if (actionType === 'delete') {
-      this.chartFilterList[dragKey].disconnect();
-
-      // 删除第一个 第一个链接修改
-      // this.effctFilterAdjust.connect(this.chartFilterList['image_2']);
-      // this.chartFilterList['image_2'].connect(this.ctx.destination);
-
-      // 删除最后一个 前面链接都不变， 最后链接this.ctx.destination修改
-      // this.chartFilterList['image_1'].connect(this.ctx.destination);
+      this.filterList[dragKey].disconnect();
 
       /**
        * 只有一个的时候，删除之后使用最上层的filter(effctFilterAdjust)链接context
@@ -446,9 +431,23 @@ export default class VideoContextComponent extends PureComponent {
       const index = _.findIndex(this.props.effectImage, (item) => item.dragKey === dragKey); // 获取当前位置
       if (this.props.effectImage.length === 1) this.effctFilterAdjust.connect(this.ctx.destination);
       else if (index === this.props.effectImage.length - 1) {
-        this.chartFilterList[this.props.effectImage[index - 1].dragKey].connect(this.ctx.destination);
-      } else if (index === 0) this.effctFilterAdjust.connect(this.chartFilterList[this.props.effectImage[index + 1].dragKey]);
-      else this.chartFilterList[this.props.effectImage[index - 1].dragKey].connect(this.chartFilterList[this.props.effectImage[index + 1].dragKey]);
+        this.filterList[this.props.effectImage[index - 1].dragKey].connect(this.ctx.destination);
+      } else if (index === 0) this.effctFilterAdjust.connect(this.filterList[this.props.effectImage[index + 1].dragKey]);
+      else this.filterList[this.props.effectImage[index - 1].dragKey].connect(this.filterList[this.props.effectImage[index + 1].dragKey]);
+    }
+
+    if (actionType === 'add') {
+      const length = this.props.effectImage.length;
+      if (length === 0) {
+        this.effctFilterAdjust.disconnect();
+        const addFilter = this.addChartletSingle(this.effctFilterAdjust, params);
+        addFilter.connect(this.ctx.destination);
+      } else {
+        const beforeFilter = this.filterList[this.props.effectImage[length - 1].dragKey];
+        beforeFilter.disconnect();
+        const addFilter = this.addChartletSingle(beforeFilter, params);
+        addFilter.connect(this.ctx.destination);
+      }
     }
 
     const oldTime = this.ctx.currentTime;
@@ -468,8 +467,8 @@ export default class VideoContextComponent extends PureComponent {
         <BtnContent>
           <Button onClick={this.publicPlay}>paly</Button>
           <Button onClick={this.publicPause}>pause</Button>
-          <Button onClick={() => this.publickUpdateVideo({ rect: [0, 0, 0.5, 0.5], bgColor: '#fff' })}>update测试(白色，顶点50%)</Button>
-          <Button onClick={() => this.publickUpdateChartlet('image_1')}>update贴图</Button>
+          {/* <Button onClick={() => this.publickUpdateVideo({ rect: [0, 0, 0.5, 0.5], bgColor: '#fff' })}>update测试(白色，顶点50%)</Button>
+          <Button onClick={() => this.publickUpdateChartlet('image_1')}>update贴图</Button> */}
           <Button onClick={() => this.publicSeek(5)}>seek 5</Button>
           <p>{duration}/{currentTime}</p>
         </BtnContent>

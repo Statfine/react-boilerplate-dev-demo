@@ -17,7 +17,7 @@ export const AddPicDiv = styled(FlexDiv)`
 export const EffectList = styled.div`
   height: 100%;
   overflow: auto;
-  padding: 0 24px 81px 24px;
+  padding: 0 24px 180px 24px;
 `;
 
 export const EachListDiv = styled.div`
@@ -28,5 +28,24 @@ export const EachListDiv = styled.div`
 export const ChartLetTop = styled(FlexDiv)`
 `;
 export const ChartLetBottom = styled(FlexDiv)`
+  margin-top: 12px;
+`;
 
+export const NumberP = styled.p`
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 18px;
+  background: ${({ choosed }) => choosed ? '#FF8140' : '#fff'};
+  border: ${({ choosed }) => choosed ? '1px solid #fff' : '1px solid rgba(51, 51, 51, 1)'};
+  color: ${({ choosed }) => choosed ? '#fff' : '#000000'};
+`;
+
+export const ImgNameP = styled.p`
+  width: 130px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;

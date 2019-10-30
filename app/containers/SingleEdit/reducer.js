@@ -57,13 +57,13 @@ export const EFFECTIMAGE = [
     position: { // 图片位置
       w: 40, // 百分比
       h: 40,
-      x: 0,
-      y: 0,
+      x: 60,
+      y: 60,
     },
     alpha: 100, // 图片透明度
-    start: 0, // 图片开始时间点
+    start: 1, // 图片开始时间点
     end: 5, // 图片结束时间点
-    isAlwaysShow: true,
+    isAlwaysShow: false,
   },
   {
     zIndex: '2', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）

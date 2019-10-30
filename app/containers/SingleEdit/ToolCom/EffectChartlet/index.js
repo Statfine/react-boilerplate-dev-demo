@@ -11,13 +11,13 @@ import { Button, Checkbox, InputNumber } from 'antd';
 import UploadBtn from 'components/UploadBtn';
 import { createStructuredSelector } from 'reselect';
 import { testFileNamePaster } from 'utils/verification';
-// import guid from 'utils/guid';
+import guid from 'utils/guid';
 
-import { makeSelectEffectImage, makeSelectVideoPlayer } from '../../selectors';
+import { makeSelectEffectImage, makeSelectVideoPlayer, makeSelectVideoInfo, makeSelectChooseEffect } from '../../selectors';
 import { changeEffectChartLet } from '../../actions';
 
 import { ToolChartletDiv, AddPicDiv, EffectList,
-  EachListDiv, ChartLetTop, ChartLetBottom } from './styled';
+  EachListDiv, ChartLetTop, ChartLetBottom, NumberP, ImgNameP } from './styled';
 import './numberinput.css';
 
 export class EffectChartlet extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -38,36 +38,61 @@ export class EffectChartlet extends React.PureComponent { // eslint-disable-line
       const image = new Image();
       image.src = theFile.target.result;
       image.onload = () => {
-        alert(`图片的宽度为${image.width},长度为${image.height}`);
-        // this.props.actionChangeEffectVideo({
-        //   backgroundImg: { // 背景图
-        //     src: theFile.target.result,
-        //     title: encodeURIComponent(file.name),
-        //     progress: 0,
-        //     isUploading: false,
-        //     id: guid(),
-        //     width: image.width,
-        //     height: image.height,
-        //   },
-        // });
+        console.log(theFile.target.result, file.name, image.width, image.height);
+        const chartlet = {
+          zIndex: this.props.effectChartlet.length + 1, // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
+          dragKey: guid(), // 特效标识
+          type: 'effectChartlet', // 特效类型
+          image: {
+            src: theFile.target.result,
+            title: encodeURIComponent(file.name),
+            id: guid(),
+            width: image.width,
+            height: image.height,
+          },
+          position: {
+            w: 20, // 百分比
+            h: 20 * image.height / image.width,
+            x: 0,
+            y: 0,
+          },
+          alpha: 100,
+          start: 0,
+          end: this.props.videoInfo.length,
+          isAlwaysShow: false,
+        };
+        this.props.videoPlayerEl.videoEl.updateChartlet(
+          '', 'add', chartlet,
+        );
+        this.props.actionChangeEffectChartLet(
+          'add',
+          chartlet,
+        );
       };
     };
   };
 
   handleChangeAlwaysShow = (item) => {
-    console.log('handleChangeAlwaysShow', item);
-    this.props.actionChangeEffectChartLet(
+    const { videoInfo, actionChangeEffectChartLet, videoPlayerEl } = this.props;
+    const isAlwaysShow = !item.isAlwaysShow;
+    const setTime = { start: item.start, end: item.end };
+    if (isAlwaysShow) {
+      setTime.start = 0;
+      setTime.end = videoInfo.length;
+    }
+    actionChangeEffectChartLet(
       'edit',
-      { dragKey: item.dragKey, isAlwaysShow: !item.isAlwaysShow },
+      { dragKey: item.dragKey, isAlwaysShow },
     );
-    // this.props.videoPlayerEl.videoEl.updateChartlet(
-    //   item.dragKey, 'changeBaseInfo', { start: item.start, end: item.end },
-    // );
+
+    videoPlayerEl.videoEl.updateChartlet(
+      item.dragKey, 'changeBaseInfo', setTime,
+    );
   }
 
   handleChangeStart = (value, item) => {
-    console.log('handleChangeStart', value);
-    console.log(item.end - item.start + value);
+    // console.log('handleChangeStart', value);
+    // console.log(item.end - item.start + value);
     this.props.actionChangeEffectChartLet(
       'edit',
       { dragKey: item.dragKey, start: value, end: item.end - item.start + value },
@@ -77,7 +102,7 @@ export class EffectChartlet extends React.PureComponent { // eslint-disable-line
     );
   }
   handleChangeContinue = (value, item) => {
-    console.log('handleChangeContinue', value);
+    // console.log('handleChangeContinue', value);
     this.props.actionChangeEffectChartLet(
       'edit',
       { dragKey: item.dragKey, end: item.start + value },
@@ -88,7 +113,7 @@ export class EffectChartlet extends React.PureComponent { // eslint-disable-line
   }
 
   render() {
-    const { effectChartlet } = this.props;
+    const { effectChartlet, chooseEffect } = this.props;
     return (
       <ToolChartletDiv>
         <AddPicDiv>
@@ -108,20 +133,20 @@ export class EffectChartlet extends React.PureComponent { // eslint-disable-line
             effectChartlet.map((item, index) => (
               <EachListDiv key={item.dragKey}>
                 <ChartLetTop>
-                  <p>{index + 1}</p>
-                  <p>{decodeURIComponent(item.image.title)}</p>
+                  <NumberP choosed={chooseEffect.dragKey === item.dragKey}>{index + 1}</NumberP>
+                  <ImgNameP title={decodeURIComponent(item.image.title)}>{decodeURIComponent(item.image.title)}</ImgNameP>
                   <Checkbox
                     checked={item.isAlwaysShow}
-                    onChange={(item) => this.handleChangeAlwaysShow(item)}
+                    onChange={() => this.handleChangeAlwaysShow(item)}
                   >
                       全程出现
                   </Checkbox>
                 </ChartLetTop>
                 <ChartLetBottom>
                   <p>开始时间</p>
-                  <InputNumber min={0} max={10} value={item.start} onChange={(value) => this.handleChangeStart(value, item)} />
-                  <p>持续时间</p>
-                  <InputNumber min={0} max={10} value={item.end - item.start} onChange={(value) => this.handleChangeContinue(value, item)} />
+                  <InputNumber disabled={item.isAlwaysShow} min={0} max={10} value={item.start} onChange={(value) => this.handleChangeStart(value, item)} />
+                  <p style={{ marginLeft: '30px' }}>持续时间</p>
+                  <InputNumber disabled={item.isAlwaysShow} min={0} max={10} value={item.end - item.start} onChange={(value) => this.handleChangeContinue(value, item)} />
                 </ChartLetBottom>
               </EachListDiv>
             ))
@@ -135,12 +160,16 @@ export class EffectChartlet extends React.PureComponent { // eslint-disable-line
 /**
  *  effectChartlet 贴图特效信息
  *  videoPlayerEl 视频实例
+ *  videoInfo 视频信息
+ *  chooseEffect 选中特效
  *
  *  actionChangeEffectChartLet  修改贴图特效
 */
 EffectChartlet.propTypes = {
   effectChartlet: PropTypes.array.isRequired,
   videoPlayerEl: PropTypes.object.isRequired,
+  videoInfo: PropTypes.object.isRequired,
+  chooseEffect: PropTypes.object.isRequired,
 
   actionChangeEffectChartLet: PropTypes.func.isRequired,
 };
@@ -148,6 +177,8 @@ EffectChartlet.propTypes = {
 const mapStateToProps = createStructuredSelector({
   effectChartlet: makeSelectEffectImage(),
   videoPlayerEl: makeSelectVideoPlayer(),
+  videoInfo: makeSelectVideoInfo(),
+  chooseEffect: makeSelectChooseEffect(),
 });
 
 function mapDispatchToProps(dispatch) {
