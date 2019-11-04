@@ -28,3 +28,6 @@ export const CREATE_UPLOAD_BAC_IMG = 'app/SingleEdit/CREATE_UPLOAD_BAC_IMG';
 export const CHANGE_UPLOAD_BAC_IMG_STATE = 'app/SingleEdit/CHANGE_UPLOAD_BAC_IMG_STATE';
 
 export const CHANGE_BASE_VIDEO = 'app/SingleEdit/CHANGE_BASE_VIDEO'; // 修改当前视频
+
+// 滤镜特效
+export const CHANGE_EFFECT_FILTER = 'app/SingleEdit/CHANGE_EFFECT_FILTER';

@@ -24,10 +24,11 @@ import { colorToRGB } from 'utils/color';
 // import VideoContext from './videocontext.commonjs2';
 import VideoContext from './videocontext.commonjs2(lut)';
 
-import LookupBlackPng from '../images/lookup-black.png';
+// import LookupBlackPng from '../images/lookup-black.png';
 import { LoadingDiv, VideoContent, BtnContent, NoContent } from './styled';
 
 import InitVisualisations from './utils';
+import { FILTER_TYPE } from '../commom/config';
 
 // import { EFFECTIMAGE } from '../reducer';
 
@@ -54,17 +55,16 @@ export default class VideoContextComponent extends PureComponent {
     this.ctx.registerCallback('ended', this.videoContextEnded);
     this.ctx.registerCallback('content', this.videoContextContent);
     this.ctx.registerCallback('nocontent', this.videoContextNoContent);
-    this.resize(this.props.videoInfo, this.props.effectVideo);
+    this.resize(this.props.videoInfo, this.props.effectVideo, this.props.effectFilter);
   }
 
   componentWillReceiveProps(nextProps) {
-    // 背景图片修改,时间裁剪 需要重新绘制
-    if (
-        (this.props.effectVideo.startTime !== nextProps.effectVideo.startTime) ||
-        (this.props.effectVideo.endTime !== nextProps.effectVideo.endTime)
-      ) {
+    // 时间裁剪 滤镜效果 需要重新绘制
+    const isTimeChange = (this.props.effectVideo.startTime !== nextProps.effectVideo.startTime) || (this.props.effectVideo.endTime !== nextProps.effectVideo.endTime);
+    const isFilterChange = (this.props.effectFilter.lookupValue !== nextProps.effectFilter.lookupValue);
+    if (isTimeChange || isFilterChange) {
       this.setState({ pause: true }, () => this.props.handleVideoState(0));
-      this.resize(nextProps.videoInfo, nextProps.effectVideo);
+      this.resize(nextProps.videoInfo, nextProps.effectVideo, nextProps.effectFilter);
     }
     // 视频资源修改需要重新绘制
     // if (
@@ -72,7 +72,7 @@ export default class VideoContextComponent extends PureComponent {
     //   nextProps.videoInfo !== this.props.videoInfo
     // ) {
     //   this.setState({ pause: true }, () => this.props.handleVideoState(0));
-    //   this.resize(nextProps.videoInfo, nextProps.effectVideo);
+    //   this.resize(nextProps.videoInfo, nextProps.effectVideo, nextProps.effectFilter);
     // }
   }
 
@@ -110,7 +110,7 @@ export default class VideoContextComponent extends PureComponent {
   effctFilterFanZhuan; // 翻转
   videoNode; // 视频节点
 
-  resize = (videoInfo, effectVideo) => {
+  resize = (videoInfo, effectVideo, effectFilter) => {
     this.ctxClearAndRegister();
 
     const url = videoInfo.play_url;
@@ -162,18 +162,33 @@ export default class VideoContextComponent extends PureComponent {
     filterHsv.u_contrast = 0.0; // 对比度 0为正常值（-1~0+）
 
     // 滤镜(暖色，冷色)
-    const filterHsvImageNode = this.ctx.image(LookupBlackPng);
+    const backPng = _.filter(FILTER_TYPE, (item) => item.key === effectFilter.lookupValue)[0].imgUrlLut;
+    const filterHsvImageNode = this.ctx.image(backPng);
     filterHsvImageNode.startAt(0);
     filterHsvImageNode.stopAt(effectVideo.endTime - effectVideo.startTime);
     const filterHsvLookup = this.ctx.effect(VideoContext.DEFINITIONS.LOOKUP);
     filterHsvLookup.intensity = 1.0;
 
+    if (effectFilter.lookupValue === 'none') {
+      // 翻转+滤镜参数+视频基本
+      node.connect(filterFlipFanZhuan);
+      filterFlipFanZhuan.connect(filterHsv);
+      filterHsv.connect(filterVideoAdjust);
+    } else {
+      // 滤镜+翻转+滤镜参数+视频基本  黑白作用视频
+      node.connect(filterHsvLookup);
+      filterHsvImageNode.connect(filterHsvLookup);
+      filterHsvLookup.connect(filterFlipFanZhuan);
+      filterFlipFanZhuan.connect(filterHsv);
+      filterHsv.connect(filterVideoAdjust);
+    }
+
     // 滤镜+翻转+滤镜参数+视频基本  黑白作用视频
-    node.connect(filterHsvLookup);
-    filterHsvImageNode.connect(filterHsvLookup);
-    filterHsvLookup.connect(filterFlipFanZhuan);
-    filterFlipFanZhuan.connect(filterHsv);
-    filterHsv.connect(filterVideoAdjust);
+    // node.connect(filterHsvLookup);
+    // filterHsvImageNode.connect(filterHsvLookup);
+    // filterHsvLookup.connect(filterFlipFanZhuan);
+    // filterFlipFanZhuan.connect(filterHsv);
+    // filterHsv.connect(filterVideoAdjust);
 
     // 翻转+滤镜参数+视频基本
     // node.connect(filterFlipFanZhuan);
@@ -218,8 +233,12 @@ export default class VideoContextComponent extends PureComponent {
       updateVideo: this.publickUpdateVideo, // 更新大小和背景
       updateChartlet: this.publickUpdateChartlet, // 更新贴图
     });
-    InitVisualisations(this.ctx, 'graph-canvas', 'dialog-canvas');
+    this.detailFilterConnect();
   };
+
+  detailFilterConnect = () => {
+    InitVisualisations(this.ctx, 'graph-canvas', 'dialog-canvas');
+  }
 
   // 贴图迭代器
   filterList = [];
@@ -612,6 +631,7 @@ VideoContextComponent.propTypes = {
   height: PropTypes.number.isRequired,
   effectVideo: PropTypes.object.isRequired,
   effectImage: PropTypes.array.isRequired,
+  effectFilter: PropTypes.array.isRequired,
   reducerCurrentTime: PropTypes.number.isRequired,
 
   handleInitVideo: PropTypes.func.isRequired,

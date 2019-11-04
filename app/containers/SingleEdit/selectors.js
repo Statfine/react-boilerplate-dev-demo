@@ -51,6 +51,12 @@ const makeSelectEffectImage = () => createSelector(
   (substate) => substate.get('effectImage').toJS()
 );
 
+// 滤镜特效
+const makeSelectEffectFilter = () => createSelector(
+  selectSingleEditDomain,
+  (substate) => substate.get('effectFilter').toJS()
+);
+
 export const makeSelectTrackInfo = () => createSelector(
   selectSingleEditDomain,
   (substate) => substate.get('trackInfo').toJS()
@@ -65,4 +71,5 @@ export {
   makeSelectVideoPlayer,
   makeSelectChooseEffect,
   makeSelectEffectImage,
+  makeSelectEffectFilter,
 };

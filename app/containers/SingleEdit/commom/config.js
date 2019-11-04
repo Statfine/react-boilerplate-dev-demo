@@ -8,6 +8,8 @@ import ToolMosaicSvg from '../images/icon/马赛克.svg';
 import ToolPicSvg from '../images/icon/图片.svg';
 import ToolTextSvg from '../images/icon/文字.svg';
 
+import FilterDefaultImg from '../images/filter.png';
+
 // 分辨率
 export const RESOLUTION_RATIO = {
   1: { key: '1', value: '1:1', w: 1, h: 1 },
@@ -39,3 +41,45 @@ export const TOOL_LIST = [
 export const AXIS = 30; // 刻度值
 export const PER_IMG_SECONDS = 8.5;
 export const ADSORB_DISTANCE = 15; // 吸附距离
+
+// 滤镜
+export const filterTypePath = 'https://image.clip.cn/clip_website_images/effects/filter/';
+export const FILTER_TYPE = [{
+  key: 'none',
+  title: '原视频',
+  imgUrl: FilterDefaultImg,
+  imgUrlLut: '',
+}, {
+  key: 'B&W',
+  title: '黑白',
+  imgUrl: 'https://image.clip.cn/clip_website_images/effects/filter/B&W.png',
+  imgUrlLut: 'https://image.clip.cn/clip_website_images/effects/filter/B&W-lut.png',
+}, {
+  key: 'Saturated-warm',
+  title: '温暖',
+  imgUrl: 'https://image.clip.cn/clip_website_images/effects/filter/Saturated-warm.png',
+  imgUrlLut: 'https://image.clip.cn/clip_website_images/effects/filter/Saturated-warm-lut.png',
+},
+// {
+//   key: 'cool',
+//   title: '柔和复古',
+//   imgUrl: `${filterTypePath}cool.png`,
+// },
+{
+  key: 'cool-mate',
+  title: '电影',
+  imgUrl: 'https://image.clip.cn/clip_website_images/effects/filter/cool-mate.png',
+  imgUrlLut: 'https://image.clip.cn/clip_website_images/effects/filter/cool-mate-lut.png',
+},
+{
+  key: 'Desert-sands',
+  title: '沙漠',
+  imgUrl: 'https://image.clip.cn/clip_website_images/effects/filter/Desert-sands.png',
+  imgUrlLut: 'https://image.clip.cn/clip_website_images/effects/filter/Desert-sands-lut.png',
+},
+{
+  key: 'Roman',
+  title: '浪漫',
+  imgUrl: 'https://image.clip.cn/clip_website_images/effects/filter/Roman.png',
+  imgUrlLut: 'https://image.clip.cn/clip_website_images/effects/filter/Roman-lut.png',
+}];

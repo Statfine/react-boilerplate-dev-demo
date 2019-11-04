@@ -11,6 +11,8 @@ function* autoSaveSaga() { // 自动保存
     [
       cons.CHANGE_PROJECT_INFO, // 项目信息
       cons.CHANGE_EFFECT_VIDEO, // 视频特效
+      cons.CHANGE_EFFECT_CHARTLET, // 贴图特效
+      cons.CHANGE_EFFECT_FILTER, // 滤镜特效
     ],
     function* () {
       yield delay(1000);

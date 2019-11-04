@@ -89,12 +89,21 @@ export const EFFECTIMAGE = [
   },
 ];
 
+const EFFECTFILTER = {
+  lookupValue: 'none', // 滤镜特效 0-无
+  intensity: 100, // 强度 0~1
+  uValue: 100, // 亮度 0~1
+  uContrast: 0, // 对比度 -1~0
+  uSaturation: 100, // 饱和度 0~1
+};
+
 const initialState = fromJS({
   videoInfo: VIDEOINFO, // 单视频详情信息
 
   projectInfo: PROJECTINFO, // 项目信息 - 触发保存
   effectVideo: EFFECTVIDEO, // 视频特效 - 触发保存
   effectImage: EFFECTIMAGE, // 贴图特效 - 触发保存
+  effectFilter: EFFECTFILTER, // 滤镜特效-触发保存
 
   videoPlayer: { // 播放器数据
     currentTime: 0, // 当前时间
@@ -160,6 +169,8 @@ function singleEditReducer(state = initialState, action) {
       // 添加 add
       return state.update('effectImage', (list) => list.push(fromJS(action.payload)));
     }
+    case cons.CHANGE_EFFECT_FILTER:
+      return state.update('effectFilter', (p) => p.mergeDeep(action.payload));
     default:
       return state;
   }

@@ -82,3 +82,11 @@ export function changeBaseVideo(payload) {
     payload,
   };
 }
+
+// 修改滤镜
+export function changeEffectFilter(payload) {
+  return {
+    type: cons.CHANGE_EFFECT_FILTER,
+    payload,
+  };
+}

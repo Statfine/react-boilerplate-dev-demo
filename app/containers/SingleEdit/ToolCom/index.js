@@ -20,6 +20,7 @@ import { ToolContent, EachTool, EachToolImg, EachToolP, EffectVideoContent } fro
 import ToolHeader from './header';
 import EffectVideo from './EffectVideo';
 import EffectChartlet from './EffectChartlet';
+import EffectFilter from './EffectFilter';
 
 export class ToolCom extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -31,6 +32,8 @@ export class ToolCom extends React.PureComponent { // eslint-disable-line react/
         return (<EffectVideo />);
       case 'effectChartlet':
         return (<EffectChartlet />);
+      case 'effectFilter':
+        return (<EffectFilter />);
       default:
         return null;
     }
