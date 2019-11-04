@@ -213,6 +213,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
             }
           </BottomContent>
         </Content>
+        <canvas id="graph-canvas" style={{ width: '100%', height: 'auto', display: 'none' }}></canvas>
       </Page>
     );
   }

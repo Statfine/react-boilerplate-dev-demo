@@ -2,7 +2,7 @@
  * VideoContext 播放器
  * https://github.com/bbc/VideoContext
  *
- * 实例  effctFilterFanZhuan-翻转特效  effctFilterVideoAdjust-视频特效 filterNode-滤镜参数 filterImageNode-冷暖色
+ * 实例  effctFilterFanZhuan-翻转特效  effctFilterVideoAdjust-视频特效 filterHsv-滤镜参数 filterHsvImageNode-冷暖色
  *  node.connect(filterFlipFanZhuan);
  *  filterFlipFanZhuan.connect(effctFilterVideoAdjust)
  *  effctFilterVideoAdjust.connect(chartlet1)
@@ -26,6 +26,8 @@ import VideoContext from './videocontext.commonjs2(lut)';
 
 import LookupBlackPng from '../images/lookup-black.png';
 import { LoadingDiv, VideoContent, BtnContent, NoContent } from './styled';
+
+import InitVisualisations from './utils';
 
 // import { EFFECTIMAGE } from '../reducer';
 
@@ -153,29 +155,30 @@ export default class VideoContextComponent extends PureComponent {
     filterVideoAdjust.u_image_b_valid = bacImageNode ? 1.0 : 0.0; // 当前的背景是否显示(图片) 1-显示 0-不显示
 
     // 滤镜参数
-    const filterNode = this.ctx.effect(VideoContext.DEFINITIONS.HSVC);
-    filterNode.u_hue = 0.0; // 色调
-    filterNode.u_saturation = 1.0; // 饱和度 1为正常值（0.0~1+）
-    filterNode.u_value = 1.0; // 亮度  1为正常值（0.0~1+）
-    filterNode.u_contrast = 0.0; // 对比度 0为正常值（-1~0+）
+    const filterHsv = this.ctx.effect(VideoContext.DEFINITIONS.HSVC);
+    filterHsv.u_hue = 0.0; // 色调
+    filterHsv.u_saturation = 1.0; // 饱和度 1为正常值（0.0~1+）
+    filterHsv.u_value = 1.0; // 亮度  1为正常值（0.0~1+）
+    filterHsv.u_contrast = 0.0; // 对比度 0为正常值（-1~0+）
 
     // 滤镜(暖色，冷色)
-    const filterImageNode = this.ctx.image(LookupBlackPng);
-    filterImageNode.startAt(0);
-    const lookup = this.ctx.effect(VideoContext.DEFINITIONS.LOOKUP);
-    lookup.intensity = 1.0;
+    const filterHsvImageNode = this.ctx.image(LookupBlackPng);
+    filterHsvImageNode.startAt(0);
+    filterHsvImageNode.stopAt(effectVideo.endTime - effectVideo.startTime);
+    const filterHsvLookup = this.ctx.effect(VideoContext.DEFINITIONS.LOOKUP);
+    filterHsvLookup.intensity = 1.0;
 
-    // 滤镜+翻转+滤镜参数+视频基本
-    node.connect(lookup);
-    filterImageNode.connect(lookup);
-    lookup.connect(filterFlipFanZhuan);
-    filterFlipFanZhuan.connect(filterNode);
-    filterNode.connect(filterVideoAdjust);
+    // 滤镜+翻转+滤镜参数+视频基本  黑白作用视频
+    node.connect(filterHsvLookup);
+    filterHsvImageNode.connect(filterHsvLookup);
+    filterHsvLookup.connect(filterFlipFanZhuan);
+    filterFlipFanZhuan.connect(filterHsv);
+    filterHsv.connect(filterVideoAdjust);
 
     // 翻转+滤镜参数+视频基本
     // node.connect(filterFlipFanZhuan);
-    // filterFlipFanZhuan.connect(filterNode);
-    // filterNode.connect(filterVideoAdjust);
+    // filterFlipFanZhuan.connect(filterHsv);
+    // filterHsv.connect(filterVideoAdjust);
 
     // 翻转+视频基本
     // node.connect(filterFlipFanZhuan);
@@ -195,6 +198,12 @@ export default class VideoContextComponent extends PureComponent {
 
     // filterVideoAdjust.connect(this.ctx.destination);
 
+    // 黑白作用全局
+    // finaleNode.connect(filterHsvLookup);
+    // filterHsvImageNode.connect(filterHsvLookup);
+    // filterHsvLookup.connect(filterHsv);
+    // filterHsv.connect(this.ctx.destination);
+
     const { cbHandleTime, handleInitVideo } = this.props;
     this.ctx.currentTime = (this.props.reducerCurrentTime < 0.00001 || this.props.reducerCurrentTime > this.ctx.duration) ? 0.00001 : this.props.reducerCurrentTime; // 设置封面，不然是黑屏
     this.setState({
@@ -209,6 +218,7 @@ export default class VideoContextComponent extends PureComponent {
       updateVideo: this.publickUpdateVideo, // 更新大小和背景
       updateChartlet: this.publickUpdateChartlet, // 更新贴图
     });
+    InitVisualisations(this.ctx, 'graph-canvas', 'dialog-canvas');
   };
 
   // 贴图迭代器
@@ -232,7 +242,7 @@ export default class VideoContextComponent extends PureComponent {
   addChartletSingle = (beforeFilter, imageObj) => {
     const chartletNode = this.ctx.image(imageObj.image.src);
     chartletNode.startAt(0);
-    // chartletNode.stopAt(imageObj.endT);
+    chartletNode.stopAt(imageObj.end);
 
     const adjustChartlet = this.ctx.effect(VideoContext.DEFINITIONS.BGADJUST);
     // 定义节点特效
