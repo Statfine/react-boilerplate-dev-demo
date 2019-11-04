@@ -57,6 +57,12 @@ const makeSelectEffectFilter = () => createSelector(
   (substate) => substate.get('effectFilter').toJS()
 );
 
+// 马赛克特效
+const makeSelectEffectMosaic = () => createSelector(
+  selectSingleEditDomain,
+  (substate) => substate.get('effectMosaic').toJS()
+);
+
 export const makeSelectTrackInfo = () => createSelector(
   selectSingleEditDomain,
   (substate) => substate.get('trackInfo').toJS()
@@ -72,4 +78,5 @@ export {
   makeSelectChooseEffect,
   makeSelectEffectImage,
   makeSelectEffectFilter,
+  makeSelectEffectMosaic,
 };

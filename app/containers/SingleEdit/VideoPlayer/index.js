@@ -55,7 +55,7 @@ export default class VideoContextComponent extends PureComponent {
     this.ctx.registerCallback('ended', this.videoContextEnded);
     this.ctx.registerCallback('content', this.videoContextContent);
     this.ctx.registerCallback('nocontent', this.videoContextNoContent);
-    this.resize(this.props.videoInfo, this.props.effectVideo, this.props.effectFilter);
+    this.resize(this.props.videoInfo, this.props.effectVideo, this.props.effectFilter, this.props.effectMosaic);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,7 +64,7 @@ export default class VideoContextComponent extends PureComponent {
     const isFilterChange = (this.props.effectFilter.lookupValue !== nextProps.effectFilter.lookupValue);
     if (isTimeChange || isFilterChange) {
       this.setState({ pause: true }, () => this.props.handleVideoState(0));
-      this.resize(nextProps.videoInfo, nextProps.effectVideo, nextProps.effectFilter);
+      this.resize(nextProps.videoInfo, nextProps.effectVideo, nextProps.effectFilter, nextProps.effectMosaic);
     }
     // 视频资源修改需要重新绘制
     // if (
@@ -72,7 +72,7 @@ export default class VideoContextComponent extends PureComponent {
     //   nextProps.videoInfo !== this.props.videoInfo
     // ) {
     //   this.setState({ pause: true }, () => this.props.handleVideoState(0));
-    //   this.resize(nextProps.videoInfo, nextProps.effectVideo, nextProps.effectFilter);
+    //   this.resize(nextProps.videoInfo, nextProps.effectVideo, nextProps.effectFilter , nextProps.effectMosaic);
     // }
   }
 
@@ -111,7 +111,7 @@ export default class VideoContextComponent extends PureComponent {
   effctFilterHsvLookup; // 滤镜
   videoNode; // 视频节点
 
-  resize = (videoInfo, effectVideo, effectFilter) => {
+  resize = (videoInfo, effectVideo, effectFilter, effectMosaic) => {
     this.ctxClearAndRegister();
 
     const url = videoInfo.play_url;
@@ -172,33 +172,32 @@ export default class VideoContextComponent extends PureComponent {
     filterHsvLookup.intensity = 1.0;
 
     // 马赛克
-    // const mosaicOpts = {
-    //   mode: 1,
-    //   vw: this.props.width,
-    //   vh: this.props.height,
-    //   rects: [
-    //     {
-    //       rect: [0.1, 0.1, 0.5, 0.5],
-    //       start: 0.0,
-    //       end: 5.0,
-    //     },
-    //     {
-    //       rect: [0.5, 0.5, 0.5, 0.3],
-    //       start: 3.0,
-    //       end: 5.0,
-    //     },
-    //   ],
-    // };
-    // const mosaicNode = this.ctx.mosaicNode(node, mosaicOpts);
+    const mosaicRects = effectMosaic.map((item) => (
+      {
+        rect: [item.position.x / 100, item.position.y / 100, item.position.w / 100, item.position.h / 100],
+        start: item.start,
+        end: item.end,
+      }
+    ));
+    const mosaicOpts = {
+      mode: 1,
+      vw: this.props.width,
+      vh: this.props.height,
+      rects: mosaicRects,
+    };
+    // 马赛克应该作用于最后
+    const mosaicNode = this.ctx.mosaicNode(node, mosaicOpts);
 
     if (effectFilter.lookupValue === 'none') {
       // 翻转+滤镜参数+视频基本
-      node.connect(filterFlipFanZhuan);
+      // node.connect(filterFlipFanZhuan);
+      mosaicNode.connect(filterFlipFanZhuan);
       filterFlipFanZhuan.connect(filterHsv);
       filterHsv.connect(filterVideoAdjust);
     } else {
       // 滤镜+翻转+滤镜参数+视频基本  黑白作用视频
-      node.connect(filterHsvLookup);
+      // node.connect(filterHsvLookup);
+      mosaicNode.connect(filterHsvLookup);
       filterHsvImageNode.connect(filterHsvLookup);
       filterHsvLookup.connect(filterFlipFanZhuan);
       filterFlipFanZhuan.connect(filterHsv);
@@ -232,6 +231,9 @@ export default class VideoContextComponent extends PureComponent {
     this.filterList = []; // 清空贴图特效
     const finaleNode = this.addChartlet(filterVideoAdjust, 0);
     finaleNode.connect(this.ctx.destination);
+
+    // const mosaicNode = this.ctx.mosaicNode(finaleNode, mosaicOpts);
+    // mosaicNode.connect(this.ctx.destination);
 
     // filterVideoAdjust.connect(this.ctx.destination);
 
@@ -668,7 +670,8 @@ VideoContextComponent.propTypes = {
   height: PropTypes.number.isRequired,
   effectVideo: PropTypes.object.isRequired,
   effectImage: PropTypes.array.isRequired,
-  effectFilter: PropTypes.array.isRequired,
+  effectFilter: PropTypes.object.isRequired,
+  effectMosaic: PropTypes.array.isRequired,
   reducerCurrentTime: PropTypes.number.isRequired,
 
   handleInitVideo: PropTypes.func.isRequired,

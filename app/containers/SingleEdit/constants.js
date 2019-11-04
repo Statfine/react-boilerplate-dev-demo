@@ -31,3 +31,6 @@ export const CHANGE_BASE_VIDEO = 'app/SingleEdit/CHANGE_BASE_VIDEO'; // 修改�
 
 // 滤镜特效
 export const CHANGE_EFFECT_FILTER = 'app/SingleEdit/CHANGE_EFFECT_FILTER';
+
+// 马赛克特效
+export const CHANGE_EFFECT_MOSAIC = 'app/SingleEdit/CHANGE_EFFECT_MOSAIC';

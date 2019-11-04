@@ -21,7 +21,7 @@ import injectReducer from 'utils/injectReducer';
 import reducer from './reducer';
 import saga from './saga';
 
-import { makeSelectProjectInfo, makeSelectVideoInfo, makeSelectVideoPlayer, makeSelectEffectVideo, makeSelectEffectImage, makeSelectEffectFilter } from './selectors';
+import { makeSelectProjectInfo, makeSelectVideoInfo, makeSelectVideoPlayer, makeSelectEffectVideo, makeSelectEffectImage, makeSelectEffectFilter, makeSelectEffectMosaic } from './selectors';
 import { changeVideoPlayer, changeEffectVideo } from './actions';
 
 import { formatStyle } from './commom/tool';
@@ -164,7 +164,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
 
   render() {
     const { canvasStyle, isResizeIng } = this.state;
-    const { videoInfo, actionChangeVideoPlayer, videoPlayerEl, effectVideo, actionChangeEffectVideo, effectImage, effectFilter } = this.props;
+    const { videoInfo, actionChangeVideoPlayer, videoPlayerEl, effectVideo, actionChangeEffectVideo, effectImage, effectFilter, effectMosaic } = this.props;
     return (
       <Page>
         <Helmet title="视频编辑" />
@@ -186,6 +186,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
                           effectVideo={effectVideo}
                           effectImage={effectImage}
                           effectFilter={effectFilter}
+                          effectMosaic={effectMosaic}
                           reducerCurrentTime={videoPlayerEl.currentTime}
                           cbHandleTime={(currentTime) => actionChangeVideoPlayer({ currentTime })}
                           handleInitVideo={(params) => actionChangeVideoPlayer({ videoEl: params })}
@@ -227,6 +228,7 @@ export class SingleEdit extends React.PureComponent { // eslint-disable-line rea
  *  effectVideo 视频特效 （位置）
  *  effectImage 贴图特效 （位置）
  *  effectFilter 滤镜特效
+ *  effectMosaic 马赛克
  *
  *  actionChangeVideoPlayer 设置播放器实例 （时间，事件，状态）
  *  actionChangeEffectVideo 视频特效设置(位置)
@@ -238,7 +240,8 @@ SingleEdit.propTypes = {
   effectVideo: PropTypes.object.isRequired,
   // trackInfo: PropTypes.object.isRequired,
   effectImage: PropTypes.array.isRequired,
-  effectFilter: PropTypes.array.isRequired,
+  effectFilter: PropTypes.object.isRequired,
+  effectMosaic: PropTypes.array.isRequired,
 
   actionChangeVideoPlayer: PropTypes.func.isRequired,
   actionChangeEffectVideo: PropTypes.func.isRequired,
@@ -251,6 +254,7 @@ const mapStateToProps = createStructuredSelector({
   effectVideo: makeSelectEffectVideo(),
   effectImage: makeSelectEffectImage(),
   effectFilter: makeSelectEffectFilter(),
+  effectMosaic: makeSelectEffectMosaic(),
   // trackInfo: makeSelectTrackInfo(),
 });
 

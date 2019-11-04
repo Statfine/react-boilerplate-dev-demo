@@ -90,3 +90,12 @@ export function changeEffectFilter(payload) {
     payload,
   };
 }
+
+// 修改马赛克特效 actionType： edit-修改 delete-删除 add-新增
+export function changeEffectMosaic(actionType, payload) {
+  return {
+    type: cons.CHANGE_EFFECT_MOSAIC,
+    actionType,
+    payload,
+  };
+}

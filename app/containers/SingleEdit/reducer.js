@@ -97,6 +97,39 @@ const EFFECTFILTER = {
   uSaturation: 100, // 饱和度 0~1
 };
 
+const EFFECTMOSAIC = [
+  {
+    zIndex: '12', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
+    dragKey: 'mosaic_1', // 特效标识
+    type: 'effectMosaic', // 特效类型
+    position: {
+      w: 50, // 百分比
+      h: 50,
+      x: 0,
+      y: 0,
+    },
+    mosaicMode: 'mode', // 马赛克 模糊
+    start: 0,
+    end: 5,
+    isAlwaysShow: false,
+  },
+  {
+    zIndex: '13', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
+    dragKey: 'mosaic_3', // 特效标识
+    type: 'effectMosaic', // 特效类型
+    position: {
+      w: 50, // 百分比
+      h: 50,
+      x: 50,
+      y: 0,
+    },
+    mosaicMode: 'mode', // 马赛克 模糊
+    start: 3,
+    end: 11,
+    isAlwaysShow: false,
+  },
+];
+
 const initialState = fromJS({
   videoInfo: VIDEOINFO, // 单视频详情信息
 
@@ -104,6 +137,7 @@ const initialState = fromJS({
   effectVideo: EFFECTVIDEO, // 视频特效 - 触发保存
   effectImage: EFFECTIMAGE, // 贴图特效 - 触发保存
   effectFilter: EFFECTFILTER, // 滤镜特效-触发保存
+  effectMosaic: EFFECTMOSAIC, // 马赛克特效-触发保存
 
   videoPlayer: { // 播放器数据
     currentTime: 0, // 当前时间
@@ -172,6 +206,24 @@ function singleEditReducer(state = initialState, action) {
     }
     case cons.CHANGE_EFFECT_FILTER:
       return state.update('effectFilter', (p) => p.mergeDeep(action.payload));
+    case cons.CHANGE_EFFECT_MOSAIC: {
+      // 修改 edit。    actionType edit-修改 delete-删除 add-新增
+      if (action.actionType === 'edit') {
+        const index = state.get('effectMosaic')
+          .findIndex((v) => v.get('dragKey') === action.payload.dragKey);
+        return state.updateIn(['effectMosaic', index], (item) =>
+          item.merge(fromJS(action.payload))
+        );
+      }
+      // 删除 delete
+      if (action.actionType === 'delete') {
+        return state.update('effectMosaic', (list) =>
+          list.filter((v) => v.get('dragKey') !== action.payload.dragKey)
+        ).setIn(['chooseEffect', 'dragKey'], '');
+      }
+      // 添加 add
+      return state.update('effectMosaic', (list) => list.push(fromJS(action.payload)));
+    }
     default:
       return state;
   }
