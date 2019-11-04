@@ -48,6 +48,10 @@ export class ControlCom extends React.PureComponent { // eslint-disable-line rea
           key={item.key}
           style={{ padding: '5px 12px' }}
           onClick={() => this.props.actionChangeProjectInfo({ resolutionRatio: item.key })}
+          onMouseUp={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
         >
           {item.value}
         </Menu.Item>))}

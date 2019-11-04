@@ -108,6 +108,7 @@ export default class VideoContextComponent extends PureComponent {
 
   effctFilterVideoAdjust; // 用于尺寸和背景色修改是update用的filter
   effctFilterFanZhuan; // 翻转
+  effctFilterHsvLookup; // 滤镜
   videoNode; // 视频节点
 
   resize = (videoInfo, effectVideo, effectFilter) => {
@@ -167,6 +168,7 @@ export default class VideoContextComponent extends PureComponent {
     filterHsvImageNode.startAt(0);
     filterHsvImageNode.stopAt(effectVideo.endTime - effectVideo.startTime);
     const filterHsvLookup = this.ctx.effect(VideoContext.DEFINITIONS.LOOKUP);
+    this.effctFilterHsvLookup = filterHsvLookup;
     filterHsvLookup.intensity = 1.0;
 
     // 马赛克
@@ -252,6 +254,7 @@ export default class VideoContextComponent extends PureComponent {
       seek: this.publicSeek, // 设置时间
       updateVideo: this.publickUpdateVideo, // 更新大小和背景
       updateChartlet: this.publickUpdateChartlet, // 更新贴图
+      updateFilter: this.publickUpdateFilter, // 更新贴图
     });
     this.detailFilterConnect();
   };
@@ -526,6 +529,20 @@ export default class VideoContextComponent extends PureComponent {
       }
     }
 
+    const oldTime = this.ctx.currentTime;
+    this.ctx.update();
+    this.ctx.currentTime = oldTime;
+    if (!this.state.pause) this.ctx.play();
+  }
+
+  /**
+   * params
+   *  intensity 强度
+  */
+  publickUpdateFilter = (params) => {
+    if ('intensity' in params) {
+      this.effctFilterHsvLookup.intensity = params.intensity / 100;
+    }
     const oldTime = this.ctx.currentTime;
     this.ctx.update();
     this.ctx.currentTime = oldTime;

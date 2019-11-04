@@ -42,7 +42,7 @@ export class EffectFilter extends React.PureComponent { // eslint-disable-line r
   // 强度
   handleChangeIntensity = (intensity) => {
     this.props.actionChangeEffectFilter({ intensity });
-    // this.props.videoPlayerEl.videoEl.updateVideo({ opacity });
+    this.props.videoPlayerEl.videoEl.updateFilter({ intensity });
   }
   // 强度Input
   handleChangeIntensityInput = () => {
@@ -153,7 +153,7 @@ export class EffectFilter extends React.PureComponent { // eslint-disable-line r
  *  actionChangeEffectFilter  修改滤镜特效
 */
 EffectFilter.propTypes = {
-  // videoPlayerEl: PropTypes.object.isRequired,
+  videoPlayerEl: PropTypes.object.isRequired,
   effectFilter: PropTypes.object.isRequired,
 
   actionChangeEffectFilter: PropTypes.func.isRequired,

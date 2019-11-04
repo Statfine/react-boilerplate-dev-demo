@@ -84,7 +84,7 @@ class TransPreview extends PureComponent {
   // 敲黑板，如果只显示当前选中的拖拽组件可以用如下方法
   // 选中可以通过 获取点击的位置，遍历得到哪些特效。更近层级关系获取层级最高的。
   handlePreviewDivMouseUp = (ev) => {
-    // ev.stopPropagation();
+    ev.stopPropagation();
     if (this.isDraging) return;
     const { effectVideo, effectImage } = this.props;
     const rect = this.previewDiv.getBoundingClientRect();

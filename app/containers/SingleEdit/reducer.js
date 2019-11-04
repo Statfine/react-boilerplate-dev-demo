@@ -114,6 +114,7 @@ const initialState = fromJS({
       seek: () => console.log('修改时间点'), // 修改时间点
       updateVideo: () => console.log('更新属性'), // 更新属性 具体参数看播放器内
       updateChartlet: () => console.log('更新贴图'), // 更新属性 具体参数看播放器内
+      updateFilter: () => console.log('更新滤镜'), // 更新属性 具体参数看播放器内
     }, // 实例对象
   },
   chooseEffect: {
