@@ -19,6 +19,7 @@ import guid from 'utils/guid';
 import { makeSelectEffectVideo, makeSelectVideoPlayer } from '../../selectors';
 import { changeEffectVideo, creatUploadBacImg, changeUplaodBacimgState, changeBaseVideo } from '../../actions';
 import './sliderstyle.css';
+import { getCaretPosition, setCaret } from '../../commom/tool';
 
 import { LeftRightOverSvg, UpDownOverSvg } from '../../images/icon/svg';
 import { EffectList, EachEffectDiv, LeftTitle, RightDiv, RightInput, FlexDiv, ColorDiv, ColorBtn, OverDiv, UplaodingContent, ImgTitle } from './styled';
@@ -32,41 +33,6 @@ const STYLE = {
     marginRight: 10,
   },
 };
-
-function getCaretPosition(editableDiv) {
-  let caretPos = 0;
-  let sel;
-  let range;
-  if (window.getSelection) {
-    sel = window.getSelection();
-    if (sel.rangeCount) {
-      range = sel.getRangeAt(0);
-      if (range.commonAncestorContainer.parentNode === editableDiv) {
-        caretPos = range.endOffset;
-      }
-    }
-  } else if (document.selection && document.selection.createRange) {
-    range = document.selection.createRange();
-    if (range.parentElement() === editableDiv) {
-      const tempEl = document.createElement('span');
-      editableDiv.insertBefore(tempEl, editableDiv.firstChild);
-      const tempRange = range.duplicate();
-      tempRange.moveToElementText(tempEl);
-      tempRange.setEndPoint('EndToEnd', range);
-      caretPos = tempRange.text.length;
-    }
-  }
-  return caretPos;
-}
-
-function setCaret(el, pos) {
-  const range = document.createRange();
-  const sel = window.getSelection();
-  range.setStart(el.childNodes[0], pos);
-  range.collapse(true);
-  sel.removeAllRanges();
-  sel.addRange(range);
-}
 
 export class EffectVideo extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 

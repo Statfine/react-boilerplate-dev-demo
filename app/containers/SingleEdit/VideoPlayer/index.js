@@ -154,7 +154,7 @@ export default class VideoContextComponent extends PureComponent {
     filterVideoAdjust.u_height_image = mediaInfo.height; // 前景高（视频）
     filterVideoAdjust.u_image_b_valid = bacImageNode ? 1.0 : 0.0; // 当前的背景是否显示(图片) 1-显示 0-不显示
 
-    // 滤镜参数
+    // 滤镜参数  mac下有问题
     const filterHsv = this.ctx.effect(VideoContext.DEFINITIONS.HSVC);
     filterHsv.u_hue = 0.0; // 色调
     filterHsv.u_saturation = 1.0; // 饱和度 1为正常值（0.0~1+）
@@ -168,6 +168,26 @@ export default class VideoContextComponent extends PureComponent {
     filterHsvImageNode.stopAt(effectVideo.endTime - effectVideo.startTime);
     const filterHsvLookup = this.ctx.effect(VideoContext.DEFINITIONS.LOOKUP);
     filterHsvLookup.intensity = 1.0;
+
+    // 马赛克
+    // const mosaicOpts = {
+    //   mode: 1,
+    //   vw: this.props.width,
+    //   vh: this.props.height,
+    //   rects: [
+    //     {
+    //       rect: [0.1, 0.1, 0.5, 0.5],
+    //       start: 0.0,
+    //       end: 5.0,
+    //     },
+    //     {
+    //       rect: [0.5, 0.5, 0.5, 0.3],
+    //       start: 3.0,
+    //       end: 5.0,
+    //     },
+    //   ],
+    // };
+    // const mosaicNode = this.ctx.mosaicNode(node, mosaicOpts);
 
     if (effectFilter.lookupValue === 'none') {
       // 翻转+滤镜参数+视频基本

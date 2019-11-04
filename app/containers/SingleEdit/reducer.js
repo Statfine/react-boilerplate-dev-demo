@@ -9,7 +9,7 @@ import * as cons from './constants';
 
 const PROJECTINFO = {
   resolutionRatio: '0', // 分辨率 RESOLUTION_RATIO
-  name: '', // 项目名称
+  title: 'projectinfo', // 项目名称
 };
 export const VIDEOINFO = {
   media_info: { width: 848, height: 620, duration: 15, size: 1479243 },

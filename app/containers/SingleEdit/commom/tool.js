@@ -65,3 +65,16 @@ export const setCaret = (el, pos) => {
   sel.addRange(range);
 };
 
+// 设置光标到指定位置
+export const setCaretPosition = (el, len) => {
+  const El = el;
+  if (document.selection) {
+    const sel = El.createTextRange();
+    sel.moveStart('character', len);
+    sel.collapse();
+    sel.select();
+  } else if (typeof El.selectionStart === 'number' && typeof El.selectionEnd === 'number') {
+    El.selectionStart = len;
+    El.selectionEnd = len;
+  }
+};
