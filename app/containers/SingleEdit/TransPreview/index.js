@@ -8,11 +8,11 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 
-import { makeSelectEffectVideo, makeSelectEffectImage, makeSelectVideoPlayer, makeSelectChooseEffect } from '../selectors';
+import { makeSelectEffectVideo, makeSelectVideoPlayer, makeSelectChooseEffect, makeSelectEffectList } from '../selectors';
 import { changeEffectCom, changeEffectChartLet } from '../actions';
 
 import TransVideo from '../TransCom/TransVideo';
-import TransChartlet from '../TransCom/TransChartlet';
+import TransEffect from '../TransCom/TransChartlet';
 
 export const TransDiv = styled.div`
   width: 100%;
@@ -86,7 +86,7 @@ class TransPreview extends PureComponent {
   handlePreviewDivMouseUp = (ev) => {
     ev.stopPropagation();
     if (this.isDraging) return;
-    const { effectVideo, effectImage } = this.props;
+    const { effectVideo, effectAllList } = this.props;
     const rect = this.previewDiv.getBoundingClientRect();
     const evPointX = ev.clientX - rect.x; // 获取相对坐标点
     const evPointY = ev.clientY - rect.y;
@@ -101,31 +101,35 @@ class TransPreview extends PureComponent {
 
     // 判断视频
     const videoSection = this.handleEffectSection(effectVideo.position, previewStyle);
-    const effectList = []; // 所在区间的特效
+    const choosedEffectList = []; // 所在区间的特效
     if ((evPointX >= videoSection.startX && evPointX <= videoSection.endX)
       && (evPointY >= videoSection.startY && evPointY <= videoSection.endY)
     ) {
-      effectList.push(effectVideo);
+      choosedEffectList.push(effectVideo);
     }
 
-    // 判断贴图
-    effectImage.map((item) => {
+    const currentTime = this.props.videoPlayerEl.currentTime;
+    // 判断 effectAllList 图特+马赛克
+    effectAllList.map((item) => {
       const effectSection = this.handleEffectSection(item.position, previewStyle);
       if ((evPointX >= effectSection.startX && evPointX <= effectSection.endX)
-        && (evPointY >= effectSection.startY && evPointY <= effectSection.endY)
+        && (evPointY >= effectSection.startY && evPointY <= effectSection.endY) // 区间
+        && (currentTime >= item.start && currentTime <= item.end) // 时间
       ) {
-        effectList.push(item);
+        choosedEffectList.push(item);
       }
       return null;
     });
-    console.log('选中了', effectList);
+    console.log('选中了', choosedEffectList, currentTime);
 
-    if (effectList.length > 0) {
+    if (choosedEffectList.length > 0) {
+      this.props.videoPlayerEl.videoEl.pause();
       let dragKey = 'videoTrans';
       let effectKey = 'effectVideo';
-      if (effectList[effectList.length - 1].dragKey) {
-        dragKey = effectList[effectList.length - 1].dragKey;
-        effectKey = effectList[effectList.length - 1].type;
+      const lastEffectItem = choosedEffectList[choosedEffectList.length - 1];
+      if (lastEffectItem.dragKey) {
+        dragKey = lastEffectItem.dragKey;
+        effectKey = lastEffectItem.type;
       }
       this.props.actionChangeEffectCom({ dragKey, effectKey });
     } else this.props.actionChangeEffectCom({ dragKey: '' });
@@ -173,7 +177,8 @@ class TransPreview extends PureComponent {
           }}
           handleIsDraging={this.handleIsDraging}
         />
-        <TransChartlet
+        {/* 贴图+马赛克 组件 */}
+        <TransEffect
           handleShowBaseLine={(lineParams) => {
             this.setState({
               isShowBaseLineX: lineParams.showLineX,
@@ -189,17 +194,17 @@ class TransPreview extends PureComponent {
 
 /**
  *  effectVideo 视频特效 （位置）
- *  effectImage 贴图特效 （位置）
  *  videoPlayerEl 视频实例
  *  chooseEffect  选中
+ *  effectAllList  特效（图片+马赛克）
  *
  *  actionChangeEffectCom 设置被选中的工具和拖动组件
 */
 TransPreview.propTypes = {
   effectVideo: PropTypes.object.isRequired,
-  effectImage: PropTypes.array.isRequired,
   videoPlayerEl: PropTypes.object.isRequired,
   chooseEffect: PropTypes.object.isRequired,
+  effectAllList: PropTypes.array.isRequired,
 
   actionChangeEffectCom: PropTypes.func.isRequired,
   actionChangeEffectChartlet: PropTypes.func.isRequired,
@@ -208,8 +213,8 @@ TransPreview.propTypes = {
 const mapStateToProps = createStructuredSelector({
   videoPlayerEl: makeSelectVideoPlayer(),
   effectVideo: makeSelectEffectVideo(),
-  effectImage: makeSelectEffectImage(),
   chooseEffect: makeSelectChooseEffect(),
+  effectAllList: makeSelectEffectList(),
 });
 
 function mapDispatchToProps(dispatch) {

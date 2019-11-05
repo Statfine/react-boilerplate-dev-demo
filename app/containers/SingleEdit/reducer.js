@@ -66,7 +66,7 @@ export const EFFECTIMAGE = [
     isAlwaysShow: false,
   },
   {
-    zIndex: '2', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
+    zIndex: '22', // 层级（考虑到还有其他类型特效，当前特效依次增加层级）
     dragKey: 'image_2', // 特效标识
     type: 'effectChartlet', // 特效类型
     image: {
@@ -135,9 +135,9 @@ const initialState = fromJS({
 
   projectInfo: PROJECTINFO, // 项目信息 - 触发保存
   effectVideo: EFFECTVIDEO, // 视频特效 - 触发保存
-  effectImage: EFFECTIMAGE, // 贴图特效 - 触发保存
+  effectImage: EFFECTIMAGE, // 贴图特效 - 触发保存 Array
   effectFilter: EFFECTFILTER, // 滤镜特效-触发保存
-  effectMosaic: EFFECTMOSAIC, // 马赛克特效-触发保存
+  effectMosaic: EFFECTMOSAIC, // 马赛克特效-触发保存 Array
 
   videoPlayer: { // 播放器数据
     currentTime: 0, // 当前时间

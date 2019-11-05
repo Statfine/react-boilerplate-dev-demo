@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import _ from 'lodash';
 
 /**
  * Direct selector to the singleEdit state domain
@@ -46,10 +47,15 @@ const makeSelectChooseEffect = () => createSelector(
 );
 
 // 贴图特效
-const makeSelectEffectImage = () => createSelector(
-  selectSingleEditDomain,
-  (substate) => substate.get('effectImage').toJS()
-);
+// const makeSelectEffectImage = () => createSelector(
+//   selectSingleEditDomain,
+//   (substate) => substate.get('effectImage').toJS()
+// );
+const makeSelectEffectImage = () =>
+  createSelector(
+    createSelector(selectSingleEditDomain, (state) => state.get('effectImage')),
+    (s) => s.toJS()
+  );
 
 // 滤镜特效
 const makeSelectEffectFilter = () => createSelector(
@@ -58,14 +64,29 @@ const makeSelectEffectFilter = () => createSelector(
 );
 
 // 马赛克特效
-const makeSelectEffectMosaic = () => createSelector(
-  selectSingleEditDomain,
-  (substate) => substate.get('effectMosaic').toJS()
-);
+// const makeSelectEffectMosaic = () => createSelector(
+//   selectSingleEditDomain,
+//   (substate) => substate.get('effectMosaic').toJS()
+// );
+const makeSelectEffectMosaic = () =>
+  createSelector(
+    createSelector(selectSingleEditDomain, (state) => state.get('effectMosaic')),
+    (s) => s.toJS()
+  );
 
 export const makeSelectTrackInfo = () => createSelector(
   selectSingleEditDomain,
   (substate) => substate.get('trackInfo').toJS()
+);
+
+// Image Mosaic
+const makeSelectEffectList = () => createSelector(
+  makeSelectEffectImage(),
+  makeSelectEffectMosaic(),
+  (imageList, mosaicList) => {
+    const effectList = _.sortBy(imageList.concat(mosaicList), (item) => Number(item.zIndex));
+    return effectList;
+  }
 );
 
 export default makeSelectSingleEdit;
@@ -79,4 +100,5 @@ export {
   makeSelectEffectImage,
   makeSelectEffectFilter,
   makeSelectEffectMosaic,
+  makeSelectEffectList,
 };
