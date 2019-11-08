@@ -25,6 +25,7 @@ import WeiChatPage from '../WeiChatPage';
 import CenterPage from '../CssPage/AdaptCom/page';
 import PageSize from '../PageSize';
 import SingleEdit from '../SingleEdit';
+import TransRotate from '../TransRotate';
 
 import Authentication from './Authentication';
 
@@ -116,6 +117,7 @@ class App extends React.Component {
           <Route path="/iframe" component={IframePage} />
           <Route path="/size" component={PageSize} />
           <Route path="/singleEdit" component={SingleEdit} />
+          <Route path="/transRotate" component={TransRotate} />
           <Route path="" component={NotFoundPage} />
         </Switch>
       </AppWrapper>
