@@ -114,3 +114,18 @@ export function getScaledRect(isEqualRatio, params, baseIndex) {
     height: newHeight,
   };
 }
+
+export const getStyle = (el) => {
+  let style = null;
+  if (window.getComputedStyle) {
+    style = window.getComputedStyle(el, null);
+  } else {
+    style = el.currentStyle;
+  }
+  return style;
+};
+
+export const formatStyle = (ele, props) => {
+  const str = getStyle(ele)[props];
+  return parseFloat(str.substring(0, str.length - 2));
+};

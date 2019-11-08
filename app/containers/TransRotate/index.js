@@ -44,7 +44,11 @@ export default class TransRotate extends React.PureComponent {
             <p>6.通过(原始坐标, 5, 1, 对角索引)计算新的位置</p>
           </EachEvent>
         </BaseInfo>
-        <TransRotateCom />
+        <TransRotateCom
+          position={{ x: 0, y: 0, height: 100, width: 100, rotate: 0 }}
+          cbActualChange={(info) => console.log('cbActualChange', info)}
+          cbMouseUp={(info) => console.log('cbMouseUp', info)}
+        />
       </div>
     );
   }

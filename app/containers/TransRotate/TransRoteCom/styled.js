@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const TranContainer = styled.div`
-  left: 0;
-  top: 0;
-  width: 100px;
-  height: 100px;
+  // left: 0;
+  // top: 0;
+  // width: 100px;
+  // height: 100px;
   transform: rotate(0deg);
   background: orange;
   position: absolute;

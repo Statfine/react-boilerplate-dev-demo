@@ -9,6 +9,7 @@
 */
 import React from 'react';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 
 import { transform, getScaledRect } from './utils';
 
@@ -26,6 +27,10 @@ export default class TransRotateCom extends React.PureComponent {
     },
   };
 
+  componentWillMount() {
+    this.setState({ p: this.props.position });
+  }
+
   componentDidMount() {
     this.handleDraw();
     this.handleSetCursorStyle(0);
@@ -41,14 +46,16 @@ export default class TransRotateCom extends React.PureComponent {
       const event = window.event;
       const deltaX = event.pageX - p.x;
       const deltaY = event.pageY - p.y;
+      let newP = p;
       document.onmousemove = () => {
         const event = window.event;
-        const newP = { x: event.pageX - deltaX, y: event.pageY - deltaY };
-        this.setState({ p: _.merge({}, p, newP) }, () => this.handleDraw());
+        newP = _.merge({}, p, { x: event.pageX - deltaX, y: event.pageY - deltaY });
+        this.setState({ p: newP }, () => this.handleDraw());
       };
       document.onmouseup = () => {
         document.onmousemove = null;
         document.onmouseup = null;
+        this.handleMouseUp(newP);
       };
     };
     this.draggableEl.ondragstart = (event) => {
@@ -66,20 +73,21 @@ export default class TransRotateCom extends React.PureComponent {
       const point = this.handleGetConterPoint(this.tranContainerEl);
       const prevAngle = Math.atan2(event.pageY - point.y, event.pageX - point.x) - p.rotate * Math.PI / 180;
       console.log('prevAngle', prevAngle);
-      let newP;
+      let newP = p;
       document.onmousemove = () => {
         // 旋转
         const event = window.event;
         const angle = Math.atan2(event.pageY - point.y, event.pageX - point.x);
         console.log('angle', angle);
-        newP = { rotate: Math.floor((angle - prevAngle) * 180 / Math.PI) };
-        this.setState({ p: _.merge({}, p, newP) }, () => this.handleDraw());
+        newP = _.merge({}, p, { rotate: Math.floor((angle - prevAngle) * 180 / Math.PI) });
+        this.setState({ p: newP }, () => this.handleDraw());
       };
       document.onmouseup = () => {
         // 旋转结束
         document.onmousemove = null;
         document.onmouseup = null;
         this.handleSetCursorStyle(newP.rotate);
+        this.handleMouseUp(newP);
       };
     };
     this.rotateEl.ondragstart = (event) => {
@@ -124,6 +132,7 @@ export default class TransRotateCom extends React.PureComponent {
 
     // 记录最原始的状态
     const oPoint = { x, y, width, height, rotate };
+    let newP = { ...this.state.p };
 
     document.onmousemove = () => {
       const event = window.event;
@@ -153,12 +162,13 @@ export default class TransRotateCom extends React.PureComponent {
 
       // 计算新坐标
       const newRect = this.handleGetNewRect(oPoint, scale, transformedRect, baseIndex);
-      const newP = { x: newRect.x, y: newRect.y, width: newRect.width, height: newRect.height };
-      this.setState({ p: _.merge({}, this.state.p, newP) }, () => this.handleDraw());
+      newP = _.merge({}, this.state.p, { x: newRect.x, y: newRect.y, width: newRect.width, height: newRect.height });
+      this.setState({ p: newP }, () => this.handleDraw());
     };
     document.onmouseup = () => {
       document.onmousemove = null;
       document.onmouseup = null;
+      this.handleMouseUp(newP);
     };
   }
 
@@ -268,6 +278,7 @@ export default class TransRotateCom extends React.PureComponent {
       height: `${p.height}px`,
       transform: `rotate(${p.rotate}deg)`,
     });
+    this.handleActualChange();
   }
   handleSetCursorStyle = (degree) => {
     const cursorStyle = this.handleGetNewCursorArray(degree);
@@ -317,12 +328,23 @@ export default class TransRotateCom extends React.PureComponent {
     }
   }
 
+  handleActualChange = () => {
+    const { cbActualChange } = this.props;
+    const { p } = this.state;
+    if (cbActualChange) cbActualChange(p);
+  }
+
+  handleMouseUp = (newP) => {
+    const { cbMouseUp } = this.props;
+    if (cbMouseUp) cbMouseUp(newP);
+  }
 
   render() {
+    const { children } = this.props;
     return (
       <TranContainer innerRef={(ref) => this.tranContainerEl = ref}>
         <RotateBtn innerRef={(ref) => this.rotateEl = ref}><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSItNzE5MyA0MjM2IDQ0IDQ0Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjM2EzYTNhOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICNmZmY7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgZmlsdGVyOiB1cmwoI2VsbGlwc2UtMTQpOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGZpbHRlciBpZD0iZWxsaXBzZS0xNCIgeD0iLTcxOTMiIHk9IjQyMzYiIHdpZHRoPSI0NCIgaGVpZ2h0PSI0NCIgZmlsdGVyVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPGZlT2Zmc2V0IGR5PSIzIiBpbnB1dD0iU291cmNlQWxwaGEiLz4KICAgICAgPGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iMyIgcmVzdWx0PSJibHVyIi8+CiAgICAgIDxmZUZsb29kIGZsb29kLW9wYWNpdHk9IjAuMTYxIi8+CiAgICAgIDxmZUNvbXBvc2l0ZSBvcGVyYXRvcj0iaW4iIGluMj0iYmx1ciIvPgogICAgICA8ZmVDb21wb3NpdGUgaW49IlNvdXJjZUdyYXBoaWMiLz4KICAgIDwvZmlsdGVyPgogIDwvZGVmcz4KICA8ZyBpZD0iR3JvdXBfMTY4IiBkYXRhLW5hbWU9Ikdyb3VwIDE2OCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTgwNzMgNDAwOCkiPgogICAgPGcgY2xhc3M9ImNscy0zIiB0cmFuc2Zvcm09Im1hdHJpeCgxLCAwLCAwLCAxLCA4MDczLCAtNDAwOCkiPgogICAgICA8Y2lyY2xlIGlkPSJlbGxpcHNlLTE0LTIiIGRhdGEtbmFtZT0iZWxsaXBzZS0xNCIgY2xhc3M9ImNscy0xIiBjeD0iMTMiIGN5PSIxMyIgcj0iMTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC03MTg0IDQyNDIpIi8+CiAgICA8L2c+CiAgICA8ZyBpZD0iZ3JvdXAtMTMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDg5NS40OTIgMjQwLjMwNikiPgogICAgICA8ZyBpZD0iZ3JvdXAiPgogICAgICAgIDxwYXRoIGlkPSJwYXRoIiBjbGFzcz0iY2xzLTIiIGQ9Ik0xMi44Myw4Ljg2N2E2LjYxNSw2LjYxNSwwLDEsMS0xLjc4NC03LjE2aDBMMTIuMzM3LjQxM2MuMjMtLjIzLjQxNi0uMTUzLjQxNS4xNzNMMTIuNzM5LDMuODZhLjYuNiwwLDAsMS0uNTkyLjU5MmwtMy4yNTYuMDA2Yy0uMzI2LDAtLjQtLjE4Ni0uMTczLS40MTZsMS4zMjctMS4zMjhBNS4xOTUsNS4xOTUsMCwxLDAsMTEuNSw4LjM2N2guMDA2YS43MDkuNzA5LDAsMSwxLDEuMzIxLjVaIi8+CiAgICAgIDwvZz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPgo=" alt="旋转" /></RotateBtn>
-        <DraggableDiv innerRef={(ref) => this.draggableEl = ref}>Children</DraggableDiv>
+        <DraggableDiv innerRef={(ref) => this.draggableEl = ref}>{children || 'Children'}</DraggableDiv>
         <ResizableDiv>
           <PointTl draggable="true" innerRef={(ref) => this.pointtlEl = ref} onMouseDown={this.handleBindResizeEvents} />
           <PointT draggable="true" innerRef={(ref) => this.pointtEl = ref} onMouseDown={this.handleBindResizeEvents} />
@@ -337,3 +359,19 @@ export default class TransRotateCom extends React.PureComponent {
     );
   }
 }
+
+/**
+ * children: 可变换的元素
+ * position: 默认定位与尺寸 { x, y, height, width, rotate}
+ * cbActualChange 实时改变回调
+ * cbMouseUp 鼠标抬起时间回调(拖动结束)
+ */
+TransRotateCom.defaultProps = {
+  position: { x: 0, y: 0, height: 100, width: 100, rotate: 0 },
+};
+TransRotateCom.propTypes = {
+  children: PropTypes.node,
+  position: PropTypes.object.isRequired,
+  cbActualChange: PropTypes.func,
+  cbMouseUp: PropTypes.func,
+};
