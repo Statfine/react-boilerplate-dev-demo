@@ -106,7 +106,7 @@ class App extends React.Component {
           <meta name="description" content="A React.js Boilerplate application" />
         </Helmet>
         <Switch>
-          <Route exact path="/" component={Authentication(HomePage)} />
+          <Route exact path="/" component={HomePage} />
           <Route path="/dashboard" component={Authentication(Dashboard)} />
           <Route path="/dashboardError" component={Authentication(DashboardError)} />
           <Route path="/login" component={AuthLoginPage} />

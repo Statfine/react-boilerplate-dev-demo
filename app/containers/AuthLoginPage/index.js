@@ -42,10 +42,10 @@ class AuthLoginPage extends PureComponent {
     this.urlInput.focus();
     const KEY = getLocal('key');
     console.log('KEY', KEY);
-    alert(KEY);
+    // alert(KEY);
     const SELF = window.self === window.top;
     console.log('SELF', SELF);
-    alert(SELF);
+    // alert(SELF);
   }
 
   handleLogin = () => {
@@ -59,8 +59,19 @@ class AuthLoginPage extends PureComponent {
       message.error('密码不得为空');
       return;
     }
+    if (password !== '309814872') {
+      message.error('密码错误');
+      return;
+    }
     onUserLogin({ name, password });
   }
+
+  renderOther = () => (
+    <div>
+      <TimeLineDrag />
+      <Foot />
+    </div>
+  )
 
   render() {
     const { name, password } = this.state;
@@ -85,8 +96,7 @@ class AuthLoginPage extends PureComponent {
           />
           <RaisedButton label="login登录" primary disabled={requesting} onClick={this.handleLogin} />
         </div>
-        <TimeLineDrag />
-        <Foot />
+        {/* {this.renderOther()} */}
       </Container>
     );
   }
