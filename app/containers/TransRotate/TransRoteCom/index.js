@@ -28,7 +28,6 @@ export default class TransRotateCom extends React.PureComponent {
     this.handleBindMoveEvents(); // 拖动
     this.handleBindRotateEvents(); // 旋转
   }
-  isEqualRatio = false; // 是否等比
   position = { x: 0, y: 0, height: 100, width: 100, rotate: 0 };
 
   // 拖动事件
@@ -228,7 +227,7 @@ export default class TransRotateCom extends React.PureComponent {
    * @return {[type]}                  [description]
   */
   handleGetNewRect(oPoint, scale, oTransformedRect, baseIndex) {
-    const scaledRect = getScaledRect(this.isEqualRatio, {
+    const scaledRect = getScaledRect(this.props.isEqualRatio, {
       x: oPoint.x,
       y: oPoint.y,
       width: oPoint.width,
@@ -356,13 +355,16 @@ export default class TransRotateCom extends React.PureComponent {
  * position: 默认定位与尺寸 { x, y, height, width, rotate}
  * cbActualChange 实时改变回调
  * cbMouseUp 鼠标抬起时间回调(拖动结束)
+ * isEqualRatio 上下左右是否等比
  */
 TransRotateCom.defaultProps = {
   position: { x: 0, y: 0, height: 100, width: 100, rotate: 0 },
+  isEqualRatio: false,
 };
 TransRotateCom.propTypes = {
   children: PropTypes.node,
   position: PropTypes.object.isRequired,
   cbActualChange: PropTypes.func,
   cbMouseUp: PropTypes.func,
+  isEqualRatio: PropTypes.bool,
 };
