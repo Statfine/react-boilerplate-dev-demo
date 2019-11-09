@@ -8,7 +8,6 @@
  *    根据索引判断宽或者高等比缩放
 */
 import React from 'react';
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 
 import { transform, getScaledRect } from './utils';
@@ -17,18 +16,10 @@ import { TranContainer, RotateBtn, DraggableDiv,
   ResizableDiv, PointTl, PointT, PointTr, PointR, PointBr, PointB, PointBl, PointL } from './styled';
 
 export default class TransRotateCom extends React.PureComponent {
-  state = {
-    p: { // 初始Rect
-      x: 0,
-      y: 0,
-      height: 100,
-      width: 100,
-      rotate: 0,
-    },
-  };
+  state = {};
 
   componentWillMount() {
-    this.setState({ p: this.props.position });
+    this.position = this.props.position;
   }
 
   componentDidMount() {
@@ -38,24 +29,24 @@ export default class TransRotateCom extends React.PureComponent {
     this.handleBindRotateEvents(); // 旋转
   }
   isEqualRatio = false; // 是否等比
+  position = { x: 0, y: 0, height: 100, width: 100, rotate: 0 };
 
   // 拖动事件
   handleBindMoveEvents() {
     this.draggableEl.onmousedown = () => {
-      const { p } = this.state;
       const event = window.event;
-      const deltaX = event.pageX - p.x;
-      const deltaY = event.pageY - p.y;
-      let newP = p;
+      const deltaX = event.pageX - this.position.x;
+      const deltaY = event.pageY - this.position.y;
       document.onmousemove = () => {
         const event = window.event;
-        newP = _.merge({}, p, { x: event.pageX - deltaX, y: event.pageY - deltaY });
-        this.setState({ p: newP }, () => this.handleDraw());
+        this.position.x = event.pageX - deltaX;
+        this.position.y = event.pageY - deltaY;
+        this.handleDraw();
       };
       document.onmouseup = () => {
         document.onmousemove = null;
         document.onmouseup = null;
-        this.handleMouseUp(newP);
+        this.handleMouseUp();
       };
     };
     this.draggableEl.ondragstart = (event) => {
@@ -67,27 +58,25 @@ export default class TransRotateCom extends React.PureComponent {
   // 旋转
   handleBindRotateEvents = () => {
     this.rotateEl.onmousedown = () => {
-      const { p } = this.state;
       // 旋转开始
       const event = window.event;
       const point = this.handleGetConterPoint(this.tranContainerEl);
-      const prevAngle = Math.atan2(event.pageY - point.y, event.pageX - point.x) - p.rotate * Math.PI / 180;
+      const prevAngle = Math.atan2(event.pageY - point.y, event.pageX - point.x) - this.position.rotate * Math.PI / 180;
       console.log('prevAngle', prevAngle);
-      let newP = p;
       document.onmousemove = () => {
         // 旋转
         const event = window.event;
         const angle = Math.atan2(event.pageY - point.y, event.pageX - point.x);
         console.log('angle', angle);
-        newP = _.merge({}, p, { rotate: Math.floor((angle - prevAngle) * 180 / Math.PI) });
-        this.setState({ p: newP }, () => this.handleDraw());
+        this.position.rotate = Math.floor((angle - prevAngle) * 180 / Math.PI);
+        this.handleDraw();
       };
       document.onmouseup = () => {
         // 旋转结束
         document.onmousemove = null;
         document.onmouseup = null;
-        this.handleSetCursorStyle(newP.rotate);
-        this.handleMouseUp(newP);
+        this.handleSetCursorStyle(this.position.rotate);
+        this.handleMouseUp();
       };
     };
     this.rotateEl.ondragstart = (event) => {
@@ -100,7 +89,7 @@ export default class TransRotateCom extends React.PureComponent {
   handleBindResizeEvents = (event) => {
     // 缩放开始
     event.preventDefault();
-    const { x, y, width, height, rotate } = this.state.p;
+    const { x, y, width, height, rotate } = this.position;
     const ex = event.pageX;
     const ey = event.pageY;
 
@@ -132,7 +121,6 @@ export default class TransRotateCom extends React.PureComponent {
 
     // 记录最原始的状态
     const oPoint = { x, y, width, height, rotate };
-    let newP = { ...this.state.p };
 
     document.onmousemove = () => {
       const event = window.event;
@@ -162,13 +150,16 @@ export default class TransRotateCom extends React.PureComponent {
 
       // 计算新坐标
       const newRect = this.handleGetNewRect(oPoint, scale, transformedRect, baseIndex);
-      newP = _.merge({}, this.state.p, { x: newRect.x, y: newRect.y, width: newRect.width, height: newRect.height });
-      this.setState({ p: newP }, () => this.handleDraw());
+      this.position.x = newRect.x;
+      this.position.y = newRect.y;
+      this.position.width = newRect.width;
+      this.position.height = newRect.height;
+      this.handleDraw();
     };
     document.onmouseup = () => {
       document.onmousemove = null;
       document.onmouseup = null;
-      this.handleMouseUp(newP);
+      this.handleMouseUp();
     };
   }
 
@@ -270,13 +261,13 @@ export default class TransRotateCom extends React.PureComponent {
    * @return {[type]} [description]
   */
   handleDraw = () => {
-    const { p } = this.state;
+    const { position } = this;
     this.handleCss(this.tranContainerEl, {
-      left: `${p.x}px`,
-      top: `${p.y}px`,
-      width: `${p.width}px`,
-      height: `${p.height}px`,
-      transform: `rotate(${p.rotate}deg)`,
+      left: `${position.x}px`,
+      top: `${position.y}px`,
+      width: `${position.width}px`,
+      height: `${position.height}px`,
+      transform: `rotate(${position.rotate}deg)`,
     });
     this.handleActualChange();
   }
@@ -297,7 +288,7 @@ export default class TransRotateCom extends React.PureComponent {
    * @param  {[type]} degree [description]
    * @return {[type]}        [description]
   */
-  handleGetNewCursorArray = (degree) => {
+  handleGetNewCursorArray = (rotate) => {
     const cursorStyleArray = ['ns-resize', 'nesw-resize', 'ew-resize', 'nwse-resize', 'ns-resize', 'nesw-resize', 'ew-resize', 'nwse-resize'];
 
     const ARR_LENGTH = 8;
@@ -305,6 +296,7 @@ export default class TransRotateCom extends React.PureComponent {
 
     let startIndex = 0;
 
+    const degree = rotate < 0 ? 360 + rotate : rotate;
     if (degree) {
       startIndex = Math.floor(degree / STEP);
       if (degree % STEP > (STEP / 2)) {
@@ -330,13 +322,12 @@ export default class TransRotateCom extends React.PureComponent {
 
   handleActualChange = () => {
     const { cbActualChange } = this.props;
-    const { p } = this.state;
-    if (cbActualChange) cbActualChange(p);
+    if (cbActualChange) cbActualChange(this.position);
   }
 
-  handleMouseUp = (newP) => {
+  handleMouseUp = () => {
     const { cbMouseUp } = this.props;
-    if (cbMouseUp) cbMouseUp(newP);
+    if (cbMouseUp) cbMouseUp(this.position);
   }
 
   render() {
