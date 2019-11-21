@@ -1,13 +1,19 @@
 /* eslint-disable */
 import React from 'react';
+import styled from 'styled-components';
 
 import Mp4FuQin from './resource/fuqinsanwenshi.mp3';
 
 import { Lrc } from './mock';
 
+const Line = styled.div`
+  color: ${({ inTime }) => inTime ? '#4885ed' : '#333'};
+`;
+
 export default class LrcPage extends React.PureComponent {
   state = {
     currentTime: 0,
+    durationTime: 0,
     oLRC: {
       ti: '', // 歌曲名
       ar: '', // 演唱者
@@ -72,10 +78,23 @@ export default class LrcPage extends React.PureComponent {
   //   console.log('handleCreateLrc', list);
   // }
 
+  handleAudioCanPaly = () => {
+    const durationTime = this.audio.duration;
+    console.log('handleAudioCanPaly', durationTime);
+    this.setState({ durationTime });
+  }
+
   handleAudioTimeUpdate = () => {
     const currentTime = this.audio.currentTime;
     console.log('handleAudioTimeUpdate', currentTime);
     this.setState({ currentTime });
+  }
+
+  handleIsInTime = (lineTime, index) => {
+    const { currentTime, durationTime, oLRC } = this.state;
+    const nextTime = index < oLRC.ms.length - 1 ? Number(oLRC.ms[index + 1].t) : durationTime;
+    const beginTime = Number(oLRC.ms[index].t);
+    return currentTime >= beginTime && currentTime <= nextTime;
   }
 
   render() {
@@ -89,17 +108,18 @@ export default class LrcPage extends React.PureComponent {
           controls
           preload="true"
           onTimeUpdate={this.handleAudioTimeUpdate}
+          onCanPlay={this.handleAudioCanPaly}
         />
         { oLRC.ti && <p>歌曲名:{oLRC.ti}</p> }
         { oLRC.ar && <p>演唱者:{oLRC.ar}</p> }
         { oLRC.al && <p>专辑名:{oLRC.al}</p> }
         { oLRC.by && <p>歌词制作人:{oLRC.by}</p> }
         {
-          oLRC.ms.map((item) => (
-            <div>
+          oLRC.ms.map((item, index) => (
+            <Line key={item.t} inTime={this.handleIsInTime(item.t, index)}>
               <span>{item.t}:</span>
               <span>{item.c}</span>
-            </div>
+            </Line>
           ))
         }
       </div>
