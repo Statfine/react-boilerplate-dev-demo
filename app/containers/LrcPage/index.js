@@ -79,7 +79,7 @@ export default class LrcPage extends React.PureComponent {
   }
 
   render() {
-    const { currentTime } = this.state;
+    const { currentTime, oLRC } = this.state;
     return (
       <div>
         <h2>LrcPage - currentTime:{currentTime}</h2>
@@ -90,6 +90,18 @@ export default class LrcPage extends React.PureComponent {
           preload="true"
           onTimeUpdate={this.handleAudioTimeUpdate}
         />
+        { oLRC.ti && <p>歌曲名:{oLRC.ti}</p> }
+        { oLRC.ar && <p>演唱者:{oLRC.ar}</p> }
+        { oLRC.al && <p>专辑名:{oLRC.al}</p> }
+        { oLRC.by && <p>歌词制作人:{oLRC.by}</p> }
+        {
+          oLRC.ms.map((item) => (
+            <div>
+              <span>{item.t}:</span>
+              <span>{item.c}</span>
+            </div>
+          ))
+        }
       </div>
     );
   }
