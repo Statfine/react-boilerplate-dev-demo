@@ -8,6 +8,7 @@ import { Lrc } from './mock';
 
 const Line = styled.div`
   color: ${({ inTime }) => inTime ? '#4885ed' : '#333'};
+  transition-duration: 1s;
 `;
 
 export default class LrcPage extends React.PureComponent {
