@@ -138,7 +138,7 @@ export default class MosaicPage extends PureComponent {
           >
             <div>1</div>
           </Transformable>
-          <img src={srtThree} style={{ filter: 'blur(10px)', position: 'absolute', width: `${item.w * 0.01 * 852}px`, height: `${item.h  * 0.01 * 480}px`, top: `${item.y * 0.01 * 480}px`, left: `${item.x * 0.01 * 852}px` }} alt="" />
+          <img src={srtThree} style={{ filter: 'blur(10px)', position: 'absolute', width: `${item.w * 0.01 * 852}px`, height: `${item.h * 0.01 * 480}px`, top: `${item.y * 0.01 * 480}px`, left: `${item.x * 0.01 * 852}px` }} alt="" />
         </DIV>
         <img src={srtThree} alt="" />
         <br />
