@@ -6,6 +6,7 @@ import styled from 'styled-components';
 // import Transformable from 'components/Transformable';
 import Transformable from 'components/TransPercent';
 import { Helmet } from 'react-helmet';
+import { Button } from 'antd';
 import T from './test1.jpg';
 
 const DIV = styled.div`
@@ -72,38 +73,45 @@ export default class MosaicPage extends PureComponent {
     console.log(600 * heightScale);
     canvas.getContext('2d').drawImage(image, 57 * widthScale, 332 * heightScale, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
     const cover = canvas.toDataURL();
-    alert(cover);
-    alert(cover.length);
     this.setState({ srt: cover });
   }
 
   canvasImageFour = () => {
     const img = new Image();
     img.src = T;
-    const canvas = document.createElement('canvas');
-    canvas.width = 426; // 画布宽度
-    canvas.height = 240; //  画布高度
-    canvas.getContext('2d').drawImage(img, 0, 0, 426, 240);
-    const cover = canvas.toDataURL();
-    alert(cover.length);
-    this.setState({ srtFour: cover });
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 852; // 画布宽度
+      canvas.height = 480; //  画布高度
+      canvas.getContext('2d').drawImage(img, 0, 0, 852, 480);
+      const cover = canvas.toDataURL();
+      alert(cover.length);
+      this.setState({ srtFour: cover });
+    }
   }
 
   handleChangeConfig = (val) => {
     console.log(val);
+    const elWidth = 852;
+    const elHeight = 480;
     const { w, h, x, y, deg } = val;
+    const dragWidth = w * 0.01 * elWidth;
+    const dragHeight = h * 0.01 * elHeight;
+    const dragX = x * 0.01 * elWidth;
+    const dragY = y * 0.01 * elHeight;
     this.setState({ item: val });
 
     console.log(deg);
     const canvas = document.createElement('canvas');
     const image = document.getElementById('div2');
-    const widthScale = image.naturalWidth / 852;
-    const heightScale = image.naturalHeight / 480;
+    // 原始大小输出
+    const widthScale = image.naturalWidth / elWidth;
+    const heightScale = image.naturalHeight / elHeight;
 
-    canvas.width = w * widthScale; // 画布宽度
-    canvas.height = h * heightScale; //  画布高度
+    canvas.width = dragWidth * widthScale; // 画布宽度
+    canvas.height = dragHeight * heightScale; //  画布高度
 
-    canvas.getContext('2d').drawImage(image, x * widthScale, y * heightScale, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+    canvas.getContext('2d').drawImage(image, dragX * widthScale, dragY * heightScale, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
     const cover = canvas.toDataURL();
     this.setState({ srtThree: cover });
   }
@@ -117,7 +125,7 @@ export default class MosaicPage extends PureComponent {
         <DIV>
           <img crossOrigin="Anonymous" style={{ width: 852, height: 480 }} id="div1" src={T} alt="" />
         </DIV>
-        <div onClick={() => this.canvasImgDiv()}>等比获取截图</div>
+        <Button onClick={() => this.canvasImgDiv()} type="primary">等比获取截图</Button>
         <img src={srt} alt="" />
         <img src={srtTwo} alt="" />
         <DIV style={{ width: 852, height: 480 }}>
@@ -130,10 +138,12 @@ export default class MosaicPage extends PureComponent {
           >
             <div>1</div>
           </Transformable>
-          <img src={srtThree} style={{ filter: 'blur(10px)', position: 'absolute', width: `${item.w}px`, height: `${item.h}px`, top: `${item.y}px`, left: `${item.x}px` }} alt="" />
+          <img src={srtThree} style={{ filter: 'blur(10px)', position: 'absolute', width: `${item.w * 0.01 * 852}px`, height: `${item.h  * 0.01 * 480}px`, top: `${item.y * 0.01 * 480}px`, left: `${item.x * 0.01 * 852}px` }} alt="" />
         </DIV>
         <img src={srtThree} alt="" />
-        <div onClick={() => this.canvasImageFour()}>画布填充图</div>
+        <br />
+        <Button onClick={() => this.canvasImageFour()} type="primary">画布填充图</Button>
+        <br />
         <img src={srtFour} alt="" />
       </div>
     );
