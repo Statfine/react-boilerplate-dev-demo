@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Input, InputNumber, Button } from 'antd';
+import { Input, InputNumber, Button, Radio } from 'antd';
+
+import T from '../CanvasCutPage/test1.jpg';
 
 const Each = styled.div`
   display: felx;
@@ -23,6 +25,7 @@ export default class CanvasText extends React.PureComponent {
     y: 0,
     fontSize: 14,
     base64Img: '',
+    bgIsShow: false,
   };
 
   componentDidMount() {
@@ -35,14 +38,26 @@ export default class CanvasText extends React.PureComponent {
    *  画布中绘制文本
   */
   handleCanvas = () => {
-    const { x, y, text, fontSize } = this.state;
+    const { x, y, text, fontSize, bgIsShow } = this.state;
     const canvas = this.canvas;
 
     // 获取对应的CanvasRenderingContext2D对象(画笔)
     const context = canvas.getContext('2d');
-    context.fillStyle = '#4885ed'; // 设置画布背景
-    // context.fillStyle = 'transparent'; // 透明
-    context.fillRect(0, 0, 800, 450); // 画布
+
+    // 填充背景
+    if (bgIsShow) {
+      // 方法一
+      const image = document.getElementById('div1');
+      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      // 方法二
+      // const pat = context.createPattern(image, 'no-repeat');
+      // context.fillStyle = pat;
+      // context.fillRect(0, 0, 800, 450); // 画布
+    } else {
+      context.fillStyle = '#4885ed'; // 设置画布背景
+      // context.fillStyle = 'transparent'; // 透明
+      context.fillRect(0, 0, 800, 450); // 画布
+    }
 
     context.font = ` ${fontSize}px arial`;
     // context.font = `${fontStyle} normal ${fontWeight} ${_fontsize}px ${fontFamily}`; // https://www.w3school.com.cn/html5/canvas_font.asp
@@ -64,6 +79,7 @@ export default class CanvasText extends React.PureComponent {
   /**
    *  绘制单文本
    *    txtw文本宽度 txtH文本高
+   * 创建新画布，讲画布转换base64渲染
   */
   handleNewCanvas = (txtw, txtH) => {
     const { text, fontSize } = this.state;
@@ -83,12 +99,15 @@ export default class CanvasText extends React.PureComponent {
   }
 
   render() {
-    const { text, x, y, base64Img, fontSize } = this.state;
+    const { text, x, y, base64Img, fontSize, bgIsShow } = this.state;
+    console.log('text', text);
     return (
       <div>
+        <Radio checked={bgIsShow} onChange={() => this.setState({ bgIsShow: !bgIsShow })}>显示背景图</Radio>
+        {bgIsShow && <img crossOrigin="Anonymous" style={{ width: 852, height: 480 }} id="div1" src={T} alt="" />}
         <Each>
           <EachTitle>文本</EachTitle>
-          <EachRight><Input onChange={this.handleChangetext} value={text} /></EachRight>
+          <EachRight><Input onChange={this.handleChangetext} value={text} style={{ width: 400 }} /></EachRight>
         </Each>
         <Each>
           <EachTitle>X轴</EachTitle>
