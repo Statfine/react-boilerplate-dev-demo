@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Input, InputNumber, Button, Radio } from 'antd';
+import { Input, InputNumber, Button, Checkbox } from 'antd';
 
 import T from '../CanvasCutPage/test1.jpg';
 
@@ -103,8 +103,10 @@ export default class CanvasText extends React.PureComponent {
     console.log('text', text);
     return (
       <div>
-        <Radio checked={bgIsShow} onChange={() => this.setState({ bgIsShow: !bgIsShow })}>显示背景图</Radio>
-        {bgIsShow && <img crossOrigin="Anonymous" style={{ width: 852, height: 480 }} id="div1" src={T} alt="" />}
+        <Checkbox checked={bgIsShow} onChange={() => this.setState({ bgIsShow: !bgIsShow })}>
+          显示背景图
+        </Checkbox>
+        {bgIsShow && <img crossOrigin="Anonymous" style={{ width: 100, height: 'auto' }} id="div1" src={T} alt="" />}
         <Each>
           <EachTitle>文本</EachTitle>
           <EachRight><Input onChange={this.handleChangetext} value={text} style={{ width: 400 }} /></EachRight>
