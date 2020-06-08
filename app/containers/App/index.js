@@ -13,7 +13,7 @@ import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
 import { Switch, Route } from 'react-router-dom';
 
-import HomePage from 'containers/HomePage/Loadable';
+// import HomePage from 'containers/HomePage/Loadable';
 import IframePage from 'containers/IframePage';
 import FeaturePage from 'containers/FeaturePage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -26,6 +26,8 @@ import CenterPage from '../CssPage/AdaptCom/page';
 import PageSize from '../PageSize';
 import SingleEdit from '../SingleEdit';
 import TransRotate from '../TransRotate';
+
+import SubtitleCutPage from '../SubtitleCutPage';
 
 import Authentication from './Authentication';
 
@@ -106,7 +108,8 @@ class App extends React.Component {
           <meta name="description" content="A React.js Boilerplate application" />
         </Helmet>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          {/* <Route exact path="/" component={HomePage} /> */}
+          <Route exact path="/" component={SubtitleCutPage} />
           <Route path="/dashboard" component={Authentication(Dashboard)} />
           <Route path="/dashboardError" component={Authentication(DashboardError)} />
           <Route path="/login" component={AuthLoginPage} />

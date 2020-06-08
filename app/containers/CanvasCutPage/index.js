@@ -87,7 +87,7 @@ export default class MosaicPage extends PureComponent {
       const cover = canvas.toDataURL();
       alert(cover.length);
       this.setState({ srtFour: cover });
-    }
+    };
   }
 
   handleChangeConfig = (val) => {
