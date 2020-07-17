@@ -291,7 +291,7 @@
     "rc-pagination": "^1.12.8",
     "react": "16.2.0",
     "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "16.2.0",
+    "react-dom": "16.2.1",
     "react-helmet": "5.2.0",
     "react-intl": "2.4.0",
     "react-lines-ellipsis": "^0.14.1",
