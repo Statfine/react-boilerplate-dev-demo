@@ -27,6 +27,10 @@ export class CanvasDraw extends React.PureComponent {
   state = {
     img: '',
     text: '',
+    point: {
+      x: 0,
+      y: 0,
+    },
   }
 
   componentDidMount() {
@@ -44,6 +48,13 @@ export class CanvasDraw extends React.PureComponent {
     this.canvas.addEventListener('mousedown', this.handleStart);
     this.canvas.addEventListener('mousemove', optimizedMove);
     ['mouseup', 'mouseleave'].forEach((event) => {
+      this.canvas.addEventListener(event, () => {
+        this.pressed = false;
+      });
+    });
+    this.canvas.addEventListener('touchstart', this.handleStart);
+    this.canvas.addEventListener('touchmove', optimizedMove);
+    ['touchend'].forEach((event) => {
       this.canvas.addEventListener(event, () => {
         this.pressed = false;
       });
@@ -84,18 +95,24 @@ export class CanvasDraw extends React.PureComponent {
   }
 
   handleStart = (event) => this.handleCreat(event, 1);
-  handleMove = (event) => this.handleCreat(event, 2);
+  handleMove = (event) => {
+    console.log('handleMove');
+    this.handleCreat(event, 2);
+  };
 
   // 获取绘制坐标
-  handleCreat = (e, signal) => {
+  handleCreat = (event, signal) => {
+    let e = event;
     e.preventDefault();
     if (signal === 1) {
       this.pressed = true;
     }
+    console.log('handleCreat 1', signal, this.pressed);
     if (signal === 1 || this.pressed) {
       const { left, top } = this.canvas.getBoundingClientRect();
-      // e = isMobile ? e.touches[0] : e;
-      console.log('handleCreat', e.clientX, left);
+      const isMobile = /phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone/i.test(navigator.userAgent);
+      e = isMobile ? e.touches[0] : e;
+      console.log('handleCreat 2', isMobile, e.clientX, left);
       this.point.x = (e.clientX - left) + 0.5; // 不加0.5，整数坐标处绘制直线，直线宽度将会多1px(不理解的不妨谷歌下)
       this.point.y = (e.clientY - top) + 0.5;
       this.handlePaint(signal);
@@ -105,7 +122,7 @@ export class CanvasDraw extends React.PureComponent {
   // 绘制
   handlePaint = (signal) => {
     const point = this.point;
-    console.log(point, this.context);
+    console.log('handlePaint', point, this.context);
     switch (signal) { // eslint-disable-line
       case 1: // 开始路径
         this.context.beginPath();
@@ -162,8 +179,11 @@ export class CanvasDraw extends React.PureComponent {
   }
 
   render() {
+    const { point } = this.state;
     return (
       <div>
+        <p>{point.x}</p>
+        <p>{point.y}</p>
         <canvas ref={(el) => (this.canvasDraw = el)} style={CanvasStyle} />
         <div style={Btn} onClick={this.handleReset}>重置</div>
         <div style={Btn} onClick={() => this.handleGetPNGImage(this.canvas)}>PNG</div>
