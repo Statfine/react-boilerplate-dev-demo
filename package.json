@@ -281,7 +281,7 @@
     "ip": "1.1.5",
     "less": "^2.7.3",
     "less-vars-to-js": "^1.2.0",
-    "lodash": "4.17.4",
+    "lodash": "4.17.21",
     "material-ui": "^0.19.2",
     "minimist": "1.2.0",
     "nprogress": "^0.2.0",
