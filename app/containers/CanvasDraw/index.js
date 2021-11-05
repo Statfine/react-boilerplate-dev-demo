@@ -96,7 +96,7 @@ export class CanvasDraw extends React.PureComponent {
 
   handleStart = (event) => this.handleCreat(event, 1);
   handleMove = (event) => {
-    console.log('handleMove');
+    console.log('handleMove 1');
     this.handleCreat(event, 2);
   };
 
