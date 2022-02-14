@@ -12,6 +12,7 @@ import MoveCom from './MoveCom';
 import TextAreaCom from './TextAreaCom';
 import AdaptCom from './AdaptCom';
 import Waterfall from './Waterfall';
+import BottomText from './BottomText';
 
 import {
   fetchUserVideos,
@@ -191,12 +192,13 @@ class CssPage extends PureComponent {
   renderMove = () => (<MoveCom />);
   renderAdaptCom = () => (<AdaptCom />); // 高度等比缩放
   renderWaterfall = () => (<Waterfall />); // 瀑布流
+  renderTextBottom = () => (<BottomText />); // 文字置底
 
   render() {
     return (
       <div>
         <Helmet title="样式demo" />
-        <div style={{ width: 500 }}>
+        <div style={{ width: 500, display: 'none' }}>
           <LinesEllipsis
             text="项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求项目中遇到这样的需求"
             // text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -210,7 +212,8 @@ class CssPage extends PureComponent {
         {/* {this.renderOverFloss()} */}
         {/* {this.renderAutoTags()} */}
         {/* {this.renderAdaptCom()} */}
-        {this.renderWaterfall()}
+        {/* {this.renderWaterfall()} */}
+        {this.renderTextBottom()}
         <div onClick={this.handleAnsy}>ClickMe</div>
       </div>
     );

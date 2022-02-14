@@ -74,7 +74,8 @@ export class CanvasDraw extends React.PureComponent {
     this.canvas.height = height; // canvas 设置画布尺寸
     this.context = this.canvas.getContext('2d'); // 获取画笔
 
-    this.context.fillStyle = '#fff'; // 设置画布背景 生成图片不需设置
+    this.context.fillStyle = 'rgba(255, 255, 255, 0)'; // 设置画布背景 生成图片不需设置
+    // this.context.fillStyle = '#fff'; // 设置画布背景 生成图片不需设置
     this.context.fillRect(0, 0, width, height);
 
     this.initPoint(this.context);
