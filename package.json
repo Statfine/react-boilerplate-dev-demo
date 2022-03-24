@@ -283,7 +283,7 @@
     "less-vars-to-js": "^1.2.0",
     "lodash": "4.17.4",
     "material-ui": "^0.19.2",
-    "minimist": "1.2.0",
+    "minimist": "1.2.6",
     "nprogress": "^0.2.0",
     "particles.js": "^2.0.0",
     "piwik-react-router": "^0.12.1",
